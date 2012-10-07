@@ -57,6 +57,7 @@
     <Compile Include="EZPathFollowing\LinePathPart.cs" />
     <Compile Include="EZPathFollowing\Numerics.cs" />
     <Compile Include="EZPathFollowing\PathPart.cs" />
+    <Compile Include="EZPathFollowing\PathPrimitives.cs" />
     <Compile Include="EZPathFollowing\Point2D.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

@@ -72,9 +72,14 @@ namespace Navigation_OpenGL.EZPathFollowing
             }
         }
 
-        public double getAngle()
+        public override double getAngle()
         {
             return m_angle;
+        }
+
+        public override double getRadius()
+        {
+            return m_radius;
         }
 
         public Point2D position(double d)
@@ -152,12 +157,17 @@ namespace Navigation_OpenGL.EZPathFollowing
         // Draws the CirclePathPart
         public override void draw()
         {
-            const double DEG2RAD = Math.PI/180;
+            Point2D start = (m_reverse == m_driveRight)
+                ? m_startpoint
+                : m_endpoint;
+
+            const double DEG2RAD = Math.PI / 180;
 
             // circles until it (almost) hits the starting point. Change for proper calculation later
             double i2 = 0;
             double degInRad2 = i2 * DEG2RAD;
-            while (!Point2D.closeTo(new Point2D(m_center.x + Math.Cos(degInRad2) * m_radius, m_center.y + Math.Sin(degInRad2) * m_radius),m_startpoint))
+            
+            while (!Point2D.closeTo(new Point2D(m_center.x + Math.Cos(degInRad2) * m_radius, m_center.y + Math.Sin(degInRad2) * m_radius), start))
             {
                 i2++;
                 degInRad2 = i2 * DEG2RAD;
@@ -165,48 +175,14 @@ namespace Navigation_OpenGL.EZPathFollowing
 
             // Draws from (about) starting point for the length of m_angle
             Gl.glBegin(Gl.GL_LINE_STRIP);
-            for (double i = i2; i < m_angle + i2; i++)
+            for (double i = i2; i < m_angle * (180 / Math.PI) + i2; i++)
             {
                 double degInRad = i * DEG2RAD;
                 Gl.glVertex2d(m_center.x + Math.Cos(degInRad) * m_radius, m_center.y + Math.Sin(degInRad) * m_radius);
             }
             Gl.glEnd();
-          
+
         }
-
-        // Draws an arc from with m_radius around m_center with m_startangle.
-        // does not yet draw only a partial circle
-        //public override void draw()
-        //{
-        //    double segments = GetNumCircleSegments(m_radius);
-        //    //int real_segments = int(fabsf(d_angle) / (2 * Math.PI) * (float)segments) + 1;   or -1?
-        //    int real_segments = (int)(m_angle / (2 * Math.PI) * (float)segments) + 1;
-
-        //    double theta = m_angle / real_segments;
-        //    double tangetial_factor = Math.Tan(theta);
-        //    double radial_factor = 1 - Math.Cos(theta);
-        //    double x = m_center.x + m_radius * Math.Cos(m_startangle);
-        //    double y = m_center.y + m_radius * Math.Sin(m_startangle);
-        //    Gl.glBegin(Gl.GL_LINE_STRIP);
-
-        //    for(int ii = 0; ii < real_segments + 1; ii++)
-        //        {
-        //        Gl.glVertex2d(x, y);
-   
-        //        double tx = -(y - m_center.y);
-        //        double ty = x - m_center.x;
-	        
-        //        x += tx * tangetial_factor;
-        //        y += ty * tangetial_factor;
-	        
-        //        double rx = m_center.x - x;
-        //        double ry = m_center.y - y;
-	        
-        //        x += rx * radial_factor;
-        //        y += ry * radial_factor;
-        //        }
-        //        Gl.glEnd();
-        //}
 
         private double GetNumCircleSegments(double r)
         {

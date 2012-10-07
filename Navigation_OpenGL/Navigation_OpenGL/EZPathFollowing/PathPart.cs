@@ -84,6 +84,16 @@ namespace Navigation_OpenGL.EZPathFollowing
         {
         }
 
+        public virtual double getRadius()
+        {
+            return 0.0;
+        }
+
+        public virtual double getAngle()
+        {
+            return 0.0;
+        }
+
         // Method Stubs. Implement Later!
         public static Point2D angleWrapper(double angle)
         {

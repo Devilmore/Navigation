@@ -10,7 +10,8 @@ namespace Navigation_OpenGL
     // This class contains most drawing functions
     class Drawings
     {
-        // Draws a measurement of length 100 pixels, equalling 3,75 meters, to the lower left corner.
+        // Draws a measurement of length 100 pixels, equalling 3.75 meters, to the lower left corner.
+        // That's ~27 pixels / meter (26.6666...)
         public static void draw_measure(double x, double y)
         {
 

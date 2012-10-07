@@ -17,17 +17,21 @@ namespace Navigation_OpenGL
         // OpenGLSimpleControl size for drawing
         int width = 800;
         int height = 600;
-        // Start and End default values
+        // Start and End default values. 
         EZPathFollowing.Point2D start = new EZPathFollowing.Point2D(225, 350);
         EZPathFollowing.Point2D end = new EZPathFollowing.Point2D(750, 50);
         // Loads the map
         Bitmap image = new Bitmap("C:\\Users\\Andreas\\Documents\\Visual Studio 2010\\Projects\\Navigation\\Map.png");
-        // Initializes a new LinkedList of Type Pathpart, which is used to save the path
-        LinkedList<EZPathFollowing.PathPart> path = new LinkedList<EZPathFollowing.PathPart>();
+        
         
         public Form1()
         {
+            // Initializes the window
             InitializeComponent();
+            // Initializes the path with a LinePathPart of length 0 so the endpoint can be used later.
+            // Remove if this causes problems
+            Variables.path.AddLast(new EZPathFollowing.LinePathPart(start, start, false, 0.0));
+            // Initializes the OpenGL components
             this.simpleOpenGlControl1.InitializeContexts();
             Gl.glClearColor(1, 0, 0, 0);
             Gl.glMatrixMode(Gl.GL_PROJECTION);
@@ -69,7 +73,7 @@ namespace Navigation_OpenGL
             Gl.glDisable(Gl.GL_LINE_SMOOTH);
             Gl.glLineWidth(1);
 
-            foreach (var item in path)
+            foreach (var item in Variables.path)
             {
                 item.draw();
             }
@@ -218,13 +222,14 @@ namespace Navigation_OpenGL
 
         private void button_path_Click(object sender, EventArgs e)
         {
-            EZPathFollowing.Point2D temp = new EZPathFollowing.Point2D(650, 150);
-            EZPathFollowing.Point2D center = new EZPathFollowing.Point2D(400, 350);
-            // Debug Line for testing Lines
-            // path.AddLast(new EZPathFollowing.LinePathPart(start, temp, false, 0.0));
-            EZPathFollowing.CirclePathPart circle = new EZPathFollowing.CirclePathPart(start, temp, center, false, false, 0.0);
-            textBox1.Text = circle.startAngle().ToString();
-            path.AddLast(circle);
+            // Adds random pathpart between 1 and 3 meters.
+            // Currently adds completely impossible turns - is that even necessary to fix?
+            bool b = Variables.getRandomBoolean();
+            double x = Variables.getRandomNumber(27, 81);
+            if (b == false)
+                Variables.path.AddLast(EZPathFollowing.PathPrimitives.CircleInMeter(x));
+            else
+                Variables.path.AddLast(EZPathFollowing.PathPrimitives.LineInMeter(x));
             this.simpleOpenGlControl1.Invalidate();
         }
     }
