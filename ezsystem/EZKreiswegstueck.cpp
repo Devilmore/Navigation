@@ -124,7 +124,9 @@ double Kreiswegstueck::ausrichtung( double d ) const
 {
 	// Berechne (absoluten) Winkel der Strecke (Mittelpunkt,Position)
 	WinkelWrapper winkel(startwinkel());
-	winkel += (m_rechtsfahrt==m_rueckwaerts) ? d/m_radius : -d/m_radius;
+	winkel += (m_rechtsfahrt==m_rueckwaerts) 
+		? d/m_radius 
+		: -d/m_radius;
 	// Bei einer Rechtskurve liegt die Ausrichtung senkrecht-rechts dazu,
 	// bei einer Linkskurve entsprechend senkrecht-links
 	if (m_rechtsfahrt)

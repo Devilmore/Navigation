@@ -157,6 +157,7 @@ namespace Navigation_OpenGL.EZPathFollowing
         // Draws the CirclePathPart
         public override void draw()
         {
+            Gl.glColor3d(1, 0, 0);
             Point2D start = (m_reverse == m_driveRight)
                 ? m_startpoint
                 : m_endpoint;

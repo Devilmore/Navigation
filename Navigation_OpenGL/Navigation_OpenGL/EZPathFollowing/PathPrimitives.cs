@@ -22,7 +22,6 @@ namespace Navigation_OpenGL.EZPathFollowing
             // This does not fit the given datastructure at all, replace later if possible.
             const double DEG2RAD = Math.PI / 180;
             double i = Variables.getRandomNumber(0, 360);
-            i = 0;
             
             // 1 meter is euqal to 27 pixels, the length here is calculated in pixels.
             double degInRad = i * DEG2RAD;
@@ -44,9 +43,19 @@ namespace Navigation_OpenGL.EZPathFollowing
 
             bool driveRight = Variables.getRandomBoolean();
 
-            // Currently only using 90° angles. Fix later.
-            Point2D endpoint = new Point2D(startpoint.x + radius, startpoint.y + radius);
-            Point2D center = new Point2D(startpoint.x + radius, startpoint.y);
+            // This function searches for an endpoint with the give length as a distance to the startpoint
+            // This does not fit the given datastructure at all, replace later if possible.
+            const double DEG2RAD = Math.PI / 180;
+
+            // From Start to Center
+            double i = Variables.getRandomNumber(0, 360);
+            double degInRad = i * DEG2RAD;
+            Point2D center = new Point2D(startpoint.x + Math.Cos(degInRad) * radius, startpoint.y + Math.Sin(degInRad) * radius);
+
+            // From Center to End
+            i = Variables.getRandomNumber(0, 360);
+            degInRad = i * DEG2RAD;
+            Point2D endpoint = new Point2D(center.x + Math.Cos(degInRad) * radius, center.y + Math.Sin(degInRad) * radius);
 
             return new CirclePathPart(startpoint, endpoint, center, driveRight, reverse, speed);
         }

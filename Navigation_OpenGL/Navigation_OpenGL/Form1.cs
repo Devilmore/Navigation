@@ -222,8 +222,9 @@ namespace Navigation_OpenGL
 
         private void button_path_Click(object sender, EventArgs e)
         {
-            // Adds random pathpart between 1 and 3 meters.
-            // Currently adds completely impossible turns - is that even necessary to fix?
+            //Adds random pathpart between 1 and 3 meters.
+            //Currently adds completely impossible turns - is that even necessary to fix?
+
             bool b = Variables.getRandomBoolean();
             double x = Variables.getRandomNumber(27, 81);
             if (b == false)

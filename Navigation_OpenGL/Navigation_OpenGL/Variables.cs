@@ -21,12 +21,16 @@ namespace Navigation_OpenGL
         public static double getRandomNumber(double minimum, double maximum)
         {
             Random random = new Random();
+            // Give System a chance to be random
+            System.Threading.Thread.Sleep(5);
             return minimum + random.NextDouble() * (maximum - minimum);
         }
 
         // Returns a random boolean. 
         public static bool getRandomBoolean()
         {
+            // Give System a chance to be random
+            System.Threading.Thread.Sleep(5);
             return new Random().Next(100) % 2 == 0;
         }
     }
