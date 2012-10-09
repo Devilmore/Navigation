@@ -100,5 +100,14 @@ namespace Navigation_OpenGL.EZPathFollowing
         {
             return (Math.Abs(point1.x - point2.x) < 2 && Math.Abs(point1.y - point2.y) < 2);
         }
+
+        // This function searches for an endpoint with the give length as a distance to the startpoint
+        // This does not fit the given datastructure at all, replace later if possible.
+        public static Point2D circleAround(Point2D start, double radius, double angle)
+        {
+            const double DEG2RAD = Math.PI / 180;
+            double degInRad = angle * DEG2RAD;
+            return new Point2D(start.x + Math.Cos(degInRad) * radius, start.y + Math.Sin(degInRad) * radius);
+        }
     }
 }

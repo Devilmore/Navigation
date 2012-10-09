@@ -18,14 +18,11 @@ namespace Navigation_OpenGL.EZPathFollowing
             // Should this cause trouble with the pathlength: remove and fix.
             Point2D startpoint = Variables.path.Last.Value.getEnd();
 
-            // This function searches for an endpoint with the give length as a distance to the startpoint
-            // This does not fit the given datastructure at all, replace later if possible.
-            const double DEG2RAD = Math.PI / 180;
+            // Angle (i) is random
             double i = Variables.getRandomNumber(0, 360);
             
             // 1 meter is euqal to 27 pixels, the length here is calculated in pixels.
-            double degInRad = i * DEG2RAD;
-            Point2D endpoint = new Point2D(startpoint.x + Math.Cos(degInRad) * length, startpoint.y + Math.Sin(degInRad) * length);
+            Point2D endpoint = EZPathFollowing.Point2D.circleAround(startpoint, length, i);
 
             return new LinePathPart(startpoint, endpoint, reverse, speed);
         }
@@ -41,21 +38,18 @@ namespace Navigation_OpenGL.EZPathFollowing
             // Should this cause trouble with the pathlength: remove and fix.
             Point2D startpoint = Variables.path.Last.Value.getEnd();
 
+            // Direction is random
             bool driveRight = Variables.getRandomBoolean();
 
-            // This function searches for an endpoint with the give length as a distance to the startpoint
-            // This does not fit the given datastructure at all, replace later if possible.
-            const double DEG2RAD = Math.PI / 180;
+            // Angle (i) is random
+            double i = Variables.getRandomNumber(0, 360);
 
             // From Start to Center
-            double i = Variables.getRandomNumber(0, 360);
-            double degInRad = i * DEG2RAD;
-            Point2D center = new Point2D(startpoint.x + Math.Cos(degInRad) * radius, startpoint.y + Math.Sin(degInRad) * radius);
+            Point2D center = EZPathFollowing.Point2D.circleAround(startpoint, radius, i);
 
-            // From Center to End
+            // From Center to End, i is still random
             i = Variables.getRandomNumber(0, 360);
-            degInRad = i * DEG2RAD;
-            Point2D endpoint = new Point2D(center.x + Math.Cos(degInRad) * radius, center.y + Math.Sin(degInRad) * radius);
+            Point2D endpoint = EZPathFollowing.Point2D.circleAround(center, radius, i);
 
             return new CirclePathPart(startpoint, endpoint, center, driveRight, reverse, speed);
         }
