@@ -229,9 +229,9 @@ namespace Navigation_OpenGL
 
             bool b = Variables.getRandomBoolean();
             double x = Variables.getRandomNumber(27, 81);
-            //if (b == false)
-            //    Variables.path.AddLast(EZPathFollowing.PathPrimitives.CircleInMeter(x));
-            //else
+            if (b == false)
+                Variables.path.AddLast(EZPathFollowing.PathPrimitives.CircleInMeter(x));
+            else
                 Variables.path.AddLast(EZPathFollowing.PathPrimitives.LineInMeter(x));
             this.simpleOpenGlControl1.Invalidate();
         }
