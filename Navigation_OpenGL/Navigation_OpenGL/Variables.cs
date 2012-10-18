@@ -14,7 +14,7 @@ namespace Navigation_OpenGL
         public static int vehicle_size = 1;
         public static TextBox[] axles = new System.Windows.Forms.TextBox[10];
         public static TrackBar[] trackbars = new System.Windows.Forms.TrackBar[10];
-        // Initializes a new LinkedList of type PathPart, which stored the Path.
+        // Initializes a new LinkedList of type PathPart, which stores the Path.
         public static LinkedList<EZPathFollowing.PathPart> path = new LinkedList<EZPathFollowing.PathPart>();
 
         // Function for getting random numbers in a given interval

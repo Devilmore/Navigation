@@ -103,6 +103,7 @@ namespace Navigation_OpenGL.EZPathFollowing
 
         // This function searches for an endpoint with the give length as a distance to the startpoint
         // This does not fit the given datastructure at all, replace later if possible.
+        // 1 meter is euqal to 27 pixels, the length here is calculated in pixels.
         public static Point2D circleAround(Point2D start, double radius, double angle)
         {
             const double DEG2RAD = Math.PI / 180;

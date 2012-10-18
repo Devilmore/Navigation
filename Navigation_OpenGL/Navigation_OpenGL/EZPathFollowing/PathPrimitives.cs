@@ -17,12 +17,17 @@ namespace Navigation_OpenGL.EZPathFollowing
             // For this purpose a LinePathPart of length 0 is added to the Linked List at the beginning.
             // Should this cause trouble with the pathlength: remove and fix.
             Point2D startpoint = Variables.path.Last.Value.getEnd();
-
-            // Angle (i) is random
-            double i = Variables.getRandomNumber(0, 360);
-            
-            // 1 meter is euqal to 27 pixels, the length here is calculated in pixels.
-            Point2D endpoint = EZPathFollowing.Point2D.circleAround(startpoint, length, i);
+            Point2D endpoint = new Point2D(0,0);
+           
+            // The angle is random if the previous pathpart had no length (should only occur on the first pathpart)
+            if (Variables.path.Count == 1)
+            {
+                double i = Variables.getRandomNumber(0, 360);
+                endpoint = EZPathFollowing.Point2D.circleAround(startpoint, length, i);
+            }
+            // Otherwise it is the same as on the previous pathpart (no corners)
+            else
+                endpoint = startpoint + (startpoint - Variables.path.Last.Value.getStart());
 
             return new LinePathPart(startpoint, endpoint, reverse, speed);
         }
@@ -41,15 +46,22 @@ namespace Navigation_OpenGL.EZPathFollowing
             // Direction is random
             bool driveRight = Variables.getRandomBoolean();
 
-            // Angle (i) is random
-            double i = Variables.getRandomNumber(0, 360);
-
             // From Start to Center
-            Point2D center = EZPathFollowing.Point2D.circleAround(startpoint, radius, i);
+            // If this is the first element, it is random.
+            Point2D center = new Point2D(0, 0);
+            if (Variables.path.Count == 1)
+            {
+                double i = Variables.getRandomNumber(0, 360);
+                center = EZPathFollowing.Point2D.circleAround(startpoint, radius, i);
+            }
+            // If not, the "line" from start to center is an extension from the previous line so there is no corner
+            // This needs to be adjusted since it has to be end-center, not end-start for circles
+            else
+                center = startpoint + (startpoint - Variables.path.Last.Value.getStart());
 
             // From Center to End, i is still random
-            i = Variables.getRandomNumber(0, 360);
-            Point2D endpoint = EZPathFollowing.Point2D.circleAround(center, radius, i);
+            double j = Variables.getRandomNumber(0, 360);
+            Point2D endpoint = EZPathFollowing.Point2D.circleAround(center, radius, j);
 
             return new CirclePathPart(startpoint, endpoint, center, driveRight, reverse, speed);
         }

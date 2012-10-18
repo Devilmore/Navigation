@@ -28,9 +28,11 @@ namespace Navigation_OpenGL
         {
             // Initializes the window
             InitializeComponent();
+
             // Initializes the path with a LinePathPart of length 0 so the endpoint can be used later.
             // Remove if this causes problems
             Variables.path.AddLast(new EZPathFollowing.LinePathPart(start, start, false, 0.0));
+
             // Initializes the OpenGL components
             this.simpleOpenGlControl1.InitializeContexts();
             Gl.glClearColor(1, 0, 0, 0);
@@ -163,7 +165,7 @@ namespace Navigation_OpenGL
 
         private void button_set_end_Click(object sender, EventArgs e)
         {
-            //Add Exception ahndling here
+            //Add Exception handling here
             string[] eentry = text_end.Text.Split(',');
             if (validateEntry(eentry))
             {
@@ -227,9 +229,9 @@ namespace Navigation_OpenGL
 
             bool b = Variables.getRandomBoolean();
             double x = Variables.getRandomNumber(27, 81);
-            if (b == false)
-                Variables.path.AddLast(EZPathFollowing.PathPrimitives.CircleInMeter(x));
-            else
+            //if (b == false)
+            //    Variables.path.AddLast(EZPathFollowing.PathPrimitives.CircleInMeter(x));
+            //else
                 Variables.path.AddLast(EZPathFollowing.PathPrimitives.LineInMeter(x));
             this.simpleOpenGlControl1.Invalidate();
         }

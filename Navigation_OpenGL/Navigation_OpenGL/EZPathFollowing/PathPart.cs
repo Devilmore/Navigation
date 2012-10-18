@@ -43,6 +43,12 @@ namespace Navigation_OpenGL.EZPathFollowing
             return m_endpoint;
         }
 
+        // Returns the end of the path
+        public Point2D getStart()
+        {
+            return m_startpoint;
+        }
+
         //// Returns the Orientation at the end of the path
         //public double endOrientation()
         //{
