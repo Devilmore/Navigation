@@ -52,23 +52,25 @@ namespace Navigation_OpenGL.EZPathFollowing
         {
         }
 
-        public CirclePathPart(Point2D startpoint, Point2D endpoint, Point2D center, bool driveRight, bool reverse, double speed)
-            : base(startpoint, endpoint, reverse, speed)
+        public CirclePathPart(Point2D startpoint, Point2D endpoint, Point2D center, bool driveRight, bool reverse, double speed, double angle, double direction)
+            : base(startpoint, endpoint, reverse, speed, direction)
         {
-            setAttributes(startpoint, endpoint, center, driveRight, reverse, speed);
+            setAttributes(startpoint, endpoint, center, driveRight, reverse, speed, angle, direction);
         }
 
-        public void setAttributes(Point2D startpoint, Point2D endpoint, Point2D center, bool driveRight, bool reverse, double speed)
+        public void setAttributes(Point2D startpoint, Point2D endpoint, Point2D center, bool driveRight, bool reverse, double speed, double angle, double direction)
         {
             if (!m_initialized)
             {
-                setAttributes(startpoint, endpoint, reverse, speed);
+                setAttributes(startpoint, endpoint, reverse, speed, direction);
                 m_center = center;
                 m_driveRight = driveRight;
+                m_angle = angle;
                 m_radius = Point2D.sub(m_center, m_startpoint).length();
-                updateAngle();
+                // updateAngle(); I saw no need to not simply give the angle with the remaining arguments. Fix if anything needs this
                 m_pathlength = m_radius * m_angle;
                 m_initialized = true;
+                m_direction = direction;
             }
         }
 
@@ -129,6 +131,25 @@ namespace Navigation_OpenGL.EZPathFollowing
                 return angle.perpendicularLeft().radian();
         }
 
+        public override Point2D orientation()
+        {
+            // Rotates m_center around m_end by theta which gives the orientation at the end of the curve
+            Point2D point = new Point2D(0, 0);
+            double theta = 270;
+            point.x = Math.Cos(theta) * (m_center.x - m_endpoint.x) - Math.Sin(theta) * (m_center.y - m_endpoint.y) + m_endpoint.x;
+            point.y = Math.Sin(theta) * (m_center.x - m_endpoint.x) - Math.Cos(theta) * (m_center.y - m_endpoint.y) + m_endpoint.y;
+            // Returns the directional vector from the endpoint to this new point
+            return (point - m_endpoint).normalize();
+        }
+
+        public override double orientationDouble()
+        {
+            if (m_driveRight == true)
+                return m_direction + m_angle;
+            else
+                return m_direction - m_angle;
+        }
+
         public override bool move(Point2D difference)
         {
             base.move(difference);
@@ -158,7 +179,7 @@ namespace Navigation_OpenGL.EZPathFollowing
         public override void draw()
         {
             Gl.glColor3d(1, 0, 0);
-            Point2D start = (m_reverse == m_driveRight)
+            Point2D start = (m_reverse != m_driveRight)
                 ? m_startpoint
                 : m_endpoint;
 
@@ -176,7 +197,7 @@ namespace Navigation_OpenGL.EZPathFollowing
 
             // Draws from (about) starting point for the length of m_angle
             Gl.glBegin(Gl.GL_LINE_STRIP);
-            for (double i = i2; i < m_angle * (180 / Math.PI) + i2; i++)
+            for (double i = i2; i < m_angle + i2; i++)
             {
                 double degInRad = i * DEG2RAD;
                 Gl.glVertex2d(m_center.x + Math.Cos(degInRad) * m_radius, m_center.y + Math.Sin(degInRad) * m_radius);

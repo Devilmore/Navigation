@@ -29,10 +29,6 @@ namespace Navigation_OpenGL
             // Initializes the window
             InitializeComponent();
 
-            // Initializes the path with a LinePathPart of length 0 so the endpoint can be used later.
-            // Remove if this causes problems
-            Variables.path.AddLast(new EZPathFollowing.LinePathPart(start, start, false, 0.0));
-
             // Initializes the OpenGL components
             this.simpleOpenGlControl1.InitializeContexts();
             Gl.glClearColor(1, 0, 0, 0);
@@ -222,17 +218,18 @@ namespace Navigation_OpenGL
             frm.Show();
         }
 
+        // Adds a random PathPart, limitations set in PathPrimitives
         private void button_path_Click(object sender, EventArgs e)
         {
-            //Adds random pathpart between 1 and 3 meters.
-            //Currently adds completely impossible turns - is that even necessary to fix?
-
-            bool b = Variables.getRandomBoolean();
-            double x = Variables.getRandomNumber(27, 81);
-            if (b == false)
-                Variables.path.AddLast(EZPathFollowing.PathPrimitives.CircleInMeter(x));
+            EZPathFollowing.PathPart temp = new EZPathFollowing.PathPart();
+            if (Variables.pathlength == 0)
+                temp = EZPathFollowing.PathPrimitives.getRandomPathPart(start);
             else
-                Variables.path.AddLast(EZPathFollowing.PathPrimitives.LineInMeter(x));
+                temp = EZPathFollowing.PathPrimitives.getRandomPathPart();
+
+            Variables.path.AddLast(temp);
+            Variables.pathlength++;
+
             this.simpleOpenGlControl1.Invalidate();
         }
     }

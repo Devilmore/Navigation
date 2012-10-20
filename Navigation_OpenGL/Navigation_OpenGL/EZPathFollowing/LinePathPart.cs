@@ -14,20 +14,21 @@ namespace Navigation_OpenGL.EZPathFollowing
         }
 
         // Constructor for the Line
-        public LinePathPart(Point2D startpoint, Point2D endpoint, bool reverse, double speed) 
-            : base(startpoint, endpoint, reverse, speed)
+        public LinePathPart(Point2D startpoint, Point2D endpoint, bool reverse, double speed, double direction) 
+            : base(startpoint, endpoint, reverse, speed, direction)
         {
             m_pathlength = Point2D.sub(startpoint, endpoint).length();
         }
 
         // setAttrobutes for LinePathParts
-        public override void setAttributes(Point2D startpoint, Point2D endpoint, bool reverse, double speed)
+        public override void setAttributes(Point2D startpoint, Point2D endpoint, bool reverse, double speed, double direction)
         {
                 m_pathlength = Point2D.sub(startpoint, endpoint).length();
                 m_startpoint = startpoint;
                 m_endpoint = endpoint;
                 m_reverse = reverse;
                 m_speed = speed;
+                m_direction = direction;
         }
 
         public Point2D position(double d)
@@ -51,13 +52,24 @@ namespace Navigation_OpenGL.EZPathFollowing
             Gl.glEnd();
         }
 
-        // Returns the orientation
-        public double orientation()
+        ////// Returns the orientation
+        //public double orientation()
+        //{
+        //    if (!m_reverse)
+        //        return new AngleWrapper(m_endpoint - m_startpoint).radian();
+        //    else
+        //        return new AngleWrapper(m_startpoint - m_endpoint).radian();
+        //}
+
+        // Returns the orentation for what I need it to do. Rename if the above function is needed.
+        public override Point2D orientation()
         {
-            if (!m_reverse)
-                return new AngleWrapper(m_endpoint - m_startpoint).radian();
-            else
-                return new AngleWrapper(m_startpoint - m_endpoint).radian();
+            return (m_endpoint - m_startpoint).normalize();
+        }
+
+        public override double orientationDouble()
+        {
+            return m_direction;
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Navigation_OpenGL
         public static TrackBar[] trackbars = new System.Windows.Forms.TrackBar[10];
         // Initializes a new LinkedList of type PathPart, which stores the Path.
         public static LinkedList<EZPathFollowing.PathPart> path = new LinkedList<EZPathFollowing.PathPart>();
+        public static int pathlength = 0;
 
         // Function for getting random numbers in a given interval
         public static double getRandomNumber(double minimum, double maximum)

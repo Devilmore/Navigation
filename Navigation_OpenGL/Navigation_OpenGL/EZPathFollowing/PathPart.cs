@@ -14,6 +14,7 @@ namespace Navigation_OpenGL.EZPathFollowing
         protected bool m_reverse;
         protected double m_pathlength;
         protected double m_speed;
+        protected double m_direction;
 
         // Empty Constructor
         public PathPart()
@@ -24,11 +25,11 @@ namespace Navigation_OpenGL.EZPathFollowing
         }
 
         // Non-Empty Constructor delegates to setAttribute function after setting the Empty-Constructor values
-        public PathPart(Point2D startpoint, Point2D endpoint, bool reverse, double speed)
+        public PathPart(Point2D startpoint, Point2D endpoint, bool reverse, double speed, double direction)
         {
             this.m_pathlength = 0.0;
             this.m_initialized = false;
-            setAttributes(startpoint, endpoint, reverse, speed);
+            setAttributes(startpoint, endpoint, reverse, speed, direction);
         }
 
         // Returns the length of the path
@@ -49,6 +50,11 @@ namespace Navigation_OpenGL.EZPathFollowing
             return m_startpoint;
         }
 
+        public double getDirection()
+        {
+            return m_direction;
+        }
+
         //// Returns the Orientation at the end of the path
         //public double endOrientation()
         //{
@@ -60,6 +66,16 @@ namespace Navigation_OpenGL.EZPathFollowing
         //{
         //    return orientation(0.0);
         //}
+
+        public virtual Point2D orientation()
+        {
+            return new Point2D(0,0);
+        }
+
+        public virtual double orientationDouble()
+        {
+            return 0;
+        }
 
         public virtual bool move(Point2D difference)
         {
@@ -75,7 +91,7 @@ namespace Navigation_OpenGL.EZPathFollowing
             return true;
         }
 
-        public virtual void setAttributes(Point2D startpoint, Point2D endpoint, bool reverse, double speed)
+        public virtual void setAttributes(Point2D startpoint, Point2D endpoint, bool reverse, double speed, double direction)
         {
             if (!m_initialized)
             {
@@ -83,6 +99,7 @@ namespace Navigation_OpenGL.EZPathFollowing
                 m_endpoint = endpoint;
                 m_reverse = reverse;
                 m_speed = speed;
+                m_direction = direction;
             }
         }
 

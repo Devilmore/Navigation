@@ -98,7 +98,7 @@ namespace Navigation_OpenGL.EZPathFollowing
 
         public static bool closeTo(Point2D point1, Point2D point2)
         {
-            return (Math.Abs(point1.x - point2.x) < 2 && Math.Abs(point1.y - point2.y) < 2);
+            return (Math.Abs(point1.x - point2.x) < 1 && Math.Abs(point1.y - point2.y) < 1);
         }
 
         // This function searches for an endpoint with the give length as a distance to the startpoint
@@ -109,6 +109,15 @@ namespace Navigation_OpenGL.EZPathFollowing
             const double DEG2RAD = Math.PI / 180;
             double degInRad = angle * DEG2RAD;
             return new Point2D(start.x + Math.Cos(degInRad) * radius, start.y + Math.Sin(degInRad) * radius);
+        }
+
+        // Moves point around center by theta (clockwise)
+        public static Point2D circleAround(Point2D point, Point2D center, double theta)
+        {
+            Point2D returnpoint = new Point2D(0,0);
+            returnpoint.x = Math.Cos(theta) * (point.x - center.x) - Math.Sin(theta) * (point.y - center.y) + center.x;
+            returnpoint.y = Math.Sin(theta) * (point.x - center.x) + Math.Cos(theta) * (point.y - center.y) + center.y;
+            return returnpoint;
         }
     }
 }
