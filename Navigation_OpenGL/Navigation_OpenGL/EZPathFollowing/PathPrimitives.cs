@@ -5,16 +5,24 @@ using System.Text;
 
 namespace Navigation_OpenGL.EZPathFollowing
 {
+    /** 
+     * This class contains functions to easily create new Pathparts
+     * All but the first PathPart only need a few parameters as they
+     * retain direction and location from the previous pathpart.
+     * 
+     * Right now there is no PathPlanning Algorithm so all values needed
+     * are random.
+     * **/
     class PathPrimitives
     {
 
         /** Creates a Line from the given start with the given length in the given direction
          * This function should only be used for the first pathpart which needs a startpoint. 
-         * All other pathpart should take their start and direction from the previous pathpart,
+         * All other pathparts should take their start and direction from the previous pathpart,
          * see the other functions.
          * 
-         * - Direction is given in degree, starting at 3 o'clock (0) and rotating clockwise (driveRight = true)
-         * - Direction can be any number but should be between 0-180 (else reverse driveRight instead)
+         * - Direction is given in degree, starting at 3 o'clock (0) and rotating clockwise
+         * - Direction can be any number but should be between 0-360
          * **/
         public static LinePathPart line(double length, double direction, Point2D start)
         {
@@ -22,11 +30,10 @@ namespace Navigation_OpenGL.EZPathFollowing
             double speed = 0.0;
             bool reverse = false;
             
-
             // 27 Pixels are 1 meter
             length *= 27;
 
-            // A positive angle rotates to the right, also needs to be converted to Radian
+            // Angle needs to be converted to Radian
             double directionR = direction * Math.PI / 180;
 
             // The new endpoint is to the right of the startpoint ("3 o'clock) and will be rotated later
@@ -40,7 +47,7 @@ namespace Navigation_OpenGL.EZPathFollowing
         /** Same as above function, only to be used for the first element.
          * Direction is the "line" which is perpendicular to the circle and runs through start.
          * This is the line that, rotated by 90°, goes from start to center
-         * Direction can here be anything from 0-360 since it has nothign to do with right/left anymore
+         * Direction can here be anything from 0-360
          * **/
         public static CirclePathPart curve(double radius, double direction, double angle, bool driveRight, Point2D start)
         {
@@ -75,15 +82,15 @@ namespace Navigation_OpenGL.EZPathFollowing
                 ? angle * Math.PI / 180
                 : - angle * Math.PI / 180;
 
-            // Now the startpoint is rotated around teh center by angle to get the endpoint
+            // Now the startpoint is rotated around the center by angle to get the endpoint
             endpoint = EZPathFollowing.Point2D.circleAround(start, center, angleR);
 
             return new CirclePathPart(start, endpoint, center, driveRight, reverse, speed, angle, direction);
         }
 
         /**
-         * This function is used for a lines except the first one. It needs neither direction nor
-         * start since it starts at the end of the previous line/circle and also shares it's direction
+         * This function is used for all lines except the first one. It needs neither direction nor
+         * start since it starts at the end of the previous line/curve and also shares its direction
          * **/
         public static LinePathPart line(double length)
         {
@@ -107,6 +114,10 @@ namespace Navigation_OpenGL.EZPathFollowing
             return new LinePathPart(start, endpoint, reverse, speed, direction);
         }
 
+        /**
+         * This function is used for all curves except the first one. It needs neither direction nor
+         * start since it starts at the end of the previous line/curve and also shares its direction
+         * **/
         public static CirclePathPart curve(double radius, double angle, bool driveRight)
         {
             // Default values, not needed right now. May need to fix later
