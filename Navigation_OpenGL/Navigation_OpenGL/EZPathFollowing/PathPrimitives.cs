@@ -34,13 +34,13 @@ namespace Navigation_OpenGL.EZPathFollowing
             length *= 27;
 
             // Angle needs to be converted to Radian
-            double directionR = direction * Math.PI / 180;
+            double directionR = direction;
 
             // The new endpoint is to the right of the startpoint ("3 o'clock) and will be rotated later
             Point2D endpoint = new Point2D(start.x + length, start.y);
 
             // Endpoint is rotated by 'direction' around the start
-            endpoint = EZPathFollowing.Point2D.circleAround(endpoint, start, directionR);
+            endpoint = EZPathFollowing.Point2D.rotateAround(endpoint, start, directionR);
             return new LinePathPart(start, endpoint, reverse, speed, direction);
         }
 
@@ -59,31 +59,33 @@ namespace Navigation_OpenGL.EZPathFollowing
             radius *= 27;
 
             // To Radian
-            double directionR = direction * Math.PI / 180;
+            double directionR = direction;
 
             // The new center is to the right of the startpoint ("3 o'clock) and will be rotated later
             Point2D center = new Point2D(start.x + radius, start.y);
 
             // Center is rotated by 'direction' around the start
-            center = EZPathFollowing.Point2D.circleAround(center, start, directionR);
+            center = EZPathFollowing.Point2D.rotateAround(center, start, directionR);
 
             // To get the center the current center point has to be moved by 90° or -90° around the start, depending on driveRight
             double rightAngle = (driveRight == true)
-                ? 90 * Math.PI / 180
-                : -90 * Math.PI / 180;
+                ? Math.PI / 2
+                : -Math.PI / 2;
 
-            center = EZPathFollowing.Point2D.circleAround(center, start, rightAngle);
+            center = EZPathFollowing.Point2D.rotateAround(center, start, rightAngle);
 
             // Initializes the endpoint
             Point2D endpoint = new Point2D(0, 0);
 
             // Again, for driveRight = false the angles have to reversed and angle has to be converted to radian
             double angleR = (driveRight == true)
-                ? angle * Math.PI / 180
-                : - angle * Math.PI / 180;
+                ? angle
+                : -angle;
+
+            double length = angle * radius;
 
             // Now the startpoint is rotated around the center by angle to get the endpoint
-            endpoint = EZPathFollowing.Point2D.circleAround(start, center, angleR);
+            endpoint = EZPathFollowing.Point2D.rotateAround(start, center, angleR);
 
             return new CirclePathPart(start, endpoint, center, driveRight, reverse, speed, angle, direction);
         }
@@ -104,13 +106,13 @@ namespace Navigation_OpenGL.EZPathFollowing
             // Takes the start and direction from the previous pathpart
             Point2D start = Variables.path.Last.Value.getEnd();
             double direction = Variables.path.Last.Value.orientationDouble();
-            double directionR = direction * Math.PI / 180;
+            double directionR = direction;
 
             // The new endpoint is to the right of the startpoint ("3 o'clock) and will be rotated later
             Point2D endpoint = new Point2D(start.x + length, start.y);
 
             // Endpoint is rotated by 'direction' around the start
-            endpoint = EZPathFollowing.Point2D.circleAround(endpoint, start, directionR);
+            endpoint = EZPathFollowing.Point2D.rotateAround(endpoint, start, directionR);
             return new LinePathPart(start, endpoint, reverse, speed, direction);
         }
 
@@ -130,31 +132,31 @@ namespace Navigation_OpenGL.EZPathFollowing
             // Takes the start and direction from the previous pathpart
             Point2D start = Variables.path.Last.Value.getEnd();
             double direction = Variables.path.Last.Value.orientationDouble();
-            double directionR = direction * Math.PI / 180;
+            double directionR = direction;
 
             // The new center is to the right of the startpoint ("3 o'clock) and will be rotated later
             Point2D center = new Point2D(start.x + radius, start.y);
 
             // Center is rotated by 'direction' around the start
-            center = EZPathFollowing.Point2D.circleAround(center, start, directionR);
+            center = EZPathFollowing.Point2D.rotateAround(center, start, directionR);
 
             // To get the center the current center point has to be moved by 90° or -90° around the start, depending on driveRight
             double rightAngle = (driveRight == true)
-                ? 90 * Math.PI / 180
-                : -90 * Math.PI / 180;
+                ? Math.PI / 2
+                : -Math.PI / 2;
 
-            center = EZPathFollowing.Point2D.circleAround(center, start, rightAngle);
+            center = EZPathFollowing.Point2D.rotateAround(center, start, rightAngle);
 
             // Initializes the endpoint
-            Point2D endpoint = new Point2D(0, 0);
+            Point2D endpoint;// = new Point2D(0, 0);
 
             // Again, for driveRight = false the angles have to reversed and angle has to be converted to radian
             double angleR = (driveRight == true)
-                ? angle * Math.PI / 180
-                : -angle * Math.PI / 180;
+                ? angle
+                : -angle;
 
             // Now the startpoint is rotated around teh center by angle to get the endpoint
-            endpoint = EZPathFollowing.Point2D.circleAround(start, center, angleR);
+            endpoint = EZPathFollowing.Point2D.rotateAround(start, center, angleR);
 
             return new CirclePathPart(start, endpoint, center, driveRight, reverse, speed, angle, direction);
         }
@@ -162,17 +164,19 @@ namespace Navigation_OpenGL.EZPathFollowing
         // Creates a random PathPart from a given start (only used for first PathPart)
         // Max/Min Values need to be adjusted.
         // For Testing only
-        public static PathPart getRandomPathPart(Point2D start)
+        public static PathPart getRandomPathPart(Point2D start, double direction)
         {
             bool b = Variables.getRandomBoolean();
             bool driveRight = Variables.getRandomBoolean();
-            double length = Variables.getRandomNumber(1,3);
-            double angle = Variables.getRandomNumber(10,45);
-            double direction = Variables.getRandomNumber(0,360);
+            double radius = Variables.getRandomNumber(3, 5);
+            double length = Variables.getRandomNumber(1, 3);
+            
+            double angle = Variables.getRandomNumber(10, 45) * Math.PI / 180.0;// Variables.getRandomNumber(10, 45);
+            //double direction = Variables.getRandomNumber(0,360);
 
-            PathPart temp = new PathPart();
+            PathPart temp;// = new PathPart();
             if (b)
-                temp = curve(length, direction, angle, driveRight, start);
+                temp = curve(radius, direction, angle, driveRight, start);
             else
                 temp = line(length, direction, start);
 
@@ -186,12 +190,20 @@ namespace Navigation_OpenGL.EZPathFollowing
         {
             bool b = Variables.getRandomBoolean();
             bool driveRight = Variables.getRandomBoolean();
+            double radius = Variables.getRandomNumber(3, 5);
             double length = Variables.getRandomNumber(1, 3);
-            double angle = Variables.getRandomNumber(10, 45);
 
-            PathPart temp = new PathPart();
+            double angle = Variables.getRandomNumber(10, 45) * Math.PI / 180.0;// Variables.getRandomNumber(10, 45);
+            
+            /*
+            bool b = Variables.getRandomBoolean();
+            bool driveRight = Variables.getRandomBoolean();
+            double length = 5;// Variables.getRandomNumber(1, 3);
+            double angle = 40*Math.PI/180.0;// Variables.getRandomNumber(10, 45);*/
+
+            PathPart temp;// = new PathPart();
             if (b)
-                temp = curve(length, angle, driveRight);
+                temp = curve(radius, angle, driveRight);
             else
                 temp = line(length);
 

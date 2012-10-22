@@ -42,6 +42,7 @@
             this.button_vehicle = new System.Windows.Forms.Button();
             this.button_configuration = new System.Windows.Forms.Button();
             this.button_path = new System.Windows.Forms.Button();
+            this.driveButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picture_map)).BeginInit();
             this.SuspendLayout();
             // 
@@ -165,7 +166,7 @@
             this.button_configuration.TabIndex = 10;
             this.button_configuration.Text = "Edit Start";
             this.toolTip1.SetToolTip(this.button_configuration, "Opens a new window with options to see and edit the current starting configuratio" +
-        "n");
+                    "n");
             this.button_configuration.UseVisualStyleBackColor = true;
             this.button_configuration.Click += new System.EventHandler(this.button_configuration_Click);
             // 
@@ -180,11 +181,22 @@
             this.button_path.UseVisualStyleBackColor = true;
             this.button_path.Click += new System.EventHandler(this.button_path_Click);
             // 
+            // driveButton
+            // 
+            this.driveButton.Location = new System.Drawing.Point(901, 156);
+            this.driveButton.Name = "driveButton";
+            this.driveButton.Size = new System.Drawing.Size(75, 23);
+            this.driveButton.TabIndex = 12;
+            this.driveButton.Text = "DRIVE";
+            this.driveButton.UseVisualStyleBackColor = true;
+            this.driveButton.Click += new System.EventHandler(this.driveButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1011, 622);
+            this.Controls.Add(this.driveButton);
             this.Controls.Add(this.button_path);
             this.Controls.Add(this.button_configuration);
             this.Controls.Add(this.button_vehicle);
@@ -220,6 +232,7 @@
         private System.Windows.Forms.Button button_vehicle;
         private System.Windows.Forms.Button button_configuration;
         private System.Windows.Forms.Button button_path;
+        private System.Windows.Forms.Button driveButton;
     }
 }
 

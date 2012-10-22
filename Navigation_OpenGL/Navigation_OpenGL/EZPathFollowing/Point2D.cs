@@ -19,6 +19,12 @@ namespace Navigation_OpenGL.EZPathFollowing
             this.y = y;
         }
 
+        public Point2D(double angle)
+        {
+            this.x = Math.Cos(angle);
+            this.y = Math.Sin(angle);
+        }
+
         // Constructor via copy
         public Point2D(Point2D point)
         {
@@ -112,7 +118,7 @@ namespace Navigation_OpenGL.EZPathFollowing
         }
 
         // Moves point around center by theta (clockwise)
-        public static Point2D circleAround(Point2D point, Point2D center, double theta)
+        public static Point2D rotateAround(Point2D point, Point2D center, double theta)
         {
             Point2D returnpoint = new Point2D(0,0);
             returnpoint.x = Math.Cos(theta) * (point.x - center.x) - Math.Sin(theta) * (point.y - center.y) + center.x;

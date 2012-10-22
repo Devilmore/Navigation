@@ -21,7 +21,7 @@ namespace Navigation_OpenGL
         EZPathFollowing.Point2D start = new EZPathFollowing.Point2D(225, 350);
         EZPathFollowing.Point2D end = new EZPathFollowing.Point2D(750, 50);
         // Loads the map
-        Bitmap image = new Bitmap("C:\\Users\\Andreas\\Documents\\Visual Studio 2010\\Projects\\Navigation\\Map.png");
+        Bitmap image = new Bitmap(Application.StartupPath+"\\Map.bmp");
         
         
         public Form1()
@@ -75,6 +75,9 @@ namespace Navigation_OpenGL
             {
                 item.draw();
             }
+
+            if (Variables.simulation != null)
+                Variables.simulation.draw();
 
             //Draws start and end
             Gl.glPointSize(5);
@@ -221,16 +224,26 @@ namespace Navigation_OpenGL
         // Adds a random PathPart, limitations set in PathPrimitives
         private void button_path_Click(object sender, EventArgs e)
         {
-            EZPathFollowing.PathPart temp = new EZPathFollowing.PathPart();
-            if (Variables.pathlength == 0)
-                temp = EZPathFollowing.PathPrimitives.getRandomPathPart(start);
-            else
-                temp = EZPathFollowing.PathPrimitives.getRandomPathPart();
+            for (int i = 0; i <= 0; i++)
+            {
+                EZPathFollowing.PathPart temp;// = new EZPathFollowing.PathPart();
+                if (Variables.pathlength == 0)
+                    temp = EZPathFollowing.PathPrimitives.getRandomPathPart(start,0);
+                else
+                    temp = EZPathFollowing.PathPrimitives.getRandomPathPart();
 
-            Variables.path.AddLast(temp);
-            Variables.pathlength++;
+                Variables.path.AddLast(temp);
+                Variables.pathlength++;
+            }
+            this.simpleOpenGlControl1.Refresh();
+            //this.simpleOpenGlControl1.Invalidate();
+        }
 
-            this.simpleOpenGlControl1.Invalidate();
+        private void driveButton_Click(object sender, EventArgs e)
+        {
+            Variables.simulation = new Simulation(Variables.vehicle, Variables.path);
+            Variables.simulation.run();
+            this.simpleOpenGlControl1.Refresh();
         }
     }
 }

@@ -6,20 +6,23 @@ using Tao.OpenGl;
 
 namespace Navigation_OpenGL.EZPathFollowing
 {
-    public class PathPart
+    public abstract class PathPart
     {
         protected bool m_initialized;
         protected Point2D m_startpoint;
         protected Point2D m_endpoint;
         protected bool m_reverse;
-        protected double m_pathlength;
+        //protected double m_pathlength;
         protected double m_speed;
         protected double m_direction;
+
+        public abstract double referencePositionDefinitionValue(Point2D point);
+        public abstract Point2D position(double d);
 
         // Empty Constructor
         public PathPart()
         {
-            this.m_pathlength = 0.0;
+            //this.m_pathlength = 0.0;
             this.m_speed = 0.0;
             this.m_initialized = false;
         }
@@ -27,17 +30,14 @@ namespace Navigation_OpenGL.EZPathFollowing
         // Non-Empty Constructor delegates to setAttribute function after setting the Empty-Constructor values
         public PathPart(Point2D startpoint, Point2D endpoint, bool reverse, double speed, double direction)
         {
-            this.m_pathlength = 0.0;
+            //this.m_pathlength = 0.0;
             this.m_initialized = false;
             setAttributes(startpoint, endpoint, reverse, speed, direction);
         }
 
         // Returns the length of the path
-        public double pathlength()
-        {
-            return m_pathlength;
-        }
-
+        public abstract double pathlength();
+        
         // Returns the end of the path
         public Point2D getEnd()
         {
@@ -120,7 +120,7 @@ namespace Navigation_OpenGL.EZPathFollowing
         // Method Stubs. Implement Later!
         public static Point2D angleWrapper(double angle)
         {
-            return new Point2D(0, 0);
+            //return new Point2D(0, 0);
             throw new NotImplementedException();
         }
     }

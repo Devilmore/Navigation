@@ -219,7 +219,7 @@ namespace Navigation_OpenGL
                 Variables.axles[i].Visible = false;
             }
             Variables.axles = new System.Windows.Forms.TextBox[10];
-            Variables.vehicle = new vehicle();
+            Variables.vehicle = new Vehicle();
             Variables.vehicle_size = 1;
             this.simpleOpenGlControl2.Invalidate();
         }

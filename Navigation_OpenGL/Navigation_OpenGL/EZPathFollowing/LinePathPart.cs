@@ -17,13 +17,17 @@ namespace Navigation_OpenGL.EZPathFollowing
         public LinePathPart(Point2D startpoint, Point2D endpoint, bool reverse, double speed, double direction) 
             : base(startpoint, endpoint, reverse, speed, direction)
         {
-            m_pathlength = Point2D.sub(startpoint, endpoint).length();
+        }
+
+        public override double  pathlength()
+        {
+            return Point2D.sub(m_startpoint, m_endpoint).length();
         }
 
         // setAttrobutes for LinePathParts
         public override void setAttributes(Point2D startpoint, Point2D endpoint, bool reverse, double speed, double direction)
         {
-                m_pathlength = Point2D.sub(startpoint, endpoint).length();
+                //m_pathlength = Point2D.sub(startpoint, endpoint).length();
                 m_startpoint = startpoint;
                 m_endpoint = endpoint;
                 m_reverse = reverse;
@@ -31,13 +35,14 @@ namespace Navigation_OpenGL.EZPathFollowing
                 m_direction = direction;
         }
 
-        public Point2D position(double d)
+        public override Point2D position(double d)
         {
             return Point2D.add(m_startpoint,Point2D.multiplyBy((Point2D.sub(m_endpoint,m_startpoint).normalize()),d));
         }
 
         // Projection 
-        public double wantedPositionDefinitionValue(Point2D point)
+
+        public override double referencePositionDefinitionValue(Point2D point)
         {
             Point2D directionalVector = new AngleWrapper(m_endpoint - m_startpoint).unitVector();
             return directionalVector.point(point - m_startpoint);

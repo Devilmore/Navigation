@@ -27,6 +27,8 @@ namespace Navigation_OpenGL.EZPathFollowing
 
         public AngleWrapper(Point2D vector)
         {
+
+            //setRadian(Math.Atan2(vector.y, vector.x));
             vector = vector.normalize();
             if (vector.y < 0)
                 setRadian(2 * Math.PI - Math.Acos(vector.x));

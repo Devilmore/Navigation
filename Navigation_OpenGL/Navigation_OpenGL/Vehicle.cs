@@ -5,13 +5,13 @@ using System.Text;
 
 namespace Navigation_OpenGL
 {
-    public class vehicle
+    public class Vehicle
     {
         public int length = 5;
         public double[] M { get; set; }
         public double[] L { get; set; }
 
-        public vehicle()
+        public Vehicle()
         {
             M = new double[length];
             L = new double[length];
@@ -25,7 +25,7 @@ namespace Navigation_OpenGL
             }
         }
 
-        public vehicle(double[] x, double[] y, double[] theta, double[] m, double[] l)
+        public Vehicle(double[] x, double[] y, double[] theta, double[] m, double[] l)
         {
             M = m;
             L = l;
