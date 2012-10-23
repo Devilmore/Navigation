@@ -97,6 +97,7 @@ namespace Navigation_OpenGL
                     x[i] += x_Punkt[i] * stepwith;
                     y[i] += y_Punkt[i] * stepwith;
                     ausrichtung[i] += ausrichtung_Punkt[i] * stepwith;
+                    // Check for collisions and finish
                 }
                 traj.Add(new EZPathFollowing.Point2D(x[0]*27, y[0]*27));
             }
