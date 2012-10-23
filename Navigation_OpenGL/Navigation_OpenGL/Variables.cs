@@ -15,6 +15,7 @@ namespace Navigation_OpenGL
         public static int vehicle_size = 1;
         public static TextBox[] axles = new System.Windows.Forms.TextBox[10];
         public static TrackBar[] trackbars = new System.Windows.Forms.TrackBar[10];
+        private static Random random = new Random();
         // Initializes a new LinkedList of type PathPart, which stores the Path.
         public static LinkedList<EZPathFollowing.PathPart> path = new LinkedList<EZPathFollowing.PathPart>();
         public static int pathlength = 0;
@@ -22,7 +23,7 @@ namespace Navigation_OpenGL
         // Function for getting random numbers in a given interval
         public static double getRandomNumber(double minimum, double maximum)
         {
-            Random random = new Random();
+            //Random random = new Random();
             // Give System a chance to be random
             System.Threading.Thread.Sleep(5);
             return minimum + random.NextDouble() * (maximum - minimum);
@@ -32,8 +33,8 @@ namespace Navigation_OpenGL
         public static bool getRandomBoolean()
         {
             // Give System a chance to be random
-            System.Threading.Thread.Sleep(5);
-            return new Random().Next(100) % 2 == 0;
+            //System.Threading.Thread.Sleep(5);
+            return random.Next(100) % 2 == 0;
         }
     }
 }

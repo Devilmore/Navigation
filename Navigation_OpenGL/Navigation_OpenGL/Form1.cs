@@ -37,6 +37,7 @@ namespace Navigation_OpenGL
             Gl.glOrtho(0, width, height, 0, 0, 1);
             Gl.glMatrixMode(Gl.GL_MODELVIEW);
             Gl.glDisable(Gl.GL_DEPTH_TEST);
+
         }
 
         private void timer_load_Tick(object sender, EventArgs e)
