@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class_Configuration.cs" />
+    <Compile Include="Genome.cs" />
+    <Compile Include="GenomePart.cs" />
     <Compile Include="Vehicle.cs" />
     <Compile Include="Drawings.cs" />
     <Compile Include="EZPathFollowing\AggregatedPath.cs" />

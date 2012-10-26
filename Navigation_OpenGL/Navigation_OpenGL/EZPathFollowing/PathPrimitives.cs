@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 namespace Navigation_OpenGL.EZPathFollowing
 {
@@ -166,17 +167,23 @@ namespace Navigation_OpenGL.EZPathFollowing
         // For Testing only
         public static PathPart getRandomPathPart(Point2D start, double direction)
         {
-            bool b = Variables.getRandomBoolean();
-            bool driveRight = Variables.getRandomBoolean();
-            double radius = Variables.getRandomNumber(3, 5);
-            double length = Variables.getRandomNumber(1, 3);
-            
-            double angle = Variables.getRandomNumber(10, 45) * Math.PI / 180.0;// Variables.getRandomNumber(10, 45);
-            //double direction = Variables.getRandomNumber(0,360);
+            bool b = Variables.getRandomBoolean(); // First bit of genome, 1 = curve, 0 = line
+
+            int lengthG = Convert.ToInt32(Variables.getRandomNumber(0, 7));
+            double length = 0.5 + lengthG * 0.5; // Next 3 bits of genome, 0.5 (000) to 4 (111) meters
+
+            int angleG = Convert.ToInt32(Variables.getRandomNumber(0, 7));
+            double angle = (10 + angleG * 5) * Math.PI / 180; // Next 3 bits of genome, 10 (000) to 45 (111) degree
+
+            bool driveRight = Variables.getRandomBoolean(); // Last bit of genome, 1 = right, 0 = left
+
+            // Generates a genome from the given PathPart and appends it to the genome for the entire path
+            GenomePart part = new GenomePart(b, lengthG, angleG, driveRight);
+            Variables.genome.add(part);
 
             PathPart temp;// = new PathPart();
             if (b)
-                temp = curve(radius, direction, angle, driveRight, start);
+                temp = curve(length, direction, angle, driveRight, start);
             else
                 temp = line(length, direction, start);
 
@@ -188,22 +195,23 @@ namespace Navigation_OpenGL.EZPathFollowing
         // For Testing only
         public static PathPart getRandomPathPart()
         {
-            bool b = Variables.getRandomBoolean();
-            bool driveRight = Variables.getRandomBoolean();
-            double radius = Variables.getRandomNumber(3, 5);
-            double length = Variables.getRandomNumber(1, 3);
+            bool b = Variables.getRandomBoolean(); // First bit of genome, 1 = curve, 0 = line
 
-            double angle = Variables.getRandomNumber(10, 45) * Math.PI / 180.0;// Variables.getRandomNumber(10, 45);
-            
-            /*
-            bool b = Variables.getRandomBoolean();
-            bool driveRight = Variables.getRandomBoolean();
-            double length = 5;// Variables.getRandomNumber(1, 3);
-            double angle = 40*Math.PI/180.0;// Variables.getRandomNumber(10, 45);*/
+            int lengthG = Convert.ToInt32(Variables.getRandomNumber(0, 7));
+            double length = 0.5 + lengthG * 0.5; // Next 3 bits of genome, 0.5 (000) to 4 (111) meters
+
+            int angleG = Convert.ToInt32(Variables.getRandomNumber(0, 7));
+            double angle = (10 + angleG * 5) * Math.PI / 180; // Next 3 bits of genome, 10 (000) to 45 (111) degree
+
+            bool driveRight = Variables.getRandomBoolean(); // Last bit of genome, 1 = right, 0 = left
+
+            GenomePart part = new GenomePart(b, lengthG, angleG, driveRight);
+            Variables.genome.add(part);
+
 
             PathPart temp;// = new PathPart();
             if (b)
-                temp = curve(radius, angle, driveRight);
+                temp = curve(length, angle, driveRight);
             else
                 temp = line(length);
 

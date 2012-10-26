@@ -29,6 +29,9 @@ namespace Navigation_OpenGL
             // Initializes the window
             InitializeComponent();
 
+
+            this.textBox1.Text = Variables.genome.getLength().ToString();
+
             // Initializes the OpenGL components
             this.simpleOpenGlControl1.InitializeContexts();
             Gl.glClearColor(1, 0, 0, 0);
@@ -196,7 +199,6 @@ namespace Navigation_OpenGL
             }
             int ex = Convert.ToInt32(entry[0]);
             int ey = Convert.ToInt32(entry[1]);
-            textBox1.Text = Convert.ToString(entry[1]);
             if (ex < 0 || ex > 800 || ey < 0 || ey > 600)
             {
                 MessageBox.Show("The first value must be between 0 and 800 and the second between 0 and 600.");
@@ -237,6 +239,7 @@ namespace Navigation_OpenGL
                 Variables.pathlength++;
             }
             this.simpleOpenGlControl1.Refresh();
+            this.textBox1.Text = Variables.genome.write();
             //this.simpleOpenGlControl1.Invalidate();
         }
 

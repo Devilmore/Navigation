@@ -19,6 +19,7 @@ namespace Navigation_OpenGL
         // Initializes a new LinkedList of type PathPart, which stores the Path.
         public static LinkedList<EZPathFollowing.PathPart> path = new LinkedList<EZPathFollowing.PathPart>();
         public static int pathlength = 0;
+        public static Genome genome = new Genome();
 
         // Function for getting random numbers in a given interval
         public static double getRandomNumber(double minimum, double maximum)
