@@ -21,7 +21,7 @@ namespace Navigation_OpenGL
         EZPathFollowing.Point2D start = new EZPathFollowing.Point2D(225, 350);
         EZPathFollowing.Point2D end = new EZPathFollowing.Point2D(750, 50);
         // Loads the map
-        Bitmap image = new Bitmap(Application.StartupPath+"\\Map.bmp");
+        Bitmap image = new Bitmap("C:\\Users\\Andreas\\Documents\\Visual Studio 2010\\Projects\\Navigation\\Map.png");
         
         
         public Form1()
