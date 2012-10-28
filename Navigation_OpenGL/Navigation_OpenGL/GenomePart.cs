@@ -18,7 +18,7 @@ namespace Navigation_OpenGL
         }
 
         // Constructor
-        public GenomePart(bool b, int length, int angle, bool driveRight)
+        public GenomePart(bool b, double length, double angle, bool driveRight)
         {
             genome = new BitArray(8);
             genome.Set(0, b); // Sets bit 0 to 1 (curve) or 0 (line)
@@ -37,11 +37,22 @@ namespace Navigation_OpenGL
             return genome;
         }
 
-        static bool[] GetIntBinaryString(int n)
+        public static double getDouble(bool i, bool j, bool k)
+        {
+            double l = (i) ? 1 : 0;
+            double m = (j) ? 1 : 0;
+            double n = (k) ? 1 : 0;
+            double output = Math.Pow(2, l) + Math.Pow(2, m) + Math.Pow(2, n);
+            output = 0.5 + output * 0.5;
+            return output;
+        }
+
+        static bool[] GetIntBinaryString(double m)
         {
             bool[] b = new bool[32];
             int pos = 31;
             int i = 0;
+            int n = Convert.ToInt32(m);
 
             while (i < 32)
             {

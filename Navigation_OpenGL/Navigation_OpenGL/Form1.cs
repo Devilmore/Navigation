@@ -17,9 +17,7 @@ namespace Navigation_OpenGL
         // OpenGLSimpleControl size for drawing
         int width = 800;
         int height = 600;
-        // Start and End default values. 
-        EZPathFollowing.Point2D start = new EZPathFollowing.Point2D(225, 350);
-        EZPathFollowing.Point2D end = new EZPathFollowing.Point2D(750, 50);
+
         // Loads the map
         Bitmap image = new Bitmap("C:\\Users\\Andreas\\Documents\\Visual Studio 2010\\Projects\\Navigation\\Map.png");
         
@@ -67,8 +65,8 @@ namespace Navigation_OpenGL
             Drawings.draw_map(image);
 
             //Shows current start/end in their boxes
-            text_start.Text = (start.x + "," + start.y);
-            text_end.Text = (end.x + "," + end.y);
+            text_start.Text = (Variables.start.x + "," + Variables.start.y);
+            text_end.Text = (Variables.end.x + "," + Variables.end.y);
 
             // Draws the path
             Gl.glColor3d(1, 0, 0);
@@ -88,12 +86,12 @@ namespace Navigation_OpenGL
 
             Gl.glBegin(Gl.GL_POINTS);
             Gl.glColor3d(1, 0, 0);
-            Gl.glVertex2d(start.x, start.y);
+            Gl.glVertex2d(Variables.start.x, Variables.start.y);
             Gl.glEnd();
 
             Gl.glBegin(Gl.GL_POINTS);
             Gl.glColor3d(0, 0, 1);
-            Gl.glVertex2d(end.x, end.y);
+            Gl.glVertex2d(Variables.end.x, Variables.end.y);
             Gl.glEnd();
 
             Drawings.draw_measure(20, 580);
@@ -160,8 +158,8 @@ namespace Navigation_OpenGL
             string[] sentry = text_start.Text.Split(',');
             if (validateEntry(sentry))
             {
-                start.x = Convert.ToInt32(sentry[0]);
-                start.y = Convert.ToInt32(sentry[1]);
+                Variables.start.x = Convert.ToInt32(sentry[0]);
+                Variables.start.y = Convert.ToInt32(sentry[1]);
                 this.simpleOpenGlControl1.Invalidate();
             }
         }
@@ -172,8 +170,8 @@ namespace Navigation_OpenGL
             string[] eentry = text_end.Text.Split(',');
             if (validateEntry(eentry))
             {
-                end.x = Convert.ToInt32(eentry[0]);
-                end.y = Convert.ToInt32(eentry[1]);
+                Variables.end.x = Convert.ToInt32(eentry[0]);
+                Variables.end.y = Convert.ToInt32(eentry[1]);
                 this.simpleOpenGlControl1.Invalidate();
             }
         }
@@ -229,9 +227,10 @@ namespace Navigation_OpenGL
         {
             for (int i = 0; i <= 0; i++)
             {
-                EZPathFollowing.PathPart temp;// = new EZPathFollowing.PathPart();
+                EZPathFollowing.PathPart temp;
+                //temp = EZPathFollowing.PathPrimitives.line(1, 0, start);
                 if (Variables.pathlength == 0)
-                    temp = EZPathFollowing.PathPrimitives.getRandomPathPart(start,0);
+                    temp = EZPathFollowing.PathPrimitives.getRandomPathPart(Variables.start, Variables.direction);
                 else
                     temp = EZPathFollowing.PathPrimitives.getRandomPathPart();
 

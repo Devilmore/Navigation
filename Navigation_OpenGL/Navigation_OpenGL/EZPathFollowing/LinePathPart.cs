@@ -19,7 +19,7 @@ namespace Navigation_OpenGL.EZPathFollowing
         {
         }
 
-        public override double  pathlength()
+        public override double pathlength()
         {
             return Point2D.sub(m_startpoint, m_endpoint).length();
         }

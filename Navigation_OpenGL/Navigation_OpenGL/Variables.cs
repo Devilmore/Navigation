@@ -16,10 +16,18 @@ namespace Navigation_OpenGL
         public static TextBox[] axles = new System.Windows.Forms.TextBox[10];
         public static TrackBar[] trackbars = new System.Windows.Forms.TrackBar[10];
         private static Random random = new Random();
+
         // Initializes a new LinkedList of type PathPart, which stores the Path.
         public static LinkedList<EZPathFollowing.PathPart> path = new LinkedList<EZPathFollowing.PathPart>();
         public static int pathlength = 0;
+
+        // Initializes a genome which stores the Path Genome
         public static Genome genome = new Genome();
+
+        // Start, end and direction of the vehicle
+        public static EZPathFollowing.Point2D start = new EZPathFollowing.Point2D(225, 350);
+        public static EZPathFollowing.Point2D end = new EZPathFollowing.Point2D(750, 50);
+        public static double direction = 0;
 
         // Function for getting random numbers in a given interval
         public static double getRandomNumber(double minimum, double maximum)
