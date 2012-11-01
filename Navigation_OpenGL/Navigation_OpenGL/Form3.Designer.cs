@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.simpleOpenGlControl3 = new Tao.Platform.Windows.SimpleOpenGlControl();
             this.trackBar0 = new System.Windows.Forms.TrackBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -39,27 +38,10 @@
             this.button_reset_config = new System.Windows.Forms.Button();
             this.open_config = new System.Windows.Forms.OpenFileDialog();
             this.save_config = new System.Windows.Forms.SaveFileDialog();
+            this.simpleOpenGlControl3 = new Tao.Platform.Windows.SimpleOpenGlControl();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.counter_axle)).BeginInit();
             this.SuspendLayout();
-            // 
-            // simpleOpenGlControl3
-            // 
-            this.simpleOpenGlControl3.AccumBits = ((byte)(0));
-            this.simpleOpenGlControl3.AutoCheckErrors = false;
-            this.simpleOpenGlControl3.AutoFinish = false;
-            this.simpleOpenGlControl3.AutoMakeCurrent = true;
-            this.simpleOpenGlControl3.AutoSwapBuffers = true;
-            this.simpleOpenGlControl3.BackColor = System.Drawing.Color.Black;
-            this.simpleOpenGlControl3.ColorBits = ((byte)(32));
-            this.simpleOpenGlControl3.DepthBits = ((byte)(16));
-            this.simpleOpenGlControl3.Location = new System.Drawing.Point(12, 64);
-            this.simpleOpenGlControl3.Name = "simpleOpenGlControl3";
-            this.simpleOpenGlControl3.Size = new System.Drawing.Size(760, 400);
-            this.simpleOpenGlControl3.StencilBits = ((byte)(0));
-            this.simpleOpenGlControl3.TabIndex = 0;
-            this.simpleOpenGlControl3.Load += new System.EventHandler(this.simpleOpenGlControl3_Load);
-            this.simpleOpenGlControl3.Paint += new System.Windows.Forms.PaintEventHandler(this.simpleOpenGlControl3_Paint);
             // 
             // trackBar0
             // 
@@ -145,17 +127,33 @@
             this.save_config.Title = "Save Configuration";
             this.save_config.FileOk += new System.ComponentModel.CancelEventHandler(this.save_config_FileOk);
             // 
+            // simpleOpenGlControl3
+            // 
+            this.simpleOpenGlControl3.AccumBits = ((byte)(0));
+            this.simpleOpenGlControl3.AutoCheckErrors = false;
+            this.simpleOpenGlControl3.AutoFinish = false;
+            this.simpleOpenGlControl3.AutoMakeCurrent = true;
+            this.simpleOpenGlControl3.AutoSwapBuffers = true;
+            this.simpleOpenGlControl3.BackColor = System.Drawing.Color.Black;
+            this.simpleOpenGlControl3.ColorBits = ((byte)(32));
+            this.simpleOpenGlControl3.DepthBits = ((byte)(16));
+            this.simpleOpenGlControl3.Location = new System.Drawing.Point(33, 53);
+            this.simpleOpenGlControl3.Name = "simpleOpenGlControl3";
+            this.simpleOpenGlControl3.Size = new System.Drawing.Size(676, 375);
+            this.simpleOpenGlControl3.StencilBits = ((byte)(0));
+            this.simpleOpenGlControl3.TabIndex = 7;
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 475);
+            this.Controls.Add(this.simpleOpenGlControl3);
             this.Controls.Add(this.button_reset_config);
             this.Controls.Add(this.button_load_config);
             this.Controls.Add(this.button_save_config);
             this.Controls.Add(this.counter_axle);
             this.Controls.Add(this.trackBar0);
-            this.Controls.Add(this.simpleOpenGlControl3);
             this.Name = "Form3";
             this.Text = "Form3";
             this.Load += new System.EventHandler(this.Form3_Load);
@@ -168,7 +166,6 @@
 
         #endregion
 
-        private Tao.Platform.Windows.SimpleOpenGlControl simpleOpenGlControl3;
         private System.Windows.Forms.TrackBar trackBar0;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolTip toolTip1;
@@ -178,5 +175,6 @@
         private System.Windows.Forms.Button button_reset_config;
         private System.Windows.Forms.OpenFileDialog open_config;
         private System.Windows.Forms.SaveFileDialog save_config;
+        private Tao.Platform.Windows.SimpleOpenGlControl simpleOpenGlControl3;
     }
 }

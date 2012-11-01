@@ -29,6 +29,17 @@ namespace Navigation_OpenGL
         public static EZPathFollowing.Point2D end = new EZPathFollowing.Point2D(750, 50);
         public static double direction = 0;
 
+        public static void resetPath()
+        {
+            pathlength = 0;
+            path = new LinkedList<EZPathFollowing.PathPart>();
+        }
+
+        public static void resetGenome()
+        {
+           genome = new Genome();
+        }
+
         // Function for getting random numbers in a given interval
         public static double getRandomNumber(double minimum, double maximum)
         {

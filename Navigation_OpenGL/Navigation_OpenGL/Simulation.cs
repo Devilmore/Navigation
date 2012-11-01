@@ -29,6 +29,7 @@ namespace Navigation_OpenGL
 
         private List<EZPathFollowing.Point2D> traj = new List<EZPathFollowing.Point2D>();
 
+
         public Simulation(Vehicle _vehicle, LinkedList<EZPathFollowing.PathPart> _path)
         {
             vehicle = _vehicle;
@@ -152,7 +153,6 @@ namespace Navigation_OpenGL
 
         public void draw()
         {
-            
             Gl.glColor3d(0, 1, 1);
 
             Gl.glBegin(Gl.GL_LINE_STRIP);
@@ -160,6 +160,11 @@ namespace Navigation_OpenGL
             foreach (EZPathFollowing.Point2D point in traj)
                 Gl.glVertex2d(point.x, point.y);
             Gl.glEnd();
+        }
+
+        public void reset()
+        {
+            traj = new List<EZPathFollowing.Point2D>();
         }
     }
 }

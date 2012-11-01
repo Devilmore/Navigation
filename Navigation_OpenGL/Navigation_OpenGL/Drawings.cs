@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Tao.OpenGl;
 using System.Drawing;
+using OpenTK.Graphics.OpenGL;
+using System.Drawing.Imaging;
 
 namespace Navigation_OpenGL
 {
@@ -14,53 +16,56 @@ namespace Navigation_OpenGL
         // That's ~27 pixels / meter (26.6666...)
         public static void draw_measure(double x, double y)
         {
+            GL.Color3(Color.White);
+            GL.LineWidth(1);
+            GL.Disable(EnableCap.LineSmooth);
 
-            Gl.glColor3d(1, 1, 1);
-            Gl.glDisable(Gl.GL_LINE_SMOOTH);
-            Gl.glLineWidth(1);
+            GL.Begin(BeginMode.Lines);
+            GL.Vertex2(x, y + 5);
+            GL.Vertex2(x, y - 5);
+            GL.End();
 
-            Gl.glBegin(Gl.GL_LINES);
-            Gl.glVertex2d(x, y + 5);
-            Gl.glVertex2d(x, y - 5);
-            Gl.glEnd();
+            GL.Begin(BeginMode.Lines);
+            GL.Vertex2(x, y);
+            GL.Vertex2(x + 100, y);
+            GL.End();
 
-            Gl.glBegin(Gl.GL_LINES);
-            Gl.glVertex2d(x, y);
-            Gl.glVertex2d(x + 100, y);
-            Gl.glEnd();
-
-            Gl.glBegin(Gl.GL_LINES);
-            Gl.glVertex2d(x + 100, y + 5);
-            Gl.glVertex2d(x + 100, y - 5);
-            Gl.glEnd();
+            GL.Begin(BeginMode.Lines);
+            GL.Vertex2(x + 100, y + 5);
+            GL.Vertex2(x + 100, y - 5);
+            GL.End();
         }
 
         //Draws the map // TODO: Replace with proper texture drawing
         public static void draw_map(Bitmap image)
         {
-            // Gets the color of Pixel at 20,20 because that is black. Fix to a constant later
-            Color black = image.GetPixel(20, 20);
+            GL.Enable(EnableCap.Texture2D);
 
-            for (int x = 0; x < 800; x++)
-            {
-                for (int y = 0; y < 600; y++)
-                {
-                    if (image.GetPixel(x, y) == black)
-                    {
-                        Gl.glBegin(Gl.GL_POINTS);
-                        Gl.glColor3d(0, 0, 0);
-                        Gl.glVertex2d(x, y);
-                        Gl.glEnd();
-                    }
-                    else
-                    {
-                        Gl.glBegin(Gl.GL_POINTS);
-                        Gl.glColor3f(1, 1, 1);
-                        Gl.glVertex2d(x, y);
-                        Gl.glEnd();
-                    }
-                }
-            }
+            int id = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, id);
+            BitmapData bmp_data = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0);
+            image.UnlockBits(bmp_data);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+
+            GL.Color3((byte)255, (byte)255, (byte)255);
+            GL.DepthMask(false);
+            GL.Begin(BeginMode.Quads);
+            GL.TexCoord2(0, 0);
+            GL.Vertex2(0, 512);
+
+            GL.TexCoord2(1, 0);
+            GL.Vertex2(1024, 512);
+
+            GL.TexCoord2(1, 1);
+            GL.Vertex2(1024, 0);
+
+            GL.TexCoord2(0, 1);
+            GL.Vertex2(0, 0);
+            GL.End();
+
+            GL.Disable(EnableCap.Texture2D);
         }
 
         // Draws the axle point X as well as start/end of the vehicle part M and L for each axle. X is red, M and L are blue. As always, L[i] = M[i-1], except for L[0]

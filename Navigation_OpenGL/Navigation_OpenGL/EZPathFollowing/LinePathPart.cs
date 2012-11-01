@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Tao.OpenGl;
+using OpenTK.Graphics.OpenGL;
 
 namespace Navigation_OpenGL.EZPathFollowing
 {
@@ -51,20 +52,11 @@ namespace Navigation_OpenGL.EZPathFollowing
         // Draws the LinePathPart
         public override void draw()
         {
-            Gl.glBegin(Gl.GL_LINES);
-            Gl.glVertex2d(m_startpoint.x, m_startpoint.y);
-            Gl.glVertex2d(m_endpoint.x, m_endpoint.y);
-            Gl.glEnd();
+            GL.Begin(BeginMode.Lines);
+            GL.Vertex2(m_startpoint.x, m_startpoint.y);
+            GL.Vertex2(m_endpoint.x, m_endpoint.y);
+            GL.End();
         }
-
-        ////// Returns the orientation
-        //public double orientation()
-        //{
-        //    if (!m_reverse)
-        //        return new AngleWrapper(m_endpoint - m_startpoint).radian();
-        //    else
-        //        return new AngleWrapper(m_startpoint - m_endpoint).radian();
-        //}
 
         // Returns the orentation for what I need it to do. Rename if the above function is needed.
         public override Point2D orientation()

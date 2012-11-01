@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Tao.OpenGl;
+using OpenTK.Graphics.OpenGL;
+using System.Drawing;
 
 namespace Navigation_OpenGL.EZPathFollowing
 {
@@ -194,49 +196,14 @@ namespace Navigation_OpenGL.EZPathFollowing
         // Draws the CirclePathPart
         public override void draw()
         {
-            Gl.glColor3d(1, 0, 0);
-            /*Point2D start = (m_reverse != m_driveRight)
-                ? m_startpoint
-                : m_endpoint;
-
-            const double DEG2RAD = 1;
-
-            // circles until it (almost) hits the starting point. Change for proper calculation later
-            double i2 = 0;
-            double degInRad2 = i2 * DEG2RAD;
-            
-            while (!Point2D.closeTo(new Point2D(m_center.x + Math.Cos(degInRad2) * m_radius, m_center.y + Math.Sin(degInRad2) * m_radius), start))
-            {
-                i2++;
-                degInRad2 = i2 * DEG2RAD;
-            }*/
-
-            // Draws from (about) starting point for the length of m_angle
-            Gl.glBegin(Gl.GL_LINE_STRIP);
-
-            for (double i = 0; i <= pathlength(); i+=5)
+            GL.Begin(BeginMode.LineStrip);
+            for (double i = 0; i <= pathlength(); i += 5)
             {
                 Point2D p = position(i);
-                Gl.glVertex2d(p.x,p.y);
+                GL.Vertex2(p.x, p.y);
             }
-            Gl.glVertex2d(position(pathlength()).x, position(pathlength()).y);
-
-            /*if (m_reverse == m_driveRight)
-            {
-                for (double i = endAngle(); i < startAngle(); i += 0.05)
-                {
-                    Gl.glVertex2d(m_center.x + Math.Cos(i) * m_radius, m_center.y + Math.Sin(i) * m_radius);
-                }
-            }
-            else
-            {
-                for (double i = startAngle(); i < endAngle(); i += 0.05)
-                {
-                    Gl.glVertex2d(m_center.x + Math.Cos(i) * m_radius, m_center.y + Math.Sin(i) * m_radius);
-                }
-            }*/
-            Gl.glEnd();
-
+            GL.Vertex2(position(pathlength()).x, position(pathlength()).y);
+            GL.End();
         }
 
         private double GetNumCircleSegments(double r)
