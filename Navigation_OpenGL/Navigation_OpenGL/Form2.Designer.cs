@@ -110,7 +110,7 @@
             // 
             // text_explanation
             // 
-            this.text_explanation.Location = new System.Drawing.Point(5, 90);
+            this.text_explanation.Location = new System.Drawing.Point(4, 90);
             this.text_explanation.Multiline = true;
             this.text_explanation.Name = "text_explanation";
             this.text_explanation.ReadOnly = true;

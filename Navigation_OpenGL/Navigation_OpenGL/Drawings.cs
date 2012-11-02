@@ -68,6 +68,7 @@ namespace Navigation_OpenGL
             GL.Disable(EnableCap.Texture2D);
         }
 
+        // Marked for Removal
         // Draws the axle point X as well as start/end of the vehicle part M and L for each axle. X is red, M and L are blue. As always, L[i] = M[i-1], except for L[0]
         public static void draw_points()
         {
@@ -90,6 +91,7 @@ namespace Navigation_OpenGL
             }
         }
 
+        // Marked for Removal
         // Draws the lines M and L for each axle in white
         public static void draw_lines()
         {
@@ -127,11 +129,11 @@ namespace Navigation_OpenGL
             Variables.configuration_start.Mx[i] = x;
             Variables.configuration_start.My[i] = y;
 
-            Gl.glColor3d(1, 1, 1);
-            Gl.glBegin(Gl.GL_LINES);
-            Gl.glVertex2d(x, y);
-            Gl.glVertex2d(Variables.configuration_start.X[i], Variables.configuration_start.Y[i]);
-            Gl.glEnd();
+            GL.Color3(Color.Black);
+            GL.Begin(BeginMode.Lines);
+            GL.Vertex2(x, y);
+            GL.Vertex2(Variables.configuration_start.X[i], Variables.configuration_start.Y[i]);
+            GL.End();
         }
 
         // Draws and saves the point X
@@ -140,15 +142,15 @@ namespace Navigation_OpenGL
             Variables.configuration_start.X[i] = x;
             Variables.configuration_start.Y[i] = y;
 
-            Gl.glColor3d(1, 1, 1);
-            Gl.glBegin(Gl.GL_LINES);
-            Gl.glVertex2d(x, y);
+            GL.Color3(Color.Black);
+            GL.Begin(BeginMode.Lines);
+            GL.Vertex2(x, y);
             // For i=0 the line has to be drawn from the fixed starting point since there is no previous M
-            if (i == 0)
-                Gl.glVertex2d(380, 200);
+            if (i==0)
+                GL.Vertex2(Variables.start.x,Variables.start.y);
             else
-                Gl.glVertex2d(Variables.configuration_start.Mx[i - 1], Variables.configuration_start.My[i - 1]);
-            Gl.glEnd();
+                GL.Vertex2(Variables.configuration_start.Mx[i - 1], Variables.configuration_start.My[i - 1]);
+            GL.End();
         }
 
         // Calculates, draws and saves the value for either M (X to M) or X (L to X), depending on the given function getL or getM

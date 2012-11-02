@@ -10,6 +10,7 @@ namespace Navigation_OpenGL
     class Variables
     {
         public static configuration configuration_start = new configuration();
+        public static configuration configuration_end = new configuration();
         public static Vehicle vehicle = new Vehicle();
         public static Simulation simulation = null;
         public static int vehicle_size = 1;

@@ -228,15 +228,5 @@ namespace Navigation_OpenGL
         {
             this.simpleOpenGlControl2.Invalidate();
         }
-
-        private void button_save_conf_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button_load_conf_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
