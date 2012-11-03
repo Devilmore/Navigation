@@ -88,25 +88,9 @@ namespace Navigation_OpenGL
             return map;
         }
 
-       
-
-        // Marked for removal
-        private void button_vehicle_Click(object sender, EventArgs e)
-        {
-            Form2 frm = new Form2();
-            frm.Show();
-        }
-
         // Stub
         private void Form1_Load(object sender, EventArgs e)
         {
-        }
-
-        // Marked for removal
-        private void button_configuration_Click(object sender, EventArgs e)
-        {
-            Form3 frm = new Form3();
-            frm.Show();
         }
 
         // Adds a random PathPart, limitations set in PathPrimitives
@@ -216,19 +200,28 @@ namespace Navigation_OpenGL
             for (int i = 0; i < Variables.vehicle_size; i++)
             {
                 GL.Begin(BeginMode.Points);
-                GL.Vertex2(Variables.configuration_start.X[i], Variables.configuration_start.Y[i]);
+                if (Variables.config_start)
+                    GL.Vertex2(Variables.configuration_start.X[i], Variables.configuration_start.Y[i]);
+                else
+                    GL.Vertex2(Variables.configuration_end.X[i], Variables.configuration_end.Y[i]);
                 GL.End();
             }
 
             // Blue for start/end points
             GL.Color3(Color.Blue);
             GL.Begin(BeginMode.Points);
-            GL.Vertex2(Variables.start.x, Variables.start.y);
+            if (Variables.config_start)
+                GL.Vertex2(Variables.start.x, Variables.start.y);
+            else
+                GL.Vertex2(Variables.end.x, Variables.end.y);
             GL.End();
             for (int i = 0; i < Variables.vehicle_size; i++)
             {
                 GL.Begin(BeginMode.Points);
-                GL.Vertex2(Variables.configuration_start.Mx[i], Variables.configuration_start.My[i]);
+                if (Variables.config_start)
+                    GL.Vertex2(Variables.configuration_start.Mx[i], Variables.configuration_start.My[i]);
+                else
+                    GL.Vertex2(Variables.configuration_end.Mx[i], Variables.configuration_end.My[i]);
                 GL.End();
             }
             // End Vehicle
@@ -656,6 +649,23 @@ namespace Navigation_OpenGL
             else
                 trackBar0.Value = Variables.configuration_end.Theta[Convert.ToInt32(counter_axle.Value)];
             this.glControl1.Refresh();
+        }
+
+        // Copies the stat of radioButton1 to Variables.config_start for use in other classes
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.radioButton1.Checked)
+            {
+                trackBar0.Value = Variables.configuration_start.Theta[Convert.ToInt32(counter_axle.Value)];
+                Variables.config_start = true;
+                this.glControl1.Refresh();
+            }
+            else
+            {
+                trackBar0.Value = Variables.configuration_end.Theta[Convert.ToInt32(counter_axle.Value)];
+                Variables.config_start = false;
+                this.glControl1.Refresh();
+            }
         }
     }
 }

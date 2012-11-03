@@ -38,36 +38,36 @@
             this.button_add_box = new System.Windows.Forms.Button();
             this.button_save_vehicle = new System.Windows.Forms.Button();
             this.button_load_vehicle = new System.Windows.Forms.Button();
-            this.button_path = new System.Windows.Forms.Button();
-            this.driveButton = new System.Windows.Forms.Button();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.driveButton = new System.Windows.Forms.Button();
+            this.button_path = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button_reset = new System.Windows.Forms.Button();
             this.text_explanation = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.button_set_end = new System.Windows.Forms.Button();
+            this.button_set_start = new System.Windows.Forms.Button();
+            this.text_end = new System.Windows.Forms.TextBox();
+            this.text_start = new System.Windows.Forms.TextBox();
+            this.counter_axle = new System.Windows.Forms.NumericUpDown();
+            this.trackBar0 = new System.Windows.Forms.TrackBar();
+            this.button_reset_config = new System.Windows.Forms.Button();
+            this.button_load_config = new System.Windows.Forms.Button();
+            this.button_save_config = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.glControl1 = new OpenTK.GLControl();
             this.save_vehicle = new System.Windows.Forms.SaveFileDialog();
             this.open_vehicle = new System.Windows.Forms.OpenFileDialog();
-            this.button_reset = new System.Windows.Forms.Button();
-            this.button_save_config = new System.Windows.Forms.Button();
-            this.button_load_config = new System.Windows.Forms.Button();
-            this.button_reset_config = new System.Windows.Forms.Button();
-            this.trackBar0 = new System.Windows.Forms.TrackBar();
-            this.counter_axle = new System.Windows.Forms.NumericUpDown();
             this.open_config = new System.Windows.Forms.OpenFileDialog();
             this.save_config = new System.Windows.Forms.SaveFileDialog();
-            this.text_start = new System.Windows.Forms.TextBox();
-            this.text_end = new System.Windows.Forms.TextBox();
-            this.button_set_start = new System.Windows.Forms.Button();
-            this.button_set_end = new System.Windows.Forms.Button();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.counter_axle)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar0)).BeginInit();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer_load
@@ -157,38 +157,6 @@
             this.button_load_vehicle.UseVisualStyleBackColor = true;
             this.button_load_vehicle.Click += new System.EventHandler(this.button_load_vehicle_Click);
             // 
-            // button_path
-            // 
-            this.button_path.Cursor = System.Windows.Forms.Cursors.Help;
-            this.button_path.Location = new System.Drawing.Point(6, 35);
-            this.button_path.Name = "button_path";
-            this.button_path.Size = new System.Drawing.Size(75, 23);
-            this.button_path.TabIndex = 11;
-            this.button_path.Text = "Start Path";
-            this.button_path.UseVisualStyleBackColor = true;
-            this.button_path.Click += new System.EventHandler(this.button_path_Click);
-            // 
-            // driveButton
-            // 
-            this.driveButton.Location = new System.Drawing.Point(87, 35);
-            this.driveButton.Name = "driveButton";
-            this.driveButton.Size = new System.Drawing.Size(75, 23);
-            this.driveButton.TabIndex = 12;
-            this.driveButton.Text = "Drive";
-            this.driveButton.UseVisualStyleBackColor = true;
-            this.driveButton.Click += new System.EventHandler(this.driveButton_Click);
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Location = new System.Drawing.Point(1043, 13);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(263, 511);
-            this.tabControl1.TabIndex = 13;
-            // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -203,6 +171,27 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.toolTip1.SetToolTip(this.tabPage1, "General Settings and Information");
+            // 
+            // driveButton
+            // 
+            this.driveButton.Location = new System.Drawing.Point(87, 35);
+            this.driveButton.Name = "driveButton";
+            this.driveButton.Size = new System.Drawing.Size(75, 23);
+            this.driveButton.TabIndex = 12;
+            this.driveButton.Text = "Drive";
+            this.driveButton.UseVisualStyleBackColor = true;
+            this.driveButton.Click += new System.EventHandler(this.driveButton_Click);
+            // 
+            // button_path
+            // 
+            this.button_path.Cursor = System.Windows.Forms.Cursors.Help;
+            this.button_path.Location = new System.Drawing.Point(6, 35);
+            this.button_path.Name = "button_path";
+            this.button_path.Size = new System.Drawing.Size(75, 23);
+            this.button_path.TabIndex = 11;
+            this.button_path.Text = "Start Path";
+            this.button_path.UseVisualStyleBackColor = true;
+            this.button_path.Click += new System.EventHandler(this.button_path_Click);
             // 
             // tabPage2
             // 
@@ -221,6 +210,17 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Vehicle";
             this.toolTip1.SetToolTip(this.tabPage2, "Allows editing/saving/loading of vehicle data");
+            // 
+            // button_reset
+            // 
+            this.button_reset.Location = new System.Drawing.Point(6, 109);
+            this.button_reset.Name = "button_reset";
+            this.button_reset.Size = new System.Drawing.Size(75, 23);
+            this.button_reset.TabIndex = 21;
+            this.button_reset.Text = "Reset";
+            this.toolTip1.SetToolTip(this.button_reset, "Resets the vehicle to the default one");
+            this.button_reset.UseVisualStyleBackColor = true;
+            this.button_reset.Click += new System.EventHandler(this.button_reset_Click);
             // 
             // text_explanation
             // 
@@ -253,6 +253,142 @@
             this.tabPage3.Text = "Configuration";
             this.toolTip1.SetToolTip(this.tabPage3, "Allows editing/loading/saving of Start/End Configuration data");
             // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(175, 109);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(69, 17);
+            this.radioButton2.TabIndex = 15;
+            this.radioButton2.Text = "End Conf";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Checked = true;
+            this.radioButton1.Location = new System.Drawing.Point(175, 83);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(72, 17);
+            this.radioButton1.TabIndex = 14;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Start Conf";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
+            // button_set_end
+            // 
+            this.button_set_end.Location = new System.Drawing.Point(112, 109);
+            this.button_set_end.Name = "button_set_end";
+            this.button_set_end.Size = new System.Drawing.Size(56, 23);
+            this.button_set_end.TabIndex = 13;
+            this.button_set_end.Text = "Set End";
+            this.toolTip1.SetToolTip(this.button_set_end, "Sets a new ending point (x<800, y<600)");
+            this.button_set_end.UseVisualStyleBackColor = true;
+            this.button_set_end.Click += new System.EventHandler(this.button_set_end_Click);
+            // 
+            // button_set_start
+            // 
+            this.button_set_start.Location = new System.Drawing.Point(112, 83);
+            this.button_set_start.Name = "button_set_start";
+            this.button_set_start.Size = new System.Drawing.Size(56, 23);
+            this.button_set_start.TabIndex = 12;
+            this.button_set_start.Text = "Set Start";
+            this.toolTip1.SetToolTip(this.button_set_start, "Sets a new starting point (x<800, y<600)");
+            this.button_set_start.UseVisualStyleBackColor = true;
+            this.button_set_start.Click += new System.EventHandler(this.button_set_start_Click);
+            // 
+            // text_end
+            // 
+            this.text_end.BackColor = System.Drawing.Color.RoyalBlue;
+            this.text_end.Location = new System.Drawing.Point(6, 112);
+            this.text_end.Name = "text_end";
+            this.text_end.Size = new System.Drawing.Size(100, 20);
+            this.text_end.TabIndex = 11;
+            this.toolTip1.SetToolTip(this.text_end, "Ending point (x<800, y<600)");
+            // 
+            // text_start
+            // 
+            this.text_start.BackColor = System.Drawing.Color.Red;
+            this.text_start.Location = new System.Drawing.Point(6, 86);
+            this.text_start.Name = "text_start";
+            this.text_start.Size = new System.Drawing.Size(100, 20);
+            this.text_start.TabIndex = 10;
+            this.toolTip1.SetToolTip(this.text_start, "Starting point (x<800, y<600)");
+            // 
+            // counter_axle
+            // 
+            this.counter_axle.Location = new System.Drawing.Point(205, 31);
+            this.counter_axle.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.counter_axle.Name = "counter_axle";
+            this.counter_axle.Size = new System.Drawing.Size(38, 20);
+            this.counter_axle.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.counter_axle, "Current axle.");
+            this.counter_axle.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.counter_axle.ValueChanged += new System.EventHandler(this.counter_axle_ValueChanged);
+            // 
+            // trackBar0
+            // 
+            this.trackBar0.Location = new System.Drawing.Point(6, 6);
+            this.trackBar0.Maximum = 360;
+            this.trackBar0.Name = "trackBar0";
+            this.trackBar0.Size = new System.Drawing.Size(243, 45);
+            this.trackBar0.TabIndex = 8;
+            this.trackBar0.Value = 1;
+            this.trackBar0.ValueChanged += new System.EventHandler(this.trackBar0_ValueChanged);
+            // 
+            // button_reset_config
+            // 
+            this.button_reset_config.Location = new System.Drawing.Point(168, 57);
+            this.button_reset_config.Name = "button_reset_config";
+            this.button_reset_config.Size = new System.Drawing.Size(75, 23);
+            this.button_reset_config.TabIndex = 7;
+            this.button_reset_config.Text = "Reset";
+            this.toolTip1.SetToolTip(this.button_reset_config, "Resets to default (random) configuration.");
+            this.button_reset_config.UseVisualStyleBackColor = true;
+            this.button_reset_config.Click += new System.EventHandler(this.button_reset_config_Click);
+            // 
+            // button_load_config
+            // 
+            this.button_load_config.Location = new System.Drawing.Point(87, 57);
+            this.button_load_config.Name = "button_load_config";
+            this.button_load_config.Size = new System.Drawing.Size(75, 23);
+            this.button_load_config.TabIndex = 6;
+            this.button_load_config.Text = "Load";
+            this.toolTip1.SetToolTip(this.button_load_config, "Loads a configuration. Must fit current vehicle.");
+            this.button_load_config.UseVisualStyleBackColor = true;
+            this.button_load_config.Click += new System.EventHandler(this.button_load_config_Click);
+            // 
+            // button_save_config
+            // 
+            this.button_save_config.Location = new System.Drawing.Point(6, 57);
+            this.button_save_config.Name = "button_save_config";
+            this.button_save_config.Size = new System.Drawing.Size(75, 23);
+            this.button_save_config.TabIndex = 5;
+            this.button_save_config.Text = "Save";
+            this.toolTip1.SetToolTip(this.button_save_config, "Saves the current configuration.");
+            this.button_save_config.UseVisualStyleBackColor = true;
+            this.button_save_config.Click += new System.EventHandler(this.button_save_config_Click);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(1043, 13);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(263, 511);
+            this.tabControl1.TabIndex = 13;
+            // 
             // glControl1
             // 
             this.glControl1.BackColor = System.Drawing.Color.Black;
@@ -280,79 +416,6 @@
             this.open_vehicle.Title = "Open Vehicle";
             this.open_vehicle.FileOk += new System.ComponentModel.CancelEventHandler(this.open_vehicle_FileOk);
             // 
-            // button_reset
-            // 
-            this.button_reset.Location = new System.Drawing.Point(6, 109);
-            this.button_reset.Name = "button_reset";
-            this.button_reset.Size = new System.Drawing.Size(75, 23);
-            this.button_reset.TabIndex = 21;
-            this.button_reset.Text = "Reset";
-            this.toolTip1.SetToolTip(this.button_reset, "Resets the vehicle to the default one");
-            this.button_reset.UseVisualStyleBackColor = true;
-            this.button_reset.Click += new System.EventHandler(this.button_reset_Click);
-            // 
-            // button_save_config
-            // 
-            this.button_save_config.Location = new System.Drawing.Point(6, 57);
-            this.button_save_config.Name = "button_save_config";
-            this.button_save_config.Size = new System.Drawing.Size(75, 23);
-            this.button_save_config.TabIndex = 5;
-            this.button_save_config.Text = "Save";
-            this.toolTip1.SetToolTip(this.button_save_config, "Saves the current configuration.");
-            this.button_save_config.UseVisualStyleBackColor = true;
-            this.button_save_config.Click += new System.EventHandler(this.button_save_config_Click);
-            // 
-            // button_load_config
-            // 
-            this.button_load_config.Location = new System.Drawing.Point(87, 57);
-            this.button_load_config.Name = "button_load_config";
-            this.button_load_config.Size = new System.Drawing.Size(75, 23);
-            this.button_load_config.TabIndex = 6;
-            this.button_load_config.Text = "Load";
-            this.toolTip1.SetToolTip(this.button_load_config, "Loads a configuration. Must fit current vehicle.");
-            this.button_load_config.UseVisualStyleBackColor = true;
-            this.button_load_config.Click += new System.EventHandler(this.button_load_config_Click);
-            // 
-            // button_reset_config
-            // 
-            this.button_reset_config.Location = new System.Drawing.Point(168, 57);
-            this.button_reset_config.Name = "button_reset_config";
-            this.button_reset_config.Size = new System.Drawing.Size(75, 23);
-            this.button_reset_config.TabIndex = 7;
-            this.button_reset_config.Text = "Reset";
-            this.toolTip1.SetToolTip(this.button_reset_config, "Resets to default (random) configuration.");
-            this.button_reset_config.UseVisualStyleBackColor = true;
-            this.button_reset_config.Click += new System.EventHandler(this.button_reset_config_Click);
-            // 
-            // trackBar0
-            // 
-            this.trackBar0.Location = new System.Drawing.Point(6, 6);
-            this.trackBar0.Maximum = 360;
-            this.trackBar0.Name = "trackBar0";
-            this.trackBar0.Size = new System.Drawing.Size(243, 45);
-            this.trackBar0.TabIndex = 8;
-            this.trackBar0.Value = 1;
-            this.trackBar0.ValueChanged += new System.EventHandler(this.trackBar0_ValueChanged);
-            // 
-            // counter_axle
-            // 
-            this.counter_axle.Location = new System.Drawing.Point(205, 31);
-            this.counter_axle.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.counter_axle.Name = "counter_axle";
-            this.counter_axle.Size = new System.Drawing.Size(38, 20);
-            this.counter_axle.TabIndex = 9;
-            this.toolTip1.SetToolTip(this.counter_axle, "Current axle.");
-            this.counter_axle.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.counter_axle.ValueChanged += new System.EventHandler(this.counter_axle_ValueChanged);
-            // 
             // open_config
             // 
             this.open_config.FileName = "openFileDialog1";
@@ -366,68 +429,6 @@
             this.save_config.Title = "Save Configuration";
             this.save_config.FileOk += new System.ComponentModel.CancelEventHandler(this.save_config_FileOk);
             // 
-            // text_start
-            // 
-            this.text_start.BackColor = System.Drawing.Color.Red;
-            this.text_start.Location = new System.Drawing.Point(6, 86);
-            this.text_start.Name = "text_start";
-            this.text_start.Size = new System.Drawing.Size(100, 20);
-            this.text_start.TabIndex = 10;
-            this.toolTip1.SetToolTip(this.text_start, "Starting point (x<800, y<600)");
-            // 
-            // text_end
-            // 
-            this.text_end.BackColor = System.Drawing.Color.RoyalBlue;
-            this.text_end.Location = new System.Drawing.Point(6, 112);
-            this.text_end.Name = "text_end";
-            this.text_end.Size = new System.Drawing.Size(100, 20);
-            this.text_end.TabIndex = 11;
-            this.toolTip1.SetToolTip(this.text_end, "Ending point (x<800, y<600)");
-            // 
-            // button_set_start
-            // 
-            this.button_set_start.Location = new System.Drawing.Point(112, 83);
-            this.button_set_start.Name = "button_set_start";
-            this.button_set_start.Size = new System.Drawing.Size(56, 23);
-            this.button_set_start.TabIndex = 12;
-            this.button_set_start.Text = "Set Start";
-            this.toolTip1.SetToolTip(this.button_set_start, "Sets a new starting point (x<800, y<600)");
-            this.button_set_start.UseVisualStyleBackColor = true;
-            this.button_set_start.Click += new System.EventHandler(this.button_set_start_Click);
-            // 
-            // button_set_end
-            // 
-            this.button_set_end.Location = new System.Drawing.Point(112, 109);
-            this.button_set_end.Name = "button_set_end";
-            this.button_set_end.Size = new System.Drawing.Size(56, 23);
-            this.button_set_end.TabIndex = 13;
-            this.button_set_end.Text = "Set End";
-            this.toolTip1.SetToolTip(this.button_set_end, "Sets a new ending point (x<800, y<600)");
-            this.button_set_end.UseVisualStyleBackColor = true;
-            this.button_set_end.Click += new System.EventHandler(this.button_set_end_Click);
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(175, 83);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(72, 17);
-            this.radioButton1.TabIndex = 14;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Start Conf";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(175, 109);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(69, 17);
-            this.radioButton2.TabIndex = 15;
-            this.radioButton2.Text = "End Conf";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -438,15 +439,15 @@
             this.Name = "Form1";
             this.Text = "Navigation";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.counter_axle)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar0)).EndInit();
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

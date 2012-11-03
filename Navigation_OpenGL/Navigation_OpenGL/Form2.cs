@@ -45,9 +45,6 @@ namespace Navigation_OpenGL
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT);
             Gl.glPointSize(2);
 
-            Drawings.draw_lines();
-            // Draw points after lines so they are on top
-            Drawings.draw_points();
 
             Drawings.draw_measure(10, 75);
         }

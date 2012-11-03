@@ -68,47 +68,6 @@ namespace Navigation_OpenGL
             GL.Disable(EnableCap.Texture2D);
         }
 
-        // Marked for Removal
-        // Draws the axle point X as well as start/end of the vehicle part M and L for each axle. X is red, M and L are blue. As always, L[i] = M[i-1], except for L[0]
-        public static void draw_points()
-        {
-            double x = 30;
-
-            for (int i = 0; i < Variables.vehicle_size; i++)
-            {
-                Gl.glColor3d(1, 0, 0);
-                Gl.glBegin(Gl.GL_POINTS);
-                Gl.glVertex2d(x, 42);
-                Gl.glEnd();
-
-                Gl.glColor3d(0, 1, 1);
-                Gl.glBegin(Gl.GL_POINTS);
-                Gl.glVertex2d(x - Variables.vehicle.L[i], 42);
-                Gl.glVertex2d(x + Variables.vehicle.M[i], 42);
-                Gl.glEnd();
-                if (i + 1 < Variables.vehicle_size)
-                    x += Variables.vehicle.M[i] + Variables.vehicle.L[i + 1];
-            }
-        }
-
-        // Marked for Removal
-        // Draws the lines M and L for each axle in white
-        public static void draw_lines()
-        {
-            double x = 30;
-
-            for (int i = 0; i < Variables.vehicle_size; i++)
-            {
-                Gl.glColor3d(1, 1, 1);
-                Gl.glBegin(Gl.GL_LINES);
-                Gl.glVertex2d(x - Variables.vehicle.L[i], 42);
-                Gl.glVertex2d(x + Variables.vehicle.M[i], 42);
-                Gl.glEnd();
-                if (i + 1 < Variables.vehicle_size)
-                    x += Variables.vehicle.M[i] + Variables.vehicle.L[i + 1];
-            }
-        }
-
         /**
          * The Following functions calculate and draw the axles. 
          * In this, X will refer to the axle point, described by the coordinates X(x,y),
@@ -126,31 +85,60 @@ namespace Navigation_OpenGL
         // Draws and saves the point M
         public static void drawM(double x, double y, int i)
         {
-            Variables.configuration_start.Mx[i] = x;
-            Variables.configuration_start.My[i] = y;
+            if (Variables.config_start)
+            {
+                Variables.configuration_start.Mx[i] = x;
+                Variables.configuration_start.My[i] = y;
+            }
+            else
+            {
+                Variables.configuration_end.Mx[i] = x;
+                Variables.configuration_end.My[i] = y;
+            }
 
             GL.Color3(Color.Black);
             GL.Begin(BeginMode.Lines);
             GL.Vertex2(x, y);
-            GL.Vertex2(Variables.configuration_start.X[i], Variables.configuration_start.Y[i]);
+            if (Variables.config_start)
+                GL.Vertex2(Variables.configuration_start.X[i], Variables.configuration_start.Y[i]);
+            else
+                GL.Vertex2(Variables.configuration_end.X[i], Variables.configuration_end.Y[i]);
             GL.End();
         }
 
         // Draws and saves the point X
         public static void drawL(double x, double y, int i)
         {
-            Variables.configuration_start.X[i] = x;
-            Variables.configuration_start.Y[i] = y;
+            if (Variables.config_start)
+            {
+                Variables.configuration_start.X[i] = x;
+                Variables.configuration_start.Y[i] = y;
 
-            GL.Color3(Color.Black);
-            GL.Begin(BeginMode.Lines);
-            GL.Vertex2(x, y);
-            // For i=0 the line has to be drawn from the fixed starting point since there is no previous M
-            if (i==0)
-                GL.Vertex2(Variables.start.x,Variables.start.y);
+                GL.Color3(Color.Black);
+                GL.Begin(BeginMode.Lines);
+                GL.Vertex2(x, y);
+                // For i=0 the line has to be drawn from the fixed starting point since there is no previous M
+                if (i == 0)
+                    GL.Vertex2(Variables.start.x, Variables.start.y);
+                else
+                    GL.Vertex2(Variables.configuration_start.Mx[i - 1], Variables.configuration_start.My[i - 1]);
+                GL.End();
+            }
             else
-                GL.Vertex2(Variables.configuration_start.Mx[i - 1], Variables.configuration_start.My[i - 1]);
-            GL.End();
+            {
+                Variables.configuration_end.X[i] = x;
+                Variables.configuration_end.Y[i] = y;
+                GL.Color3(Color.Black);
+                GL.Begin(BeginMode.Lines);
+                GL.Vertex2(x, y);
+                // For i=0 the line has to be drawn from the fixed starting point since there is no previous M
+                if (i == 0)
+                    GL.Vertex2(Variables.end.x, Variables.end.y);
+                else
+                    GL.Vertex2(Variables.configuration_end.Mx[i - 1], Variables.configuration_end.My[i - 1]);
+                GL.End();
+            }
+
         }
 
         // Calculates, draws and saves the value for either M (X to M) or X (L to X), depending on the given function getL or getM
@@ -161,11 +149,15 @@ namespace Navigation_OpenGL
             var start = getStart(i);
             double x = start.Key;
             double y = start.Value;
-
+            double angle = 0;
 
             // Gets the angle and checks how to calculate the new point
-            double angle = Variables.configuration_start.Theta[i];
-            switch (Variables.configuration_start.Theta[i])
+            if (Variables.config_start)
+                angle = Variables.configuration_start.Theta[i];
+            else
+                angle = Variables.configuration_end.Theta[i];
+
+            switch (Convert.ToInt32(angle))
             {
                 case 0:
                     x -= save_variable(i);
