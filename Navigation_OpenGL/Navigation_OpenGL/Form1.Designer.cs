@@ -62,6 +62,7 @@
             this.open_vehicle = new System.Windows.Forms.OpenFileDialog();
             this.open_config = new System.Windows.Forms.OpenFileDialog();
             this.save_config = new System.Windows.Forms.SaveFileDialog();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -160,6 +161,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage1.Controls.Add(this.textBox2);
             this.tabPage1.Controls.Add(this.button_load);
             this.tabPage1.Controls.Add(this.textBox1);
             this.tabPage1.Controls.Add(this.driveButton);
@@ -429,6 +431,13 @@
             this.save_config.Title = "Save Configuration";
             this.save_config.FileOk += new System.ComponentModel.CancelEventHandler(this.save_config_FileOk);
             // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(93, 64);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 13;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -487,6 +496,7 @@
         private System.Windows.Forms.TextBox text_start;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
 

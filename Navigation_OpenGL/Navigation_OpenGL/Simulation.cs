@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Tao.OpenGl;
+using OpenTK.Graphics.OpenGL;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Navigation_OpenGL
 {
@@ -153,13 +156,48 @@ namespace Navigation_OpenGL
 
         public void draw()
         {
-            Gl.glColor3d(0, 1, 1);
-
-            Gl.glBegin(Gl.GL_LINE_STRIP);
-            //Gl.glVertex2d(0, 0);
+            GL.Color3(Color.SkyBlue);
+            GL.Begin(BeginMode.LineStrip);
             foreach (EZPathFollowing.Point2D point in traj)
-                Gl.glVertex2d(point.x, point.y);
-            Gl.glEnd();
+                {
+                GL.Vertex2(point.x, point.y);
+                }
+            GL.End();
+        }
+
+        // The following 3 functions return an array representation of the path, this can be matched against the array representing the map
+        
+        // Simplest case, just the path
+        public bool[,] getPath()
+        {
+            int x, y = 0;
+            bool[,] path = new bool[1024, 512];
+            foreach (EZPathFollowing.Point2D point in traj)
+            {
+                x = Convert.ToInt32(point.x);
+                y = Convert.ToInt32(point.y);
+                if (x >= 0 && y >= 0 && x < 1024 && y < 512)
+                {
+                    path[x, y] = true;
+                }
+            }
+            return path;
+        }
+
+        // Returns a the path, but wider by a fixed factor (since the vehicle isn't a line)
+        public bool[,] getPath(int width)
+        {
+            bool[,] path = new bool[1024, 512];
+            // Do Stuff
+            return path;
+        }
+
+        // Returns the path with the actual width instead of a fixed one, taking vehicle width and veering into account
+        public bool[,] getActualPath()
+        {
+            bool[,] path = new bool[1024, 512];
+            // Do Stuff
+            return path;
         }
 
         public void reset()

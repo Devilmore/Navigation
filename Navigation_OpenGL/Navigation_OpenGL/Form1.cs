@@ -82,6 +82,7 @@ namespace Navigation_OpenGL
             {
                 for (int y = 0; y < 512; y++)
                 {
+                    // Sets a field to false if it is black on the map ( if it's a wall)
                     map[x,y] = (image.GetPixel(x,y) == Color.Black) ? false : true;
                 }
             }
@@ -129,6 +130,21 @@ namespace Navigation_OpenGL
             Variables.simulation = new Simulation(Variables.vehicle, Variables.path);
             Variables.simulation.run();
             this.glControl1.Refresh();
+
+            // Temporary collision detection
+            bool[,] path = Variables.simulation.getPath();
+            bool[,] map = createMap(image);
+            int hits = 0;
+            for (int i = 0; i < path.GetUpperBound(0); i++)
+            {
+                for (int j = 0; j < path.GetUpperBound(1); j++)
+                {
+                    if (path[i, j] && !map[i, j])
+                        hits++;
+                }
+            }
+
+            textBox2.Text = hits.ToString();
         }
 
         // Initial OpenGL function called on startup
