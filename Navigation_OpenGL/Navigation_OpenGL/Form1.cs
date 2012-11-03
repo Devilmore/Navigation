@@ -56,34 +56,24 @@ namespace Navigation_OpenGL
 
         }
         
-        // Stub
+        // Tooltip
         private void toolTip1_Popup(object sender, PopupEventArgs e)
         {
-        }
-
-        // Creates a NonIndexed Image from the given Image, this is needed for createMap. Move to Fitness Class later
-        public Bitmap CreateNonIndexedImage(Image src)
-        {
-            Bitmap newBmp = new Bitmap(src.Width, src.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-            using (Graphics gfx = Graphics.FromImage(newBmp))
-            {
-                gfx.DrawImage(src, 0, 0);
-            }
-
-            return newBmp;
         }
 
         // Creates a boolean array from the given map. This is needed for the fitness function. Move to Fitness Class later
         public bool[,] createMap(Bitmap image)
         {
             bool[,] map = new bool[1024, 512];
+
+            // Convert to ARGB since otherwise black on the image isn't euqal to Color.black
+            int black = Color.Black.ToArgb();
             for (int x = 0; x < 1024; x++)
             {
                 for (int y = 0; y < 512; y++)
                 {
                     // Sets a field to false if it is black on the map ( if it's a wall)
-                    map[x,y] = (image.GetPixel(x,y) == Color.Black) ? false : true;
+                    map[x,y] = (image.GetPixel(x,y).ToArgb() == black) ? false : true;
                 }
             }
             return map;
@@ -131,20 +121,8 @@ namespace Navigation_OpenGL
             Variables.simulation.run();
             this.glControl1.Refresh();
 
-            // Temporary collision detection
-            bool[,] path = Variables.simulation.getPath();
-            bool[,] map = createMap(image);
-            int hits = 0;
-            for (int i = 0; i < path.GetUpperBound(0); i++)
-            {
-                for (int j = 0; j < path.GetUpperBound(1); j++)
-                {
-                    if (path[i, j] && !map[i, j])
-                        hits++;
-                }
-            }
-
-            textBox2.Text = hits.ToString();
+            // Writes the Collision count to the textbox. Actually do something here later.
+            textBox2.Text = Variables.simulation.getCollisions(Variables.simulation.getPath(), createMap(image)).ToString();
         }
 
         // Initial OpenGL function called on startup

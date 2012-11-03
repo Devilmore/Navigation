@@ -165,23 +165,12 @@ namespace Navigation_OpenGL
             GL.End();
         }
 
-        // The following 3 functions return an array representation of the path, this can be matched against the array representing the map
+        // The following 3 functions return a representation of the path, this can be matched against the array representing the map
         
         // Simplest case, just the path
-        public bool[,] getPath()
+        public List<EZPathFollowing.Point2D> getPath()
         {
-            int x, y = 0;
-            bool[,] path = new bool[1024, 512];
-            foreach (EZPathFollowing.Point2D point in traj)
-            {
-                x = Convert.ToInt32(point.x);
-                y = Convert.ToInt32(point.y);
-                if (x >= 0 && y >= 0 && x < 1024 && y < 512)
-                {
-                    path[x, y] = true;
-                }
-            }
-            return path;
+            return traj;
         }
 
         // Returns a the path, but wider by a fixed factor (since the vehicle isn't a line)
@@ -200,6 +189,34 @@ namespace Navigation_OpenGL
             return path;
         }
 
+        // Returns the number of collisions between a given path and a given map
+        public int getCollisions(List<EZPathFollowing.Point2D> path, bool[,] map)
+        {
+            int count = 0; 
+            int x, y = 0;
+            foreach (EZPathFollowing.Point2D point in path)
+            {
+                // Get int values
+                x = Convert.ToInt32(point.x);
+                y = Convert.ToInt32(point.y);
+
+                // If vehicle leaves the map, count up. May split this into an extra counter later
+                if (x < 0 || y < 0 || x > map.GetUpperBound(0) || y > map.GetUpperBound(1))
+                {
+                    count++;
+                }
+                // If the point isn't of the map it can be checked for collision
+                else
+                {
+                    // map[x,y] == false means there is a wall, thus counter++
+                    if (map[x, y] == false)
+                        count++;
+                }
+            }
+            return count;
+        }
+
+        // Resets the path
         public void reset()
         {
             traj = new List<EZPathFollowing.Point2D>();
