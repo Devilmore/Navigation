@@ -27,6 +27,9 @@ namespace Navigation_OpenGL
             // Adds the default box for the default axle to the array
             Variables.axles[0] = text_axle0;
 
+            // Creates the map for the Fitness function
+            Variables.map = createMap(image);
+
             // Draws and fills all the boxes
             to_boxes();
 
@@ -122,7 +125,7 @@ namespace Navigation_OpenGL
             this.glControl1.Refresh();
 
             // Writes the Collision count to the textbox. Actually do something here later.
-            textBox2.Text = Variables.simulation.getCollisions(Variables.simulation.getPath(), createMap(image)).ToString();
+            //textBox2.Text = FitnessFunction.getCollisions(Variables.simulation.getPath(), createMap(image)).ToString();
         }
 
         // Initial OpenGL function called on startup

@@ -107,6 +107,11 @@ namespace Navigation_OpenGL.EZPathFollowing
             return (Math.Abs(point1.x - point2.x) < 1 && Math.Abs(point1.y - point2.y) < 1);
         }
 
+        public static bool closeTo(Point2D point1, Point2D point2, int delta)
+        {
+            return (Math.Abs(point1.x - point2.x) < delta && Math.Abs(point1.y - point2.y) < delta);
+        }
+
         // This function searches for an endpoint with the give length as a distance to the startpoint
         // This does not fit the given datastructure at all, replace later if possible.
         // 1 meter is euqal to 27 pixels, the length here is calculated in pixels.

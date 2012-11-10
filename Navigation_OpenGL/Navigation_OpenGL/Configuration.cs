@@ -52,6 +52,11 @@ namespace Navigation_OpenGL
             Ly = ly;
         }
 
+        public EZPathFollowing.Point2D getPoint(int i)
+        {
+            return new EZPathFollowing.Point2D(X[i],Y[i]);
+        }
+
         /**
         public configuration next_conf(configuration prev_conf, double delta_angle)
         {

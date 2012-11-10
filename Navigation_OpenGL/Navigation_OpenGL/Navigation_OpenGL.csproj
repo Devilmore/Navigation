@@ -50,7 +50,8 @@
     <Reference Include="Tao.Platform.Windows, Version=1.0.0.5, Culture=neutral, PublicKeyToken=701104b2da67a104" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class_Configuration.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="FitnessFunction.cs" />
     <Compile Include="Genome.cs" />
     <Compile Include="GenomePart.cs" />
     <Compile Include="Vehicle.cs" />

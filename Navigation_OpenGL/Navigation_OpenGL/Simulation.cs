@@ -189,33 +189,6 @@ namespace Navigation_OpenGL
             return path;
         }
 
-        // Returns the number of collisions between a given path and a given map
-        public int getCollisions(List<EZPathFollowing.Point2D> path, bool[,] map)
-        {
-            int count = 0; 
-            int x, y = 0;
-            foreach (EZPathFollowing.Point2D point in path)
-            {
-                // Get int values
-                x = Convert.ToInt32(point.x);
-                y = Convert.ToInt32(point.y);
-
-                // If vehicle leaves the map, count up. May split this into an extra counter later
-                if (x < 0 || y < 0 || x > map.GetUpperBound(0) || y > map.GetUpperBound(1))
-                {
-                    count++;
-                }
-                // If the point isn't of the map it can be checked for collision
-                else
-                {
-                    // map[x,y] == false means there is a wall, thus counter++
-                    if (map[x, y] == false)
-                        count++;
-                }
-            }
-            return count;
-        }
-
         // Resets the path
         public void reset()
         {
