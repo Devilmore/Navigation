@@ -9,13 +9,35 @@ namespace Navigation_OpenGL
     // This class contains the entire genome of a given path and functions to new PathParts to the genome
     public class Genome
     {
-        BitArray genome;
-        int length;
+        private BitArray genome;
+
+        public BitArray Genome1
+        {
+            get { return genome; }
+            set { genome = value; }
+        }
+
+        private int length;
 
         public Genome()
         {
             genome = new BitArray(160); // Empty bit array with 160 bit (20 PathParts), all set to false. 
             length = 0; // Number of PathParts already added to this genome, maximum 19
+        }
+
+        // Random Genome function. Make this faster later
+        public Genome(bool random)
+        {
+            if (random)
+            {
+                bool k;
+                genome = new BitArray(160);
+                for (int i = 0; i<160; i++)
+                {
+                    k = Variables.getRandomBoolean();
+                    genome.Set(i, k);
+                }
+            }
         }
 
         public void add(GenomePart value)

@@ -52,8 +52,10 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="FitnessFunction.cs" />
+    <Compile Include="GeneticAlgorithm.cs" />
     <Compile Include="Genome.cs" />
     <Compile Include="GenomePart.cs" />
+    <Compile Include="Population.cs" />
     <Compile Include="Vehicle.cs" />
     <Compile Include="Drawings.cs" />
     <Compile Include="EZPathFollowing\AggregatedPath.cs" />

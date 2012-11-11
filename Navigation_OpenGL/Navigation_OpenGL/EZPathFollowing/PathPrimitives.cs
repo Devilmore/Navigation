@@ -238,5 +238,26 @@ namespace Navigation_OpenGL.EZPathFollowing
 
             return temp;
         }
+
+        // Generates a path of length 20 and returns it as a list
+        public static LinkedList<PathPart> generatePath()
+        {
+            int pathlength = 0;
+            LinkedList<PathPart> path = new LinkedList<PathPart>();
+
+            for (int i = 0; i < 20; i++)
+            {
+                EZPathFollowing.PathPart temp;
+                if (pathlength == 0)
+                    temp = EZPathFollowing.PathPrimitives.getRandomPathPart(Variables.start, Variables.direction);
+                else
+                    temp = EZPathFollowing.PathPrimitives.getRandomPathPart();
+
+                path.AddLast(temp);
+                pathlength++;
+            }
+
+            return path;
+        }
     }
 }

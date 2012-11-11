@@ -55,18 +55,6 @@ namespace Navigation_OpenGL.EZPathFollowing
             return m_direction;
         }
 
-        //// Returns the Orientation at the end of the path
-        //public double endOrientation()
-        //{
-        //    return orientation(pathlength());
-        //}
-
-        //// Returns the Orientation at the beginning of the path
-        //public double startOrientation()
-        //{
-        //    return orientation(0.0);
-        //}
-
         public virtual Point2D orientation()
         {
             return new Point2D(0,0);

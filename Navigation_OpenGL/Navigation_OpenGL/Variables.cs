@@ -46,10 +46,15 @@ namespace Navigation_OpenGL
         // Function for getting random numbers in a given interval
         public static double getRandomNumber(double minimum, double maximum)
         {
-            //Random random = new Random();
-            // Give System a chance to be random
             System.Threading.Thread.Sleep(5);
             return minimum + random.NextDouble() * (maximum - minimum);
+        }
+
+        // Function for getting random numbers (int) in a given interval
+        public static int getRandomInt(double minimum, double maximum)
+        {
+            System.Threading.Thread.Sleep(5);
+            return Convert.ToInt32(minimum + random.NextDouble() * (maximum - minimum));
         }
 
         // Returns a random boolean. 
