@@ -221,6 +221,12 @@ namespace Navigation_OpenGL
             }
             // End Vehicle
 
+            // Draws the ending configuration of the latest simulated path
+            if (Variables.simulation != null)
+            {
+                Drawings.drawConfiguration(configuration.getConfig(new EZPathFollowing.Point2D(Variables.x*27, Variables.y*27), Variables.orientation));
+            }
+
             // Draws start and end
             GL.PointSize(5);
 

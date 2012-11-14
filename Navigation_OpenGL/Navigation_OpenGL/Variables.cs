@@ -9,6 +9,7 @@ namespace Navigation_OpenGL
     // This class contains global variables
     class Variables
     {
+        // Lots of Initial values
         public static configuration configuration_start = new configuration();
         public static configuration configuration_end = new configuration();
         public static Vehicle vehicle = new Vehicle();
@@ -31,6 +32,11 @@ namespace Navigation_OpenGL
         public static EZPathFollowing.Point2D start = new EZPathFollowing.Point2D(225, 350);
         public static EZPathFollowing.Point2D end = new EZPathFollowing.Point2D(750, 50);
         public static double direction = 0;
+
+        // Current position and orientation of the vehicle. Calculated at the end of each Simulation. Needed for fitness function.
+        public static double x;
+        public static double y;
+        public static double[] orientation;
 
         public static void resetPath()
         {

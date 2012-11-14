@@ -67,6 +67,38 @@ namespace Navigation_OpenGL
             GL.Disable(EnableCap.Texture2D);
         }
 
+        // Draws the given configuration.
+        public static void drawConfiguration(configuration config)
+        {
+            GL.PointSize(3);
+            GL.Color3(Color.Red);
+
+            // Iterates over the configuration
+            for (int i = 0; i < Variables.vehicle_size; i++){
+                // Draws the Lines
+                GL.Begin(BeginMode.Lines);
+                // For the first element the starting point is L since there is no previous M
+                if (i == 0)
+                    GL.Vertex2(config.Lx,config.Ly);
+                // Otherwise it's the previous M
+                else
+                    GL.Vertex2(config.Mx[i-1],config.My[i-1]);
+                GL.Vertex2(config.Mx[i],config.My[i]);
+                GL.End();
+            
+                // Draws the points last so they are above the lines
+                GL.Begin(BeginMode.Points);
+                if (i == 0)
+                    GL.Vertex2(config.Lx,config.Ly);
+                GL.Vertex2(config.X[i], config.Y[i]);
+                GL.Vertex2(config.Mx[i],config.My[i]);
+                GL.End();
+            }
+        }
+
+
+        //TODO: All these functions can replaced by the above function and the getConfig function in the configuration class.
+        
         /**
          * The Following functions calculate and draw the axles. 
          * In this, X will refer to the axle point, described by the coordinates X(x,y),

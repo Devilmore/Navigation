@@ -94,6 +94,7 @@ namespace Navigation_OpenGL
                         ausrichtung_Punkt[i] = (v[i - 1] * Math.Sin(ausrichtung[i - 1] - ausrichtung[i]) - M[i - 1] * ausrichtung_Punkt[i - 1] * Math.Cos(ausrichtung[i - 1] - ausrichtung[i])) / L[i];
                         v[i] = v[i - 1] * Math.Cos(ausrichtung[i - 1] - ausrichtung[i]) + M[i - 1] * Math.Sin(ausrichtung[i - 1] - ausrichtung[i]) * ausrichtung_Punkt[i - 1];
                     }
+
                     x_Punkt[i] = v[i] * Math.Cos(ausrichtung[i]);
                     y_Punkt[i] = v[i] * Math.Sin(ausrichtung[i]);
 
@@ -104,6 +105,11 @@ namespace Navigation_OpenGL
                 }
                 traj.Add(new EZPathFollowing.Point2D(x[0]*27, y[0]*27));
             }
+
+            // Saves the position of the first vehicle part and the orientation at the end of the path for Variables for use in the fitness function
+            Variables.x = x[0];
+            Variables.y = y[0];
+            Variables.orientation = ausrichtung;
             //System.Windows.Forms.MessageBox.Show(traj[500].x.ToString()+", "+traj[500].y.ToString());
         }
 

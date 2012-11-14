@@ -13,8 +13,8 @@ namespace Navigation_OpenGL
         {
             int collisions = getCollisions(path, Variables.map);
 
-            // This makes no sense yet, it needs to be the end config of the simulated path. No idea where to get that
-            double configurationRating = rateConfigurationNoMaximum(Variables.configuration_end, Variables.configuration_start);
+            // Calculates the rating of the last simulated end configuration
+            double configurationRating = rateConfigurationNoMaximum(Variables.configuration_end, configuration.getConfig(new EZPathFollowing.Point2D(Variables.x * 27, Variables.y * 27), Variables.orientation));
 
             // Adds the Inverse of collisions and configurtionRating since those values go up for bad paths but rating should go up for good paths
             // TODO: Proper weighting

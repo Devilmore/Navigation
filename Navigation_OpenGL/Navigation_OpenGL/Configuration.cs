@@ -57,24 +57,63 @@ namespace Navigation_OpenGL
             return new EZPathFollowing.Point2D(X[i],Y[i]);
         }
 
-        /**
-        public configuration next_conf(configuration prev_conf, double delta_angle)
+        // Calculates an entire configuration from a given startpoint and orientation
+        public static configuration getConfig(EZPathFollowing.Point2D start, double[] orientation)
         {
-            // v is constant at the moment
-            double[] v = new double[] {5};
+            // New config
+            configuration configuration = new configuration();
 
-            configuration next_conf = new configuration();
-            for (int i = 0; i <= prev_conf.X.Length; i++)
+            // Current X (first axle point) is the given start
+            EZPathFollowing.Point2D X = start;
+
+            EZPathFollowing.Point2D M;
+            EZPathFollowing.Point2D L;
+
+            // Iterates over all pathparts
+            for (int i = 0; i < Variables.vehicle_size; i++)
             {
-                next_conf.Theta[i] = ((1 / ((prev_conf.L[i]) + 1)) * (v[0] * Math.Sin(delta_angle) - prev_conf.M[i] * Math.Cos(delta_angle) * prev_conf.Theta[i]));
-                next_conf.X[i] = v[0] * Math.Cos(next_conf.Theta[i]);
-                next_conf.Y[i] = v[0] * Math.Sin(next_conf.Theta[i]);
-                next_conf.M[i] = prev_conf.M[i];
-                next_conf.L[i] = prev_conf.L[i];
-                // v?
+                // Writes the axle point to the configuration
+                configuration.X[i] = X.x;
+                configuration.Y[i] = X.y;
+
+                // Writes the angle to the configuration
+                configuration.Theta[i] = Convert.ToInt32(orientation[i]);
+
+                // M is a new point to the left of X, distance M[i]
+                M = new EZPathFollowing.Point2D(X.x - Variables.vehicle.M[i], X.y);
+
+                // Rotates M around X by Theta (clockwise, starting at 9 o'clock)
+                M = EZPathFollowing.Point2D.rotateAround(M, X, configuration.Theta[i]);
+
+                // Writes M to the configuration
+                configuration.Mx[i] = M.x;
+                configuration.My[i] = M.y;
+
+                // L only has to be calculated for the first Vehicle Part since otherwise it is the same as M[i-1]
+                if (i == 0)
+                {
+                    // L is a new point to the right of X, distance L[i]
+                    L = new EZPathFollowing.Point2D(X.x + Variables.vehicle.L[i], X.y);
+
+                    // Rotates L around X by Theta (clockwise, starting at 3 o'clock)
+                    L = EZPathFollowing.Point2D.rotateAround(L, X, configuration.Theta[i]);
+
+                    configuration.Lx = L.x;
+                    configuration.Ly = L.y;
+                }
+
+                // If there is a new Vehicle Part, calculate the next X
+                if (i < Variables.vehicle_size - 1)
+                {
+                    // X[i+1] is a point to the left of the current M with the distance L[i+1]
+                    X = new EZPathFollowing.Point2D(M.x - Variables.vehicle.L[i + 1], M.y);
+
+                    // Rotates X around M by Theta[i+1] (clockwise, starting at 9 o'clock)
+                    X = EZPathFollowing.Point2D.rotateAround(X, M, configuration.Theta[i + 1]);
+                }
             }
-            return next_conf;
+
+            return configuration;
         }
-       **/
     }
 }
