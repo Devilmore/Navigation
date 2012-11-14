@@ -14,11 +14,13 @@ namespace Navigation_OpenGL
             int collisions = getCollisions(path, Variables.map);
 
             // This makes no sense yet, it needs to be the end config of the simulated path. No idea where to get that
-            double configurationRating = rateConfiguration(Variables.configuration_end, Variables.configuration_start);
+            double configurationRating = rateConfigurationNoMaximum(Variables.configuration_end, Variables.configuration_start);
 
-            // Stub, add these two values in some way and return them
+            // Adds the Inverse of collisions and configurtionRating since those values go up for bad paths but rating should go up for good paths
+            // TODO: Proper weighting
+            double rating = 1 / collisions + 1 / configurationRating;
 
-            return 0;
+            return rating;
         }
 
         // Returns the number of collisions between a given path and a given map
@@ -51,6 +53,24 @@ namespace Navigation_OpenGL
         }
 
         // Rates how close the given configuration at the end of the path is to the desired ending configuration
+        public static double rateConfigurationNoMaximum(configuration wantedConfiguration, configuration givenConfiguration)
+        {
+            double[] distances = new double[Variables.vehicle_size];
+            EZPathFollowing.LinePathPart line = null;
+
+            for (int i = 0; i < Variables.vehicle_size; i++)
+            {
+                line = new EZPathFollowing.LinePathPart(wantedConfiguration.getPoint(i), givenConfiguration.getPoint(i), false, 0, 0);
+                distances[i] = line.pathlength();
+            }
+
+            double rating = average(distances);
+
+            return rating;
+        }
+
+        // Rates how close the given configuration at the end of the path is to the desired ending configuration.
+        // This function values the first point higher than the rest and has a maximum of 100
         public static double rateConfiguration(configuration wantedConfiguration, configuration givenConfiguration)
         {
             double distance;

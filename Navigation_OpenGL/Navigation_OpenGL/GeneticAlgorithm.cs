@@ -45,16 +45,85 @@ namespace Navigation_OpenGL
 
                 // Runs all parts of the GA
                 selection();
-                crossover();
+                // singleBitCrossover();
+                eightBitCrossover();
                 mutation();
                 evaluation();
             }
         }
 
-        // This function uses Uniform Crossover. Single point crossover would be significanly faster, but also less random.
-        public void crossover()
+        // This function uses genomePart Uniform Crossover. It works like a crossover function but uses a significantly shorter mask genome
+        // because it always chooses an entire 8bit block
+        public void eightBitCrossover()
         {
-            // Site of current new generation is 40% of old generation (before crossover)
+            // Size of current new generation is 40% of old generation (before crossover)
+            int selectionSize = Convert.ToInt32(0.4 * populationSize);
+            int r;
+            Genome parent1 = new Genome();
+            Genome parent2 = new Genome();
+            char[] mask;
+            Genome child1 = new Genome();
+            Genome child2 = new Genome();
+
+            // Iterates from selection Size (current maximum of the new population) to population size, the wanted maximum. That means 60% come from crossover
+            for (int i = selectionSize; i < populationSize; i++)
+            {
+                // Randomly selects first parent
+                r = Variables.getRandomInt(0, selectionSize);
+                parent1 = oldPopulation[r].Genome;
+
+                // Randomly selects second parent
+                r = Variables.getRandomInt(0, selectionSize);
+                parent2 = oldPopulation[r].Genome;
+
+                // Crates a random mask genome in form of a char[]. char[] is much faster than bool[], genome or bitarray and for our purpose the format doesn't matter
+                mask = GenomePart.getRandomGenome();
+
+                for (int j = 0; j < 8; j++)
+                {
+                    // Checks the mask
+                    if (mask[j] == '1')
+                    {
+                        // If mask == 1 then the i'th 8bit block will be selected from parent1 for child1 and from parent2 for child2
+                        // k = j*8 since every position in the mask genome covers 8 positions in the actual genome
+                        for (int k = j * 8; k < j * 8 + 8; k++)
+                        {
+                            child1.Genome1.Set(k, parent1.Genome1.Get(k));
+                            child2.Genome1.Set(k, parent2.Genome1.Get(k));
+                        }
+                    }
+                    else
+                    {
+                        // If mask == 0 then the i'th 8bit block will be selected from parent1 for child2 and from parent2 for child1
+                        // k = j*8 since every position in the mask genome covers 8 positions in the actual genome
+                        for (int k = j * 8; k < j * 8 + 8; k++)
+                        {
+                            child1.Genome1.Set(k, parent2.Genome1.Get(k));
+                            child2.Genome1.Set(k, parent1.Genome1.Get(k));
+                        }
+                    }
+                }
+
+                // Adds the genome and its corresponding path to the population at position i
+                population[i].Genome = child1;
+                population[i].Path = Genome.genomeToPath(child1);
+
+                // Counts up since we are adding 2 children per iteration, not just one
+                i++;
+
+                // If we are not yet at maximum (which could happen due to double->int conversion) we add the second child too
+                if (i < populationSize)
+                {
+                    population[i].Genome = child2;
+                    population[i].Path = Genome.genomeToPath(child2);
+                }
+            }
+        }
+
+        // This function uses single-bit Uniform Crossover.
+        public void singleBitCrossover()
+        {
+            // Size of current new generation is 40% of old generation (before crossover)
             int selectionSize = Convert.ToInt32(0.4 * populationSize);
             int r;
             Genome parent1 = new Genome();

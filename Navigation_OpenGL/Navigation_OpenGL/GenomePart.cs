@@ -37,6 +37,11 @@ namespace Navigation_OpenGL
             return genome;
         }
 
+        //public BitArray getRandomBitArray()
+        //{
+        //    return 
+        //}
+
         public static double getDouble(bool i, bool j, bool k)
         {
             double l = (i) ? 1 : 0;
@@ -45,6 +50,34 @@ namespace Navigation_OpenGL
             double output = Math.Pow(2, l) + Math.Pow(2, m) + Math.Pow(2, n);
             output = 0.5 + output * 0.5;
             return output;
+        }
+
+        public static char[] getRandomGenome()
+        {
+            bool[] b = new bool[8];
+            int i = Variables.getRandomInt(0, 255);
+            string s = Convert.ToString(i, 2);
+            char[] values = s.ToCharArray();
+            return values;
+        }
+
+        // Faster function but doesn't work yet
+        static bool[] GetIntBinaryStringNew(double m)
+        {
+            throw new NotImplementedException();
+
+            int n = Convert.ToInt32(m);
+            string binValue = Convert.ToString(n, 2);
+            char[] values = binValue.ToCharArray();
+            bool[] b = new bool[values.Length];
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                if (values[i] == '1')
+                    b[i] = true;
+            }
+
+            return b;
         }
 
         static bool[] GetIntBinaryString(double m)
