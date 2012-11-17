@@ -10,7 +10,7 @@ namespace Navigation_OpenGL
     {
         // Saves the size of the population
         // TODO: Adjust this number
-        private static int populationSize = 100;
+        private static int populationSize = 5000;
          
         // Array representing the population, this contains the paths, genomes and ratings
         private Population[] population = new Population[populationSize];
@@ -31,7 +31,7 @@ namespace Navigation_OpenGL
 
 
         // Main Method of the GA
-        public void gaMain()
+        public bool gaMain()
         {
             initialize();
 
@@ -50,6 +50,7 @@ namespace Navigation_OpenGL
                 mutation();
                 evaluation();
             }
+            return true;
         }
 
         // This function uses genomePart Uniform Crossover. It works like a crossover function but uses a significantly shorter mask genome
@@ -61,7 +62,7 @@ namespace Navigation_OpenGL
             int r;
             Genome parent1 = new Genome();
             Genome parent2 = new Genome();
-            char[] mask;
+            bool[] mask;
             Genome child1 = new Genome();
             Genome child2 = new Genome();
 
@@ -82,7 +83,7 @@ namespace Navigation_OpenGL
                 for (int j = 0; j < 8; j++)
                 {
                     // Checks the mask
-                    if (mask[j] == '1')
+                    if (mask[j])
                     {
                         // If mask == 1 then the i'th 8bit block will be selected from parent1 for child1 and from parent2 for child2
                         // k = j*8 since every position in the mask genome covers 8 positions in the actual genome
@@ -251,36 +252,51 @@ namespace Navigation_OpenGL
 
         public void evaluation()
         {
+            // Gets Form1 for output
+            var form = Form1.ActiveForm as Form1;
+
             // Creates a Simulation and a rating for each path in the current population and adds it to the ratings List
             for (int i = 0; i < populationSize; i++)
             {
                 tempSimulation = new Simulation(Variables.vehicle, population[i].Path);
                 population[i].Rating = FitnessFunction.fitness(tempSimulation.getPath());
+
+                // Writes the path to the global Variable for drawing
+                Variables.path = population[i].Path;
+
+                // Draws
+                form.glControl1.Refresh();
+
+                // Writes the genome to the textbox
+                form.textBox1.Text = population[i].Genome.write();
             }
         }
 
         public void initialize()
         {
+            double rating;
+
             // Generates an initial population of size <PopulationSize> along with their fitness
             for (int i = 0; i < populationSize; i++)
             {
-                // Resets the global genome. Might wanna fix this later
-                Variables.genome = new Genome();
-
-                // Generates a random path of length 20
-                tempPath = EZPathFollowing.PathPrimitives.generatePath();
-
-                // Adds it to the population
-                population[i].Path = tempPath;
-
-                // Adds the corresponding genome
-                population[i].Genome = Variables.genome;
+                // Generates a random path of length 20 and saves it to the global path
+                EZPathFollowing.PathPrimitives.generatePath();
 
                 // Creates a Simulation for this path
-                tempSimulation = new Simulation(Variables.vehicle, tempPath);
+                Variables.simulation = new Simulation(Variables.vehicle, Variables.path);
+                Variables.simulation.run();
 
                 // Rates the Path and adds the rating to the ratings List
-                population[i].Rating = FitnessFunction.fitness(tempSimulation.getPath());
+                rating = FitnessFunction.fitness(Variables.simulation.getPath());
+
+                // Adds the path, genome and rating to the population
+                population[i] = new Population(Variables.path, Variables.genome, rating);
+
+                // Gets Form1 for output
+                var form = Form1.ActiveForm as Form1;
+
+                // Draws
+                form.glControl1.Refresh();
             }
         }
     }

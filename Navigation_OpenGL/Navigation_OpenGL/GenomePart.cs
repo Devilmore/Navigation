@@ -52,13 +52,20 @@ namespace Navigation_OpenGL
             return output;
         }
 
-        public static char[] getRandomGenome()
+        public static bool[] getRandomGenome()
         {
             bool[] b = new bool[8];
             int i = Variables.getRandomInt(0, 255);
             string s = Convert.ToString(i, 2);
             char[] values = s.ToCharArray();
-            return values;
+
+            for (int j = 0; j < values.Length; j++)
+            {
+                if (values[j] == '1')
+                    b[j] = true;
+            }
+
+            return b;
         }
 
         // Faster function but doesn't work yet

@@ -240,24 +240,25 @@ namespace Navigation_OpenGL.EZPathFollowing
         }
 
         // Generates a path of length 20 and returns it as a list
-        public static LinkedList<PathPart> generatePath()
+        public static void generatePath()
         {
-            int pathlength = 0;
-            LinkedList<PathPart> path = new LinkedList<PathPart>();
+            // Resets the Path, Genome and Simulation before calculating the new ones
+            Variables.resetGenome();
+            Variables.resetPath();
+            if (Variables.simulation != null)
+                Variables.simulation.reset();
 
             for (int i = 0; i < 20; i++)
             {
                 EZPathFollowing.PathPart temp;
-                if (pathlength == 0)
+                if (Variables.pathlength == 0)
                     temp = EZPathFollowing.PathPrimitives.getRandomPathPart(Variables.start, Variables.direction);
                 else
                     temp = EZPathFollowing.PathPrimitives.getRandomPathPart();
 
-                path.AddLast(temp);
-                pathlength++;
+                Variables.path.AddLast(temp);
+                Variables.pathlength++;
             }
-
-            return path;
         }
     }
 }

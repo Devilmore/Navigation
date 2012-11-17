@@ -39,6 +39,7 @@
             this.button_save_vehicle = new System.Windows.Forms.Button();
             this.button_load_vehicle = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.driveButton = new System.Windows.Forms.Button();
             this.button_path = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -62,7 +63,7 @@
             this.open_vehicle = new System.Windows.Forms.OpenFileDialog();
             this.open_config = new System.Windows.Forms.OpenFileDialog();
             this.save_config = new System.Windows.Forms.SaveFileDialog();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.button_start = new System.Windows.Forms.Button();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -161,6 +162,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage1.Controls.Add(this.button_start);
             this.tabPage1.Controls.Add(this.textBox2);
             this.tabPage1.Controls.Add(this.button_load);
             this.tabPage1.Controls.Add(this.textBox1);
@@ -173,6 +175,13 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.toolTip1.SetToolTip(this.tabPage1, "General Settings and Information");
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(93, 64);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 13;
             // 
             // driveButton
             // 
@@ -431,12 +440,15 @@
             this.save_config.Title = "Save Configuration";
             this.save_config.FileOk += new System.ComponentModel.CancelEventHandler(this.save_config_FileOk);
             // 
-            // textBox2
+            // button_start
             // 
-            this.textBox2.Location = new System.Drawing.Point(93, 64);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 13;
+            this.button_start.Location = new System.Drawing.Point(88, 7);
+            this.button_start.Name = "button_start";
+            this.button_start.Size = new System.Drawing.Size(75, 23);
+            this.button_start.TabIndex = 14;
+            this.button_start.Text = "Start";
+            this.button_start.UseVisualStyleBackColor = true;
+            this.button_start.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
@@ -466,14 +478,12 @@
         private System.Windows.Forms.Timer timer_load;
         private System.Windows.Forms.Button button_load;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button_path;
         private System.Windows.Forms.Button driveButton;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
-        private OpenTK.GLControl glControl1;
         private System.Windows.Forms.TextBox text_explanation;
         private System.Windows.Forms.TextBox text_axle0;
         private System.Windows.Forms.Button button_add_axle;
@@ -497,6 +507,9 @@
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button_start;
+        public OpenTK.GLControl glControl1;
+        public System.Windows.Forms.TextBox textBox1;
     }
 }
 

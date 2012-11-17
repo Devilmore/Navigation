@@ -18,6 +18,10 @@ namespace Navigation_OpenGL
 
             // Adds the Inverse of collisions and configurtionRating since those values go up for bad paths but rating should go up for good paths
             // TODO: Proper weighting
+            if (collisions == 0)
+                collisions = 1;
+            if (configurationRating == 0)
+                configurationRating = 1;
             double rating = 1 / collisions + 1 / configurationRating;
 
             return rating;

@@ -16,7 +16,7 @@ namespace Navigation_OpenGL
     {
         // Loads the map
         Bitmap image = new Bitmap("C:\\Users\\Andreas\\Dropbox\\Uni Projects\\BachelorThesis\\Navigation\\Navigation_OpenGL\\Navigation_OpenGL\\Resources\\Map_512.bmp");
-        
+        GeneticAlgorithm ga = null;
         
         public Form1()
         {
@@ -110,9 +110,6 @@ namespace Navigation_OpenGL
 
             // Draws everything
             this.glControl1.Refresh();
-
-            // Writes the genome to the textbox
-            this.textBox1.Text = Variables.genome.write();
         }
 
         // Creates a Simulation for Path and draws it
@@ -143,9 +140,16 @@ namespace Navigation_OpenGL
             GL.Viewport(0, 0, w, h);
         }
 
-        // Drawing function, called by Refresh()
-        private void glControl1_Paint(object sender, PaintEventArgs e)
+        public static void draw()
         {
+        }
+
+        // Drawing function, called by Refresh()
+        public void glControl1_Paint(object sender, PaintEventArgs e)
+        {
+            // Writes the genome to the textbox
+            this.textBox1.Text = Variables.genome.write();
+
             // Clears
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
@@ -667,6 +671,12 @@ namespace Navigation_OpenGL
                 Variables.config_start = false;
                 this.glControl1.Refresh();
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ga = new GeneticAlgorithm();
+            ga.gaMain();
         }
     }
 }
