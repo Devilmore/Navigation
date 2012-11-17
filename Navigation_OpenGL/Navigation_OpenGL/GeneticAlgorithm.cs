@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using System.ComponentModel;
 
 namespace Navigation_OpenGL
 {
@@ -10,7 +11,7 @@ namespace Navigation_OpenGL
     {
         // Saves the size of the population
         // TODO: Adjust this number
-        private static int populationSize = 5000;
+        private static int populationSize = 500;
          
         // Array representing the population, this contains the paths, genomes and ratings
         private Population[] population = new Population[populationSize];
@@ -28,11 +29,16 @@ namespace Navigation_OpenGL
         // Temporary path
         private LinkedList<EZPathFollowing.PathPart> tempPath = new LinkedList<EZPathFollowing.PathPart>();
 
+        private int highestPercentageReached = 0;
+
 
 
         // Main Method of the GA
-        public bool gaMain()
+        public bool gaMain(BackgroundWorker worker, DoWorkEventArgs e)
         {
+            var form = Form1.ActiveForm as Form1;
+            form.textBox3.Text = generationCount.ToString();
+
             initialize();
 
             while (generationCount < maxGenerationCount)
@@ -49,6 +55,14 @@ namespace Navigation_OpenGL
                 eightBitCrossover();
                 mutation();
                 evaluation();
+
+                // Calculates current progress and reports it if any progress was made
+                int percentComplete = generationCount / maxGenerationCount;
+                if (percentComplete > highestPercentageReached)
+                {
+                    highestPercentageReached = percentComplete;
+                    worker.ReportProgress(percentComplete);
+                }
             }
             return true;
         }
@@ -189,7 +203,7 @@ namespace Navigation_OpenGL
             int j;
 
             // Calculates toal Fitness of the old population
-            for (int i =0; i < populationSize; i++)
+            for (int i = 0; i < populationSize; i++)
             {
                 totalFitness += oldPopulation[i].Rating;
             }
@@ -197,7 +211,7 @@ namespace Navigation_OpenGL
             // New Population consists of 40% Selection
             int selectionSize = Convert.ToInt32(0.4 * populationSize);
 
-            // Creates <selectionSite> new members for the new population
+            // Creates <selectionSize> new members for the new population
             for (int i = 0; i < selectionSize; i++)
             {
                 // Random Number
@@ -264,11 +278,14 @@ namespace Navigation_OpenGL
                 // Writes the path to the global Variable for drawing
                 Variables.path = population[i].Path;
 
-                // Draws
-                form.glControl1.Refresh();
-
-                // Writes the genome to the textbox
-                form.textBox1.Text = population[i].Genome.write();
+                // Draws. Catches the NullReferenceException that occurs when you switch windows away from the program and ignores it entirely.
+                try
+                {
+                    form.glControl1.Refresh();
+                }
+                catch (NullReferenceException)
+                {
+                }
             }
         }
 
@@ -295,8 +312,14 @@ namespace Navigation_OpenGL
                 // Gets Form1 for output
                 var form = Form1.ActiveForm as Form1;
 
-                // Draws
-                form.glControl1.Refresh();
+                // Draws. Catches the NullReferenceException that occurs when you switch windows away from the program and ignores it entirely.
+                try
+                {
+                    form.glControl1.Refresh();
+                }
+                catch (NullReferenceException)
+                {
+                }
             }
         }
     }

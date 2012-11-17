@@ -39,6 +39,10 @@
             this.button_save_vehicle = new System.Windows.Forms.Button();
             this.button_load_vehicle = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.bar_algorithm_progress = new System.Windows.Forms.ProgressBar();
+            this.button_cancel = new System.Windows.Forms.Button();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.button_start = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.driveButton = new System.Windows.Forms.Button();
             this.button_path = new System.Windows.Forms.Button();
@@ -63,7 +67,7 @@
             this.open_vehicle = new System.Windows.Forms.OpenFileDialog();
             this.open_config = new System.Windows.Forms.OpenFileDialog();
             this.save_config = new System.Windows.Forms.SaveFileDialog();
-            this.button_start = new System.Windows.Forms.Button();
+            this.geneticalgorithm = new System.ComponentModel.BackgroundWorker();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -74,7 +78,7 @@
             // 
             // timer_load
             // 
-            this.timer_load.Interval = 1000;
+            this.timer_load.Interval = 10;
             this.timer_load.Tick += new System.EventHandler(this.timer_load_Tick);
             // 
             // button_load
@@ -162,6 +166,9 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage1.Controls.Add(this.bar_algorithm_progress);
+            this.tabPage1.Controls.Add(this.button_cancel);
+            this.tabPage1.Controls.Add(this.textBox3);
             this.tabPage1.Controls.Add(this.button_start);
             this.tabPage1.Controls.Add(this.textBox2);
             this.tabPage1.Controls.Add(this.button_load);
@@ -175,6 +182,41 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.toolTip1.SetToolTip(this.tabPage1, "General Settings and Information");
+            // 
+            // bar_algorithm_progress
+            // 
+            this.bar_algorithm_progress.Location = new System.Drawing.Point(93, 91);
+            this.bar_algorithm_progress.Name = "bar_algorithm_progress";
+            this.bar_algorithm_progress.Size = new System.Drawing.Size(151, 23);
+            this.bar_algorithm_progress.TabIndex = 17;
+            // 
+            // button_cancel
+            // 
+            this.button_cancel.Enabled = false;
+            this.button_cancel.Location = new System.Drawing.Point(169, 7);
+            this.button_cancel.Name = "button_cancel";
+            this.button_cancel.Size = new System.Drawing.Size(75, 23);
+            this.button_cancel.TabIndex = 16;
+            this.button_cancel.Text = "Cancel";
+            this.button_cancel.UseVisualStyleBackColor = true;
+            this.button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(169, 35);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(39, 20);
+            this.textBox3.TabIndex = 15;
+            // 
+            // button_start
+            // 
+            this.button_start.Location = new System.Drawing.Point(88, 7);
+            this.button_start.Name = "button_start";
+            this.button_start.Size = new System.Drawing.Size(75, 23);
+            this.button_start.TabIndex = 14;
+            this.button_start.Text = "Start";
+            this.button_start.UseVisualStyleBackColor = true;
+            this.button_start.Click += new System.EventHandler(this.button_start_Click);
             // 
             // textBox2
             // 
@@ -440,15 +482,11 @@
             this.save_config.Title = "Save Configuration";
             this.save_config.FileOk += new System.ComponentModel.CancelEventHandler(this.save_config_FileOk);
             // 
-            // button_start
+            // geneticalgorithm
             // 
-            this.button_start.Location = new System.Drawing.Point(88, 7);
-            this.button_start.Name = "button_start";
-            this.button_start.Size = new System.Drawing.Size(75, 23);
-            this.button_start.TabIndex = 14;
-            this.button_start.Text = "Start";
-            this.button_start.UseVisualStyleBackColor = true;
-            this.button_start.Click += new System.EventHandler(this.button1_Click);
+            this.geneticalgorithm.DoWork += new System.ComponentModel.DoWorkEventHandler(this.geneticalgorithm_DoWork);
+            this.geneticalgorithm.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.geneticalgorithm_ProgressChanged);
+            this.geneticalgorithm.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.geneticalgorithm_RunWorkerCompleted);
             // 
             // Form1
             // 
@@ -510,6 +548,10 @@
         private System.Windows.Forms.Button button_start;
         public OpenTK.GLControl glControl1;
         public System.Windows.Forms.TextBox textBox1;
+        public System.Windows.Forms.TextBox textBox3;
+        private System.ComponentModel.BackgroundWorker geneticalgorithm;
+        private System.Windows.Forms.Button button_cancel;
+        private System.Windows.Forms.ProgressBar bar_algorithm_progress;
     }
 }
 

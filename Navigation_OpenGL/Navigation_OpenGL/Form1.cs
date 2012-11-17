@@ -16,11 +16,13 @@ namespace Navigation_OpenGL
     {
         // Loads the map
         Bitmap image = new Bitmap("C:\\Users\\Andreas\\Dropbox\\Uni Projects\\BachelorThesis\\Navigation\\Navigation_OpenGL\\Navigation_OpenGL\\Resources\\Map_512.bmp");
-        GeneticAlgorithm ga = null;
-        
+
         public Form1()
         {
             InitializeComponent();
+
+            // Turn of CorssThread warnings because we can
+            CheckForIllegalCrossThreadCalls = false;
 
             // Adds the default box for the default axle to the array
             Variables.axles[0] = text_axle0;
@@ -673,10 +675,79 @@ namespace Navigation_OpenGL
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void geneticalgorithm_DoWork(object sender, DoWorkEventArgs e)
         {
-            ga = new GeneticAlgorithm();
-            ga.gaMain();
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            GeneticAlgorithm ga = new GeneticAlgorithm();
+            e.Result = ga.gaMain(worker, e);
+        }
+
+        private void geneticalgorithm_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            bar_algorithm_progress.Value = e.ProgressPercentage;
+        }
+
+        private void geneticalgorithm_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+                // An Error occured
+            if (e.Error != null)
+            {
+                MessageBox.Show(e.Error.Message);
+            }
+                // The Algorithm was canceled
+            else if (e.Cancelled)
+            {
+                MessageBox.Show("Canceled");
+            }
+                // The Algorithm finished but not properly (no idea whether or not this can happen without an error)
+            else if (!Convert.ToBoolean(e.Result))
+            {
+                MessageBox.Show("The Algorithm ended...strangely");
+            }
+            else
+            {
+                MessageBox.Show("Success!");
+            }
+
+            // Disables the cancel button
+            this.button_cancel.Enabled = false;
+
+            // Enables the start button again
+            this.button_start.Enabled = true;
+
+            // Enables tab control again
+            this.tabControl1.Enabled = true;
+        }
+
+        private void button_start_Click(object sender, EventArgs e)
+        {
+            // Disables the Start button until the GA is done
+            this.button_start.Enabled = false;
+
+            // Disables the tabs until the GA is done
+            this.tabControl1.Enabled = false;
+
+            // Enables the Cancel Button until GA is done
+            this.button_cancel.Enabled = true;
+
+            // Runs the DoWork function
+            this.geneticalgorithm.RunWorkerAsync();
+        }
+
+        private void button_cancel_Click(object sender, EventArgs e)
+        {
+            // Cancels the DoWork task
+            this.geneticalgorithm.CancelAsync();
+
+            // Disables the cancel button
+            this.button_cancel.Enabled = false;
+
+            // Enables the start button again
+            this.button_start.Enabled = true;
+
+            // Enables tab control again
+            this.tabControl1.Enabled = true;
         }
     }
 }
