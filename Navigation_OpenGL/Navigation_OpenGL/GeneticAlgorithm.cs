@@ -36,6 +36,9 @@ namespace Navigation_OpenGL
         // Main Method of the GA
         public bool gaMain(BackgroundWorker worker, DoWorkEventArgs e)
         {
+            population = new Population[populationSize];
+            oldPopulation = new Population[populationSize];
+
             var form = Form1.ActiveForm as Form1;
             form.textBox3.Text = generationCount.ToString();
 

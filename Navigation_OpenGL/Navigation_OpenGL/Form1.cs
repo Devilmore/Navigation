@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using OpenTK.Graphics.OpenGL;
 using System.IO;
+using System.Diagnostics;
 
 
 namespace Navigation_OpenGL
@@ -16,6 +17,9 @@ namespace Navigation_OpenGL
     {
         // Loads the map
         Bitmap image = new Bitmap("C:\\Users\\Andreas\\Dropbox\\Uni Projects\\BachelorThesis\\Navigation\\Navigation_OpenGL\\Navigation_OpenGL\\Resources\\Map_512.bmp");
+
+        // Stopwatch
+        Stopwatch stopWatch = new Stopwatch();
 
         public Form1()
         {
@@ -679,6 +683,7 @@ namespace Navigation_OpenGL
         {
             BackgroundWorker worker = sender as BackgroundWorker;
 
+            stopWatch.Start();
             GeneticAlgorithm ga = new GeneticAlgorithm();
             e.Result = ga.gaMain(worker, e);
         }
@@ -707,7 +712,9 @@ namespace Navigation_OpenGL
             }
             else
             {
-                MessageBox.Show("Success!");
+                stopWatch.Stop();
+                TimeSpan ts = stopWatch.Elapsed;
+                MessageBox.Show("Success! Computation took " + ts.ToString() + " Seconds");
             }
 
             // Disables the cancel button
