@@ -48,6 +48,7 @@ namespace Navigation_OpenGL
             {
                 // Current generation
                 generationCount++;
+                form.textBox3.Text = generationCount.ToString();
 
                 // Copies over the population to oldPopulation so the current one can be freshly populated.
                 oldPopulation = population;
@@ -231,8 +232,8 @@ namespace Navigation_OpenGL
                     j++;
                 } while (c < r);
 
-                // Selects j from the oldPopulation and adds it to the new one at i
-                population[i] = oldPopulation[j];
+                // Selects j - 1 (since we did j++ after fulfilling the condition) from the oldPopulation and adds it to the new one at i
+                population[i] = oldPopulation[j - 1];
             }
         }
 
