@@ -29,9 +29,9 @@ namespace Navigation_OpenGL
         public static Genome genome = new Genome();
 
         // Start, end and direction of the vehicle
-        public static EZPathFollowing.Point2D start = new EZPathFollowing.Point2D(225, 350);
-        public static EZPathFollowing.Point2D end = new EZPathFollowing.Point2D(750, 50);
-        public static double direction = 0;
+        public static EZPathFollowing.Point2D start = new EZPathFollowing.Point2D(175, 350);
+        public static EZPathFollowing.Point2D end = new EZPathFollowing.Point2D(750, 100);
+        public static double direction = 270; // Counter clockwise, startign at 3 o'clock
 
         // Current position and orientation of the vehicle. Calculated at the end of each Simulation. Needed for fitness function.
         public static double x;
