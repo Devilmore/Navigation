@@ -281,6 +281,9 @@ namespace Navigation_OpenGL
             for (int i = 0; i < populationSize; i++)
             {
                 tempSimulation = new Simulation(Variables.vehicle, population[i].Path);
+                tempSimulation.run();
+                Variables.simulation.reset();
+                Variables.simulation = tempSimulation;
                 population[i].Rating = FitnessFunction.fitness(tempSimulation.getPath());
 
                 // Writes the path to the global Variable for drawing
