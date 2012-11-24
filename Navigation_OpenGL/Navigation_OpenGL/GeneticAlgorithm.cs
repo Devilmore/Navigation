@@ -280,11 +280,12 @@ namespace Navigation_OpenGL
             // Creates a Simulation and a rating for each path in the current population and adds it to the ratings List
             for (int i = 0; i < populationSize; i++)
             {
-                tempSimulation = new Simulation(Variables.vehicle, population[i].Path);
-                tempSimulation.run();
-                Variables.simulation.reset();
-                Variables.simulation = tempSimulation;
-                population[i].Rating = FitnessFunction.fitness(tempSimulation.getPath());
+                // Creates a new simulation and runs it
+                Variables.simulation = new Simulation(Variables.vehicle, population[i].Path);
+                Variables.simulation.run();
+
+                // Gets the rating for the current simulation
+                population[i].Rating = FitnessFunction.fitness(Variables.simulation.getPath());
 
                 // Writes the path to the global Variable for drawing
                 Variables.path = population[i].Path;
