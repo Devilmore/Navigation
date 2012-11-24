@@ -77,7 +77,7 @@ namespace Navigation_OpenGL
             double length; // Length is a number n from 0 to 7. 0.5 + n * 0.5 is the length of a Pathpart
             double angle; // Angle a is a number from 0 to 7, 10 + a * 5 is the angle in DEGREE
             bool driveRight;
-            double direction = Variables.direction;
+            double direction = Variables.direction * Math.PI / 180; ;
             EZPathFollowing.Point2D start = Variables.start;
 
             // Iterate over all 20 GenomeParts
@@ -85,6 +85,7 @@ namespace Navigation_OpenGL
             {
                 // Length is saved in Bits 1,2 and 3 and is required for both PathParts
                 length = GenomePart.getDouble(pathGenome.genome.Get(i * 8 + 1), pathGenome.genome.Get(i * 8 + 2), pathGenome.genome.Get(i * 8 + 3));
+                length = 0.5 + length * 0.5;
 
                 // Bit 0 says whether its a curve or line
                 if (pathGenome.genome.Get(i * 8) == false)
@@ -103,6 +104,8 @@ namespace Navigation_OpenGL
                 {
                     // Angle and driveRight are only necessary for curves (Bit 0 = true)
                     angle = GenomePart.getDouble(pathGenome.genome.Get(i * 8 + 4), pathGenome.genome.Get(i * 8 + 5), pathGenome.genome.Get(i * 8 + 6));
+                    angle = (10 + angle * 5) * Math.PI / 180;
+
                     driveRight = pathGenome.genome.Get(i * 8 + 7);
 
                     // Again, first PathPart needs a start and direction
