@@ -65,10 +65,13 @@ namespace Navigation_OpenGL
             }
         }
 
-        public static LinkedList<EZPathFollowing.PathPart> genomeToPath(Genome pathGenome)
+        public static void genomeToPath(Genome pathGenome)
         {
             // Initialize Path List
             LinkedList<EZPathFollowing.PathPart> output = new LinkedList<EZPathFollowing.PathPart>();
+
+            // Resets the global path
+            Variables.resetPath();
 
             // Initialize Variables
             double length; // Length is a number n from 0 to 7. 0.5 + n * 0.5 is the length of a Pathpart
@@ -81,37 +84,38 @@ namespace Navigation_OpenGL
             for (int i = 0; i < 20; i++)
             {
                 // Length is saved in Bits 1,2 and 3 and is required for both PathParts
-                length = GenomePart.getDouble(pathGenome.genome.Get(i + 1), pathGenome.genome.Get(i + 2), pathGenome.genome.Get(i + 3));
+                length = GenomePart.getDouble(pathGenome.genome.Get(i * 8 + 1), pathGenome.genome.Get(i * 8 + 2), pathGenome.genome.Get(i * 8 + 3));
+
                 // Bit 0 says whether its a curve or line
-                if (pathGenome.genome.Get(i) == false)
+                if (pathGenome.genome.Get(i * 8) == false)
                 {
                     // The first Pathpart needs a start and direction
                     if (i == 0)
                     {
-                        output.AddLast(EZPathFollowing.PathPrimitives.line(length, direction, start));
+                        Variables.path.AddLast(EZPathFollowing.PathPrimitives.line(length, direction, start));
                     }
                     else
                     {
-                        output.AddLast(EZPathFollowing.PathPrimitives.line(length));
+                        Variables.path.AddLast(EZPathFollowing.PathPrimitives.line(length));
                     }
                 }
                 else
                 {
                     // Angle and driveRight are only necessary for curves (Bit 0 = true)
-                    angle = GenomePart.getDouble(pathGenome.genome.Get(i + 4), pathGenome.genome.Get(i + 5), pathGenome.genome.Get(i + 6));
-                    driveRight = pathGenome.genome.Get(i + 7);
+                    angle = GenomePart.getDouble(pathGenome.genome.Get(i * 8 + 4), pathGenome.genome.Get(i * 8 + 5), pathGenome.genome.Get(i * 8 + 6));
+                    driveRight = pathGenome.genome.Get(i * 8 + 7);
+
                     // Again, first PathPart needs a start and direction
                     if (i == 0)
                     {
-                        output.AddLast(EZPathFollowing.PathPrimitives.curve(length, direction, angle, driveRight, start));
+                        Variables.path.AddLast(EZPathFollowing.PathPrimitives.curve(length, direction, angle, driveRight, start));
                     }
                     else
                     {
-                        output.AddLast(EZPathFollowing.PathPrimitives.curve(length,angle,driveRight));
+                        Variables.path.AddLast(EZPathFollowing.PathPrimitives.curve(length, angle, driveRight));
                     }
                 }
             }
-            return output;
         }
 
         public int getLength()

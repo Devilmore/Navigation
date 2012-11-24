@@ -125,7 +125,8 @@ namespace Navigation_OpenGL
 
                 // Adds the genome and its corresponding path to the population at position i
                 population[i].Genome = child1;
-                population[i].Path = Genome.genomeToPath(child1);
+                Genome.genomeToPath(child1);
+                population[i].Path = Variables.path;
 
                 // Counts up since we are adding 2 children per iteration, not just one
                 i++;
@@ -134,7 +135,8 @@ namespace Navigation_OpenGL
                 if (i < populationSize)
                 {
                     population[i].Genome = child2;
-                    population[i].Path = Genome.genomeToPath(child2);
+                    Genome.genomeToPath(child2);
+                    population[i].Path = Variables.path;
                 }
             }
         }
@@ -184,7 +186,8 @@ namespace Navigation_OpenGL
 
                 // Adds the genome and its corresponding path to the population at position i
                 population[i].Genome = child1;
-                population[i].Path = Genome.genomeToPath(child1);
+                Genome.genomeToPath(child1);
+                population[i].Path = Variables.path;
 
                 // Counts up since we are adding 2 children per iteration, not just one
                 i++;
@@ -193,7 +196,8 @@ namespace Navigation_OpenGL
                 if (i < populationSize)
                 {
                     population[i].Genome = child2;
-                    population[i].Path = Genome.genomeToPath(child2);
+                    Genome.genomeToPath(child2);
+                    population[i].Path = Variables.path;
                 }
             }
         }

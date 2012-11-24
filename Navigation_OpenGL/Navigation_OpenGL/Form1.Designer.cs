@@ -68,6 +68,8 @@
             this.open_config = new System.Windows.Forms.OpenFileDialog();
             this.save_config = new System.Windows.Forms.SaveFileDialog();
             this.geneticalgorithm = new System.ComponentModel.BackgroundWorker();
+            this.checkBox_readOnly = new System.Windows.Forms.CheckBox();
+            this.button_genomeToPath = new System.Windows.Forms.Button();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -166,6 +168,8 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage1.Controls.Add(this.button_genomeToPath);
+            this.tabPage1.Controls.Add(this.checkBox_readOnly);
             this.tabPage1.Controls.Add(this.bar_algorithm_progress);
             this.tabPage1.Controls.Add(this.button_cancel);
             this.tabPage1.Controls.Add(this.textBox3);
@@ -488,6 +492,30 @@
             this.geneticalgorithm.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.geneticalgorithm_ProgressChanged);
             this.geneticalgorithm.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.geneticalgorithm_RunWorkerCompleted);
             // 
+            // checkBox_readOnly
+            // 
+            this.checkBox_readOnly.AutoSize = true;
+            this.checkBox_readOnly.Checked = true;
+            this.checkBox_readOnly.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_readOnly.Location = new System.Drawing.Point(93, 121);
+            this.checkBox_readOnly.Name = "checkBox_readOnly";
+            this.checkBox_readOnly.Size = new System.Drawing.Size(119, 17);
+            this.checkBox_readOnly.TabIndex = 18;
+            this.checkBox_readOnly.Text = "Genome Read Only";
+            this.checkBox_readOnly.UseVisualStyleBackColor = true;
+            this.checkBox_readOnly.CheckedChanged += new System.EventHandler(this.checkBox_readOnly_CheckedChanged);
+            // 
+            // button_genomeToPath
+            // 
+            this.button_genomeToPath.Enabled = false;
+            this.button_genomeToPath.Location = new System.Drawing.Point(93, 145);
+            this.button_genomeToPath.Name = "button_genomeToPath";
+            this.button_genomeToPath.Size = new System.Drawing.Size(100, 23);
+            this.button_genomeToPath.TabIndex = 19;
+            this.button_genomeToPath.Text = "Genome to Path";
+            this.button_genomeToPath.UseVisualStyleBackColor = true;
+            this.button_genomeToPath.Click += new System.EventHandler(this.button_genomeToPath_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -552,6 +580,8 @@
         private System.ComponentModel.BackgroundWorker geneticalgorithm;
         private System.Windows.Forms.Button button_cancel;
         private System.Windows.Forms.ProgressBar bar_algorithm_progress;
+        private System.Windows.Forms.CheckBox checkBox_readOnly;
+        private System.Windows.Forms.Button button_genomeToPath;
     }
 }
 

@@ -62,8 +62,10 @@ namespace Navigation_OpenGL
             
             double[] v = new double[numParts];
 
-            x[0] = 225.0/27;
-            y[0] = 350.0/27;
+            // Startpoint
+            x[0] = Variables.start.x / 27;
+            y[0] = Variables.start.y / 27;
+
             for (int i = 1; i < numParts; i++)
             {
                 x[i] = x[i - 1] + Math.Cos(ausrichtung[i - 1]) * M[i - 1] - Math.Cos(ausrichtung[i]) * L[i];

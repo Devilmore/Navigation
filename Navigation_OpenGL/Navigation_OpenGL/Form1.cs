@@ -756,5 +756,26 @@ namespace Navigation_OpenGL
             // Enables tab control again
             this.tabControl1.Enabled = true;
         }
+
+        private void checkBox_readOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            this.textBox1.ReadOnly = this.checkBox_readOnly.Checked;
+            this.button_genomeToPath.Enabled = !this.checkBox_readOnly.Checked;
+        }
+
+        private void button_genomeToPath_Click(object sender, EventArgs e)
+        {
+            Genome genome = new Genome();
+            char[] text = this.textBox1.Text.ToCharArray();
+
+            for (int i = 0; i < 160; i++)
+            {
+                if (text[i] == '1')
+                    genome.Genome1.Set(i, true);   
+            }
+
+            Genome.genomeToPath(genome);
+            this.glControl1.Refresh();
+        }
     }
 }
