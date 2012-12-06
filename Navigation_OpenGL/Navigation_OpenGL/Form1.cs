@@ -250,7 +250,7 @@ namespace Navigation_OpenGL
             GL.Vertex2(Variables.end.x, Variables.end.y);
             GL.End();
 
-            Drawings.draw_measure(20, 580);
+            Drawings.draw_measure(20, 20);
 
             // Draws everything
             glControl1.SwapBuffers();

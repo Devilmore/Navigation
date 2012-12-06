@@ -11,7 +11,7 @@ namespace Navigation_OpenGL
     // This class contains most drawing functions
     class Drawings
     {
-        // Draws a measurement of length 100 pixels, equalling 3.75 meters, to the lower left corner.
+        // Draws a measurement of length 107 pixels, equalling 4 meters, to the lower left corner.
         // That's ~27 pixels / meter (26.6666...)
         public static void draw_measure(double x, double y)
         {
@@ -26,12 +26,12 @@ namespace Navigation_OpenGL
 
             GL.Begin(BeginMode.Lines);
             GL.Vertex2(x, y);
-            GL.Vertex2(x + 100, y);
+            GL.Vertex2(x + 107, y);
             GL.End();
 
             GL.Begin(BeginMode.Lines);
-            GL.Vertex2(x + 100, y + 5);
-            GL.Vertex2(x + 100, y - 5);
+            GL.Vertex2(x + 107, y + 5);
+            GL.Vertex2(x + 107, y - 5);
             GL.End();
         }
 

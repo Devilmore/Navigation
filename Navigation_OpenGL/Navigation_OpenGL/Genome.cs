@@ -68,10 +68,12 @@ namespace Navigation_OpenGL
         public static void genomeToPath(Genome pathGenome)
         {
             // Initialize Path List
-            LinkedList<EZPathFollowing.PathPart> output = new LinkedList<EZPathFollowing.PathPart>();
+            //LinkedList<EZPathFollowing.PathPart> output = new LinkedList<EZPathFollowing.PathPart>();
 
             // Resets the global path
             Variables.resetPath();
+            // Resets the gloabl genome
+            Variables.resetGenome();
 
             // Initialize Variables
             double length; // Length is a number n from 0 to 7. 0.5 + n * 0.5 is the length of a Pathpart

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using System.Windows.Forms;
 
 namespace Navigation_OpenGL.EZPathFollowing
 {
@@ -63,7 +64,7 @@ namespace Navigation_OpenGL.EZPathFollowing
             bool reverse = false;
 
             // Generates the genomePart equal to this PathPart and adds it to the genome
-            GenomePart part = new GenomePart(true, radius * 2 - 1, (angle * 180 / Math.PI) * (-10 / 5), driveRight);
+            GenomePart part = new GenomePart(true, radius * 2 - 1, ((angle * 180 / Math.PI) - 10) / 5, driveRight);
             Variables.genome.add(part);
 
             // 27 Pixels are 1 meter
@@ -142,7 +143,7 @@ namespace Navigation_OpenGL.EZPathFollowing
             bool reverse = false;
 
             // Generates the genomePart equal to this PathPart and adds it to the genome
-            GenomePart part = new GenomePart(true, radius * 2 - 1, (angle * 180 / Math.PI) * (-10 / 5), driveRight);
+            GenomePart part = new GenomePart(true, radius * 2 - 1, ((angle * 180 / Math.PI) - 10) / 5, driveRight);
             Variables.genome.add(part);
 
             // 27 Pixels are 1 meter

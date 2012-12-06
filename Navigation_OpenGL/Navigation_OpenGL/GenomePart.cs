@@ -21,13 +21,23 @@ namespace Navigation_OpenGL
         public GenomePart(bool b, double length, double angle, bool driveRight)
         {
             genome = new BitArray(8);
+            bool[] bits = new bool[3];
             genome.Set(0, b); // Sets bit 0 to 1 (curve) or 0 (line)
 
-            for (int i = 0; i < 3; i++) // Sets the bits 1, 2 and 3 to the last 3 values of binary representation of the int value length (bits 29, 30 and 31)
-                genome.Set(i + 1, GetIntBinaryString(length)[29 + i]);
+            //for (int i = 0; i < 3; i++) // Sets the bits 1, 2 and 3 to the last 3 values of binary representation of the int value length (bits 29, 30 and 31)
+            //    genome.Set(i + 1, GetIntBinaryString(length)[29 + i]);
 
-            for (int i = 0; i < 3; i++) // Sets the bits 4, 5 and 6 to the last 3 values of binary representation of the int value angle (bits 29, 30 and 31)
-                genome.Set(i + 4, GetIntBinaryString(length)[29 + i]);
+            bits = GetIntBinaryField(length);
+
+            for (int i = 1; i < 4; i++)
+                genome.Set(i, bits[i - 1]);
+
+            bits = GetIntBinaryField(angle);
+            for (int i = 4; i < 7; i++)
+                genome.Set(i, bits[i - 4]);
+
+            //for (int i = 0; i < 3; i++) // Sets the bits 4, 5 and 6 to the last 3 values of binary representation of the int value angle (bits 29, 30 and 31)
+            //    genome.Set(i + 4, GetIntBinaryString(length)[29 + i]);
 
             genome.Set(7, driveRight); // Sets the last bit to 1 for right and 0 for left
         }
@@ -44,11 +54,10 @@ namespace Navigation_OpenGL
 
         public static double getDouble(bool i, bool j, bool k)
         {
-            double l = (i) ? 1 : 0;
-            double m = (j) ? 1 : 0;
-            double n = (k) ? 1 : 0;
-            double output = Math.Pow(2, l) + Math.Pow(2, m) + Math.Pow(2, n);
-            output = 0.5 + output * 0.5;
+            double l = (i) ? 4 : 0; // 2^2
+            double m = (j) ? 2 : 0; // 2^1
+            double n = (k) ? 1 : 0; // 2^0
+            double output = 0.5 + ((l + m + n) * 0.5);
             return output;
         }
 
@@ -84,6 +93,34 @@ namespace Navigation_OpenGL
                     b[i] = true;
             }
 
+            return b;
+        }
+
+        static bool[] GetIntBinaryField(double m)
+        {
+            int d = 0;
+            bool[] b = new bool[3];
+
+            /** Iteration: 
+             * i is 4, then 2, then 1. The third time it is set to 0.5 which aborts the iteration.
+             * d counts up from 0 to 2, marking the position of the bit value
+             * **/
+            for (double i = 4; i >= 1; i /= 2)
+            {
+                if (m < i) // m greater than i (2², then 2, then 0) ?
+                {
+                    // If no, given bit must be false
+                    b[d] = false;
+                }
+                else
+                {
+                    // If yes, given bit must be true and m must be set to m-i to compare the rest
+                    b[d] = true;
+                    m -= i;
+                }
+                // Next bit position
+                d++;
+            }
             return b;
         }
 
