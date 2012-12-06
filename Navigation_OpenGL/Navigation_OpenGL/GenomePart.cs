@@ -57,8 +57,7 @@ namespace Navigation_OpenGL
             double l = (i) ? 4 : 0; // 2^2
             double m = (j) ? 2 : 0; // 2^1
             double n = (k) ? 1 : 0; // 2^0
-            double output = 0.5 + ((l + m + n) * 0.5);
-            return output;
+            return l + m + n;
         }
 
         public static bool[] getRandomGenome()
@@ -72,25 +71,6 @@ namespace Navigation_OpenGL
             {
                 if (values[j] == '1')
                     b[j] = true;
-            }
-
-            return b;
-        }
-
-        // Faster function but doesn't work yet
-        static bool[] GetIntBinaryStringNew(double m)
-        {
-            throw new NotImplementedException();
-
-            int n = Convert.ToInt32(m);
-            string binValue = Convert.ToString(n, 2);
-            char[] values = binValue.ToCharArray();
-            bool[] b = new bool[values.Length];
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                if (values[i] == '1')
-                    b[i] = true;
             }
 
             return b;
@@ -120,29 +100,6 @@ namespace Navigation_OpenGL
                 }
                 // Next bit position
                 d++;
-            }
-            return b;
-        }
-
-        static bool[] GetIntBinaryString(double m)
-        {
-            bool[] b = new bool[32];
-            int pos = 31;
-            int i = 0;
-            int n = Convert.ToInt32(m);
-
-            while (i < 32)
-            {
-                if ((n & (1 << i)) != 0)
-                {
-                    b[pos] = true;
-                }
-                else
-                {
-                    b[pos] = false;
-                }
-                pos--;
-                i++;
             }
             return b;
         }
