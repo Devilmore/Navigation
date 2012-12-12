@@ -35,22 +35,26 @@ namespace Navigation_OpenGL
             GL.End();
         }
 
+        static int id = -1;
+
         //Draws the map // TODO: Replace with proper texture drawing
         public static void draw_map(Bitmap image)
         {
             GL.Enable(EnableCap.Texture2D);
+            if (id ==-1)
+            {
+                id = GL.GenTexture();
+                GL.BindTexture(TextureTarget.Texture2D, id);
+                BitmapData bmp_data = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0);
+                image.UnlockBits(bmp_data);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            }
 
-            int id = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, id);
-            BitmapData bmp_data = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0);
-            image.UnlockBits(bmp_data);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-
+            GL.Begin(BeginMode.Quads);
             GL.Color3((byte)255, (byte)255, (byte)255);
             GL.DepthMask(false);
-            GL.Begin(BeginMode.Quads);
             GL.TexCoord2(0, 0);
             GL.Vertex2(0, 512);
 

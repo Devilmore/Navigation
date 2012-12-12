@@ -291,13 +291,13 @@ namespace Navigation_OpenGL
                 Variables.path = population[i].Path;
 
                 // Draws. Catches the NullReferenceException that occurs when you switch windows away from the program and ignores it entirely.
-                try
+                /*try
                 {
                     form.glControl1.Refresh();
                 }
                 catch (NullReferenceException)
                 {
-                }
+                }*/
             }
         }
 
@@ -325,13 +325,13 @@ namespace Navigation_OpenGL
                 var form = Form1.ActiveForm as Form1;
 
                 // Draws. Catches the NullReferenceException that occurs when you switch windows away from the program and ignores it entirely.
-                try
-                {
-                    form.glControl1.Refresh();
-                }
+                /*try
+                {*/
+                //    form.glControl1.Invalidate();
+                /*}
                 catch (NullReferenceException)
                 {
-                }
+                }*/
             }
         }
     }

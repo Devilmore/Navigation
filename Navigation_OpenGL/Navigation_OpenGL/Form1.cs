@@ -16,7 +16,7 @@ namespace Navigation_OpenGL
     public partial class Form1 : Form
     {
         // Loads the map
-        Bitmap image = new Bitmap("C:\\Users\\Andreas\\Dropbox\\Uni Projects\\BachelorThesis\\Navigation\\Navigation_OpenGL\\Navigation_OpenGL\\Resources\\Map_512.bmp");
+        Bitmap image = new Bitmap(Application.StartupPath + "\\Map_512.bmp");
 
         // Stopwatch
         Stopwatch stopWatch = new Stopwatch();
@@ -71,13 +71,13 @@ namespace Navigation_OpenGL
         // Creates a boolean array from the given map. This is needed for the fitness function. Move to Fitness Class later
         public bool[,] createMap(Bitmap image)
         {
-            bool[,] map = new bool[1024, 512];
+            bool[,] map = new bool[image.Width, image.Height];
 
             // Convert to ARGB since otherwise black on the image isn't euqal to Color.black
             int black = Color.Black.ToArgb();
-            for (int x = 0; x < 1024; x++)
+            for (int x = 0; x < image.Width; x++)
             {
-                for (int y = 0; y < 512; y++)
+                for (int y = 0; y < image.Height; y++)
                 {
                     // Sets a field to false if it is black on the map ( if it's a wall)
                     map[x,y] = (image.GetPixel(x,y).ToArgb() == black) ? false : true;
@@ -158,10 +158,10 @@ namespace Navigation_OpenGL
 
             // Clears
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
+            
             // Draws the map
             Drawings.draw_map(image);
-
+            
             //Shows current start/end in their boxes
             text_start.Text = (Variables.start.x + "," + Variables.start.y);
             text_end.Text = (Variables.end.x + "," + Variables.end.y);
@@ -211,7 +211,7 @@ namespace Navigation_OpenGL
                     GL.Vertex2(Variables.configuration_end.X[i], Variables.configuration_end.Y[i]);
                 GL.End();
             }
-
+            
             // Blue for start/end points
             GL.Color3(Color.Blue);
             GL.Begin(BeginMode.Points);
@@ -236,7 +236,7 @@ namespace Navigation_OpenGL
             {
                 Drawings.drawConfiguration(configuration.getConfig(new EZPathFollowing.Point2D(Variables.x*27, Variables.y*27), Variables.orientation));
             }
-
+            
             // Draws start and end
             GL.PointSize(5);
 
