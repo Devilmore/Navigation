@@ -86,7 +86,7 @@ namespace Navigation_OpenGL
                     {
                         // first part
                         alpha = getAlpha(x[0], y[0], ausrichtung[0], L[0]);
-                       ausrichtung_Punkt[i] = v[i] * Math.Tan(alpha) / L[i];
+                        ausrichtung_Punkt[i] = v[i] * Math.Tan(alpha) / L[i];
                         v[i] = 1.0;
                         
 

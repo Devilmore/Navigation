@@ -79,8 +79,8 @@ namespace Navigation_OpenGL.EZPathFollowing
 
             // To get the center the current center point has to be moved by 90° or -90° around the start, depending on driveRight
             double rightAngle = (driveRight == true)
-                 ? Math.PI / 2
-                 : -Math.PI / 2;
+                    ? Math.PI / 2
+                    : -Math.PI / 2;
 
 
             center = EZPathFollowing.Point2D.rotateAround(center, start, rightAngle);
@@ -88,7 +88,7 @@ namespace Navigation_OpenGL.EZPathFollowing
             // Initializes the endpoint
             Point2D endpoint = new Point2D(0, 0);
 
-            // Again, for driveRight = false the angles have to reversed and angle has to be converted to radian
+            // Again, for driveRight = false the angles have to be reversed
             double angleR = (driveRight == true)
                 ? angle
                 : -angle;
@@ -165,18 +165,17 @@ namespace Navigation_OpenGL.EZPathFollowing
                 ? Math.PI / 2
                 : -Math.PI / 2;
 
-
             center = EZPathFollowing.Point2D.rotateAround(center, start, rightAngle);
 
             // Initializes the endpoint
             Point2D endpoint;
 
-            // Again, for driveRight = false the angles have to reversed and angle has to be converted to radian
+            // Again, for driveRight = false the angles have to be reversed and angle has to be converted to radian
             double angleR = (driveRight == true)
                 ? angle
                 : -angle;
 
-            // Now the startpoint is rotated around teh center by angle to get the endpoint
+            // Now the startpoint is rotated around the center by angle to get the endpoint
             endpoint = EZPathFollowing.Point2D.rotateAround(start, center, angleR);
 
             return new CirclePathPart(start, endpoint, center, driveRight, reverse, speed, angle, direction);
@@ -253,7 +252,7 @@ namespace Navigation_OpenGL.EZPathFollowing
             {
                 EZPathFollowing.PathPart temp;
                 if (Variables.pathlength == 0)
-                    temp = EZPathFollowing.PathPrimitives.getRandomPathPart(Variables.start, Variables.direction);
+                    temp = EZPathFollowing.PathPrimitives.getRandomPathPart(Variables.start, 360 - Variables.configuration_start.Theta[0]);
                 else
                     temp = EZPathFollowing.PathPrimitives.getRandomPathPart();
 

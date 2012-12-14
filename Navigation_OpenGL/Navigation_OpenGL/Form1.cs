@@ -552,9 +552,6 @@ namespace Navigation_OpenGL
                 if (counter_axle.Value == 1)
                 {
                     Variables.configuration_start.Theta[0] = Variables.configuration_start.Theta[1];
-                    Variables.direction = (0 < Variables.configuration_start.Theta[0] && Variables.configuration_start.Theta[0] < 180) ?
-                        Variables.configuration_start.Theta[0] + 180 :
-                        Variables.configuration_start.Theta[0] - 180;
                 }
                 this.glControl1.Refresh();
                 toolTip1.SetToolTip(trackBar0, trackBar0.Value.ToString());

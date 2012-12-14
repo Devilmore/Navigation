@@ -77,7 +77,7 @@ namespace Navigation_OpenGL.EZPathFollowing
         public override double pathlength()
         {
             return m_driveRight == m_reverse
-                ? (2 * Math.PI - m_angle) * m_radius
+                ? (2 * Math.PI + m_angle) * m_radius
                 : (2 * Math.PI - m_angle) * m_radius;
         }
 
@@ -96,10 +96,10 @@ namespace Navigation_OpenGL.EZPathFollowing
             double angle = drivesInReverse() != drivesRight()
                 ? startAngle() + d / radius()
                 : startAngle() - d / radius();
-            /*while (angle < -Math.PI)
-                angle += 2 * Math.PI;
-            while (angle > Math.PI)
-                angle -= 2 * Math.PI;*/
+            //while (angle < -Math.PI)
+            //    angle += 2 * Math.PI;
+            //while (angle > Math.PI)
+            //    angle -= 2 * Math.PI;
             return Point2D.add(Point2D.multiplyBy(new Point2D(angle),radius()),center());
         }
 
@@ -147,17 +147,6 @@ namespace Navigation_OpenGL.EZPathFollowing
                 return angle.perpendicularLeft().radian();
         }
 
-        public override Point2D orientation()
-        {
-            // Rotates m_center around m_end by theta which gives the orientation at the end of the curve
-            Point2D point = new Point2D(0, 0);
-            double theta = 270;
-            point.x = Math.Cos(theta) * (m_center.x - m_endpoint.x) - Math.Sin(theta) * (m_center.y - m_endpoint.y) + m_endpoint.x;
-            point.y = Math.Sin(theta) * (m_center.x - m_endpoint.x) - Math.Cos(theta) * (m_center.y - m_endpoint.y) + m_endpoint.y;
-            // Returns the directional vector from the endpoint to this new point
-            throw new NotImplementedException();
-            return (point - m_endpoint).normalize();
-        }
 
         public override double orientationDouble()
         {
@@ -195,7 +184,7 @@ namespace Navigation_OpenGL.EZPathFollowing
         // Draws the CirclePathPart
         public override void draw()
         {
-            GL.Begin(BeginMode.LineStrip);
+            GL.Begin(BeginMode.Points);
             for (double i = 0; i <= pathlength(); i += 5)
             {
                 Point2D p = position(i);

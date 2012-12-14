@@ -39,7 +39,7 @@ namespace Navigation_OpenGL
             //for (int i = 0; i < 3; i++) // Sets the bits 4, 5 and 6 to the last 3 values of binary representation of the int value angle (bits 29, 30 and 31)
             //    genome.Set(i + 4, GetIntBinaryString(length)[29 + i]);
 
-            genome.Set(7, driveRight); // Sets the last bit to 1 for right and 0 for left
+            genome.Set(7, driveRight); // Sets the last bit to 1 for right and 0 for left //!! For some reason driveRight means the exact opposit, so 1 for left, 0 for right. Don't ask!
         }
 
         public BitArray getBitArray()

@@ -80,7 +80,7 @@ namespace Navigation_OpenGL
             double length; // Length is a number n from 0 to 7. 0.5 + n * 0.5 is the length of a Pathpart
             double angle; // Angle a is a number from 0 to 7, 10 + a * 5 is the angle in DEGREE
             bool driveRight;
-            double direction = Variables.direction * Math.PI / 180; ;
+            double direction = (360 - Variables.configuration_start.Theta[0]) * Math.PI / 180;
             EZPathFollowing.Point2D start = Variables.start;
 
             // Iterate over all 20 GenomeParts
