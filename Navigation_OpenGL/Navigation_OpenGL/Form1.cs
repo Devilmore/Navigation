@@ -16,7 +16,7 @@ namespace Navigation_OpenGL
     public partial class Form1 : Form
     {
         // Loads the map
-        Bitmap image = new Bitmap(Application.StartupPath + "\\Map_512.bmp");
+        Bitmap image = new Bitmap(Navigation_OpenGL.Properties.Resources.Map_512);
 
         // Stopwatch
         Stopwatch stopWatch = new Stopwatch();
@@ -49,6 +49,7 @@ namespace Navigation_OpenGL
         // Use for animations
         private void timer_load_Tick(object sender, EventArgs e)
         {
+            this.glControl1.Refresh();
         }
 
         // Loads a new map
@@ -106,7 +107,9 @@ namespace Navigation_OpenGL
                 EZPathFollowing.PathPart temp;
                 //temp = EZPathFollowing.PathPrimitives.line(1, 0, start);
                 if (Variables.pathlength == 0)
-                    temp = EZPathFollowing.PathPrimitives.getRandomPathPart(Variables.start, Variables.direction);
+                {
+                    temp = EZPathFollowing.PathPrimitives.getRandomPathPart(Variables.start, 360 - Variables.configuration_start.Theta[0]);
+                }
                 else
                     temp = EZPathFollowing.PathPrimitives.getRandomPathPart();
 
@@ -547,7 +550,12 @@ namespace Navigation_OpenGL
             {
                 Variables.configuration_start.Theta[Convert.ToInt32(counter_axle.Value)] = trackBar0.Value;
                 if (counter_axle.Value == 1)
+                {
                     Variables.configuration_start.Theta[0] = Variables.configuration_start.Theta[1];
+                    Variables.direction = (0 < Variables.configuration_start.Theta[0] && Variables.configuration_start.Theta[0] < 180) ?
+                        Variables.configuration_start.Theta[0] + 180 :
+                        Variables.configuration_start.Theta[0] - 180;
+                }
                 this.glControl1.Refresh();
                 toolTip1.SetToolTip(trackBar0, trackBar0.Value.ToString());
             }
@@ -685,7 +693,7 @@ namespace Navigation_OpenGL
 
             stopWatch.Start();
             GeneticAlgorithm ga = new GeneticAlgorithm();
-            e.Result = ga.gaMain(worker, e);
+            //e.Result = ga.gaMain(worker, e);
         }
 
         private void geneticalgorithm_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -729,17 +737,21 @@ namespace Navigation_OpenGL
 
         private void button_start_Click(object sender, EventArgs e)
         {
-            // Disables the Start button until the GA is done
-            this.button_start.Enabled = false;
+            // !! Currently DOES NOT run as a background task!
+            GeneticAlgorithm ga = new GeneticAlgorithm();
+            ga.gaMain();
 
-            // Disables the tabs until the GA is done
-            this.tabControl1.Enabled = false;
+            //// Disables the Start button until the GA is done
+            //this.button_start.Enabled = false;
 
-            // Enables the Cancel Button until GA is done
-            this.button_cancel.Enabled = true;
+            //// Disables the tabs until the GA is done
+            //this.tabControl1.Enabled = false;
 
-            // Runs the DoWork function
-            this.geneticalgorithm.RunWorkerAsync();
+            //// Enables the Cancel Button until GA is done
+            //this.button_cancel.Enabled = true;
+
+            //// Runs the DoWork function
+            //this.geneticalgorithm.RunWorkerAsync();
         }
 
         private void button_cancel_Click(object sender, EventArgs e)

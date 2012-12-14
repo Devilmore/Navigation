@@ -53,6 +53,7 @@ namespace Navigation_OpenGL
 
             double[] ausrichtung = new double[numParts];
             double[] ausrichtung_Punkt = new double[numParts];
+            ausrichtung[0] = (360 - Variables.configuration_start.Theta[0]) * Math.PI / 180;
 
             double[] x = new double[numParts];
             double[] x_Punkt = new double[numParts];

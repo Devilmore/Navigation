@@ -34,7 +34,8 @@ namespace Navigation_OpenGL
 
 
         // Main Method of the GA
-        public bool gaMain(BackgroundWorker worker, DoWorkEventArgs e)
+        //public bool gaMain(BackgroundWorker worker, DoWorkEventArgs e)
+        public bool gaMain()
         {
             population = new Population[populationSize];
             oldPopulation = new Population[populationSize];
@@ -60,13 +61,13 @@ namespace Navigation_OpenGL
                 mutation();
                 evaluation();
 
-                // Calculates current progress and reports it if any progress was made
-                int percentComplete = generationCount / maxGenerationCount;
-                if (percentComplete > highestPercentageReached)
-                {
-                    highestPercentageReached = percentComplete;
-                    worker.ReportProgress(percentComplete);
-                }
+                //// Calculates current progress and reports it if any progress was made
+                //int percentComplete = generationCount / maxGenerationCount;
+                //if (percentComplete > highestPercentageReached)
+                //{
+                //    highestPercentageReached = percentComplete;
+                //    worker.ReportProgress(percentComplete);
+                //}
             }
             return true;
         }
@@ -291,13 +292,8 @@ namespace Navigation_OpenGL
                 Variables.path = population[i].Path;
 
                 // Draws. Catches the NullReferenceException that occurs when you switch windows away from the program and ignores it entirely.
-                /*try
-                {
-                    form.glControl1.Refresh();
-                }
-                catch (NullReferenceException)
-                {
-                }*/
+                form.glControl1.Refresh();
+
             }
         }
 
@@ -325,13 +321,7 @@ namespace Navigation_OpenGL
                 var form = Form1.ActiveForm as Form1;
 
                 // Draws. Catches the NullReferenceException that occurs when you switch windows away from the program and ignores it entirely.
-                /*try
-                {*/
-                //    form.glControl1.Invalidate();
-                /*}
-                catch (NullReferenceException)
-                {
-                }*/
+                form.glControl1.Refresh();
             }
         }
     }
