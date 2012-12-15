@@ -69,13 +69,18 @@ namespace Navigation_OpenGL.EZPathFollowing
 
             // 27 Pixels are 1 meter
             radius *= 27;
-            double directionR = direction;
+            double directionR = (direction > 180)
+                ? 360 - direction
+                : direction;
 
             // The new center is to the right of the startpoint ("3 o'clock) and will be rotated later
             Point2D center = new Point2D(start.x + radius, start.y);
 
             // Center is rotated by 'direction' around the start
-            center = EZPathFollowing.Point2D.rotateAround(center, start, directionR);
+            if (direction > 180)
+                center = EZPathFollowing.Point2D.rotateAroundCW(center, start, directionR);
+            else
+                center = EZPathFollowing.Point2D.rotateAround(center, start, directionR);
 
             // To get the center the current center point has to be moved by 90° or -90° around the start, depending on driveRight
             double rightAngle = (driveRight == true)
@@ -98,7 +103,7 @@ namespace Navigation_OpenGL.EZPathFollowing
             // Now the startpoint is rotated around the center by angle to get the endpoint
             endpoint = EZPathFollowing.Point2D.rotateAround(start, center, angleR);
 
-            return new CirclePathPart(start, endpoint, center, driveRight, reverse, speed, angle, direction);
+            return new CirclePathPart(start, endpoint, center, driveRight, reverse, speed, angle, directionR);
         }
 
         /**
@@ -152,13 +157,19 @@ namespace Navigation_OpenGL.EZPathFollowing
             // Takes the start and direction from the previous pathpart
             Point2D start = Variables.path.Last.Value.getEnd();
             double direction = Variables.path.Last.Value.orientationDouble();
-            double directionR = direction;
+
+            double directionR = (direction > 180)
+                ? 360 - direction
+                : direction;
 
             // The new center is to the right of the startpoint ("3 o'clock) and will be rotated later
             Point2D center = new Point2D(start.x + radius, start.y);
 
-            // Center is rotated by 'direction' around the start
-            center = EZPathFollowing.Point2D.rotateAround(center, start, directionR);
+            // Center is rotated by 'direction' around the start. 
+            if (direction > 180)
+                center = EZPathFollowing.Point2D.rotateAroundCW(center, start, directionR);
+            else
+                center = EZPathFollowing.Point2D.rotateAround(center, start, directionR);
 
             // To get the center the current center point has to be moved by 90° or -90° around the start, depending on driveRight
             double rightAngle = (driveRight == true)

@@ -177,6 +177,7 @@ namespace Navigation_OpenGL
             foreach (var item in Variables.path)
             {
                 item.draw();
+                //MessageBox.Show(item.getDirection().ToString());
             }
 
             if (Variables.simulation != null)

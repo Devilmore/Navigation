@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Navigation_OpenGL.EZPathFollowing
 {
@@ -68,17 +69,19 @@ namespace Navigation_OpenGL.EZPathFollowing
                 m_driveRight = driveRight;
                 m_angle = angle;
                 m_radius = Point2D.sub(m_center, m_startpoint).length();
-                updateAngle(); //I saw no need to not simply give the angle with the remaining arguments. Fix if anything needs this
-                m_initialized = true;
                 m_direction = direction;
+                updateAngle(); 
+                m_initialized = true;
+                MessageBox.Show(m_angle.ToString());
             }
         }
 
         public override double pathlength()
         {
-            return m_driveRight == m_reverse
-                ? (2 * Math.PI + m_angle) * m_radius
+            double d = (drivesInReverse() == drivesRight()) 
+                ? (2 * Math.PI - m_angle) * m_radius
                 : (2 * Math.PI - m_angle) * m_radius;
+            return d;
         }
 
         public override double getAngle()
@@ -179,12 +182,26 @@ namespace Navigation_OpenGL.EZPathFollowing
             m_angle = m_driveRight == m_reverse
                 ? new AngleWrapper(endAngle() - startAngle()).radian()
                 : new AngleWrapper(startAngle() - endAngle()).radian();
+            m_direction = new AngleWrapper(m_direction).radian();
         }
 
         // Draws the CirclePathPart
         public override void draw()
         {
-            GL.Begin(BeginMode.Points);
+            GL.Begin(BeginMode.LineStrip);
+
+
+            //Point2D p = m_startpoint;
+            //int i = 0;
+
+            //while (!EZPathFollowing.Point2D.closeTo(p, m_endpoint,3))
+            //{
+            //    GL.Vertex2(p.x,p.y);
+            //    i +=5;
+            //    p = position(i);
+            //}
+            //GL.Vertex2(m_endpoint.x, m_endpoint.y);
+
             for (double i = 0; i <= pathlength(); i += 5)
             {
                 Point2D p = position(i);

@@ -75,7 +75,7 @@ namespace Navigation_OpenGL.EZPathFollowing
 
         public static bool operator <(AngleWrapper angle, AngleWrapper angle2)
         {
-            return angle.radian()<angle2.radian();
+            return angle.radian() < angle2.radian();
         }
 
         public static bool operator >(AngleWrapper angle, AngleWrapper angle2)
