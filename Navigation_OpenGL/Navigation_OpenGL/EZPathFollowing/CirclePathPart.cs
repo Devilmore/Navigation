@@ -72,7 +72,6 @@ namespace Navigation_OpenGL.EZPathFollowing
                 m_direction = direction;
                 updateAngle(); 
                 m_initialized = true;
-                MessageBox.Show(m_angle.ToString());
             }
         }
 
@@ -177,11 +176,31 @@ namespace Navigation_OpenGL.EZPathFollowing
         // updates the start and endangles
         public void updateAngle()
         {
+            string s;
             m_endangle = new AngleWrapper(m_endpoint - m_center).radian();
             m_startangle = new AngleWrapper(m_startpoint - m_center).radian();
             m_angle = m_driveRight == m_reverse
                 ? new AngleWrapper(endAngle() - startAngle()).radian()
                 : new AngleWrapper(startAngle() - endAngle()).radian();
+
+            // Debug Code
+            //if (m_driveRight == m_reverse)
+            //{
+            //    s = "right";
+            //    m_angle = new AngleWrapper(endAngle() - startAngle()).radian();
+            //}
+            //else
+            //{
+            //    s = "left";
+            //    m_angle = new AngleWrapper(startAngle() - endAngle()).radian();
+            //}
+
+            //if (m_angle < 0)
+            //{
+            //    MessageBox.Show("After Update" + s + m_angle.ToString());
+            //    MessageBox.Show("Start" + m_startangle.ToString());
+            //    MessageBox.Show("End" + m_endangle.ToString());
+            //}
             m_direction = new AngleWrapper(m_direction).radian();
         }
 
