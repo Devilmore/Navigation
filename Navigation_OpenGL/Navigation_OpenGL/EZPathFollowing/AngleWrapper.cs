@@ -38,9 +38,10 @@ namespace Navigation_OpenGL.EZPathFollowing
 
         public void setRadian(double value)
         {
-            m_radian = (value >= 0)
-                ? Math.IEEERemainder(value, 2 * Math.PI)
-                : Math.IEEERemainder(value, 2 * Math.PI) + 2 * Math.PI;
+            if (value < 0 || value > Math.PI * 2)
+                m_radian = Math.Abs((Math.PI * 2) - Math.Abs(value));
+            else
+                m_radian = value;
         }
 
         public double radian()
