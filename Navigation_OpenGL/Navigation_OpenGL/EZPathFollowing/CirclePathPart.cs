@@ -129,9 +129,7 @@ namespace Navigation_OpenGL.EZPathFollowing
             if (angle.radian()>3*Math.PI/2)
                 return (angle.radian() - 2 * Math.PI) * m_radius;
             else
-                return angle.radian() * m_radius;
-            
-                
+                return angle.radian() * m_radius;   
         }
 
         // Gives the orientation
@@ -189,18 +187,6 @@ namespace Navigation_OpenGL.EZPathFollowing
         public override void draw()
         {
             GL.Begin(BeginMode.LineStrip);
-
-
-            //Point2D p = m_startpoint;
-            //int i = 0;
-
-            //while (!EZPathFollowing.Point2D.closeTo(p, m_endpoint,3))
-            //{
-            //    GL.Vertex2(p.x,p.y);
-            //    i +=5;
-            //    p = position(i);
-            //}
-            //GL.Vertex2(m_endpoint.x, m_endpoint.y);
 
             for (double i = 0; i <= pathlength(); i += 5)
             {
