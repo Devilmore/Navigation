@@ -33,9 +33,13 @@ namespace Navigation_OpenGL
         // TextBox, given by Form 1
         TextBox textbox;
 
+        // Status Bar, given by Form 1
+        System.Windows.Forms.ProgressBar status;
+
         // Constructor
-        public GeneticAlgorithm(OpenTK.GLControl glcontrol, TextBox textbox)
+        public GeneticAlgorithm(OpenTK.GLControl glcontrol, TextBox textbox, System.Windows.Forms.ProgressBar status)
         {
+            this.status = status;
             this.textbox = textbox;
             this.glcontrol = glcontrol;
         }
@@ -44,6 +48,7 @@ namespace Navigation_OpenGL
         //public bool gaMain(BackgroundWorker worker, DoWorkEventArgs e)
         public bool gaMain()
         {
+            status.Value = generationCount / maxGenerationCount;
             population = new Population[populationSize];
             oldPopulation = new Population[populationSize];
 
@@ -65,6 +70,7 @@ namespace Navigation_OpenGL
                 eightBitCrossover();
                 mutation();
                 evaluation();
+                status.Value = generationCount / maxGenerationCount;
             }
             return true;
         }

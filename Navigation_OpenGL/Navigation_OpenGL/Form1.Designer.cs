@@ -579,9 +579,9 @@
         public System.Windows.Forms.TextBox textBox3;
         private System.ComponentModel.BackgroundWorker geneticalgorithm;
         private System.Windows.Forms.Button button_cancel;
-        private System.Windows.Forms.ProgressBar bar_algorithm_progress;
         private System.Windows.Forms.CheckBox checkBox_readOnly;
         private System.Windows.Forms.Button button_genomeToPath;
+        public System.Windows.Forms.ProgressBar bar_algorithm_progress;
     }
 }
 
