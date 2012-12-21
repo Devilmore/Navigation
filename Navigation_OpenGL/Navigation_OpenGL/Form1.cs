@@ -149,8 +149,9 @@ namespace Navigation_OpenGL
             GL.Viewport(0, 0, w, h);
         }
 
-        public static void draw()
+        public static void paint()
         {
+            
         }
 
         // Drawing function, called by Refresh()
@@ -258,6 +259,9 @@ namespace Navigation_OpenGL
 
             // Draws everything
             glControl1.SwapBuffers();
+
+            // Wait till finished to prevent GUI from blocking
+            Application.DoEvents(); 
         }
 
 
@@ -690,7 +694,7 @@ namespace Navigation_OpenGL
             BackgroundWorker worker = sender as BackgroundWorker;
 
             stopWatch.Start();
-            GeneticAlgorithm ga = new GeneticAlgorithm();
+            GeneticAlgorithm ga = new GeneticAlgorithm(this.glControl1, this.textBox3);
             //e.Result = ga.gaMain(worker, e);
         }
 
@@ -736,7 +740,7 @@ namespace Navigation_OpenGL
         private void button_start_Click(object sender, EventArgs e)
         {
             // !! Currently DOES NOT run as a background task!
-            GeneticAlgorithm ga = new GeneticAlgorithm();
+            GeneticAlgorithm ga = new GeneticAlgorithm(this.glControl1, this.textBox3);
             ga.gaMain();
 
             //// Disables the Start button until the GA is done

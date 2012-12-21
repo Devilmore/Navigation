@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace Navigation_OpenGL
 {
@@ -11,7 +12,7 @@ namespace Navigation_OpenGL
     {
         // Saves the size of the population
         // TODO: Adjust this number
-        private static int populationSize = 500;
+        private static int populationSize = 1000;
          
         // Array representing the population, this contains the paths, genomes and ratings
         private Population[] population = new Population[populationSize];
@@ -23,15 +24,21 @@ namespace Navigation_OpenGL
         // TODO: Adjust this number
         private int maxGenerationCount = 50;
 
-        // Temporary Simulation of the temporary path
-        private Simulation tempSimulation = null;
-
         // Temporary path
         private LinkedList<EZPathFollowing.PathPart> tempPath = new LinkedList<EZPathFollowing.PathPart>();
 
-        private int highestPercentageReached = 0;
+        // glControl, given by Form1
+        OpenTK.GLControl glcontrol;
 
+        // TextBox, given by Form 1
+        TextBox textbox;
 
+        // Constructor
+        public GeneticAlgorithm(OpenTK.GLControl glcontrol, TextBox textbox)
+        {
+            this.textbox = textbox;
+            this.glcontrol = glcontrol;
+        }
 
         // Main Method of the GA
         //public bool gaMain(BackgroundWorker worker, DoWorkEventArgs e)
@@ -40,16 +47,14 @@ namespace Navigation_OpenGL
             population = new Population[populationSize];
             oldPopulation = new Population[populationSize];
 
-            var form = Form1.ActiveForm as Form1;
-            form.textBox3.Text = generationCount.ToString();
-
+            textbox.Text = "0";
             initialize();
 
             while (generationCount < maxGenerationCount)
             {
                 // Current generation
                 generationCount++;
-                form.textBox3.Text = generationCount.ToString();
+                textbox.Text = generationCount.ToString();
 
                 // Copies over the population to oldPopulation so the current one can be freshly populated.
                 oldPopulation = population;
@@ -60,14 +65,6 @@ namespace Navigation_OpenGL
                 eightBitCrossover();
                 mutation();
                 evaluation();
-
-                //// Calculates current progress and reports it if any progress was made
-                //int percentComplete = generationCount / maxGenerationCount;
-                //if (percentComplete > highestPercentageReached)
-                //{
-                //    highestPercentageReached = percentComplete;
-                //    worker.ReportProgress(percentComplete);
-                //}
             }
             return true;
         }
@@ -233,8 +230,15 @@ namespace Navigation_OpenGL
                 // Sums over oldPopulation until the sum is bigger than the random number
                 do
                 {
-                    c += oldPopulation[j].Rating;
-                    j++;
+                    try
+                    {
+                        c += oldPopulation[j].Rating;
+                        j++;
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+                        break;
+                    }
                 } while (c < r);
 
                 // Selects j - 1 (since we did j++ after fulfilling the condition) from the oldPopulation and adds it to the new one at i
@@ -275,9 +279,6 @@ namespace Navigation_OpenGL
 
         public void evaluation()
         {
-            // Gets Form1 for output
-            var form = Form1.ActiveForm as Form1;
-
             // Creates a Simulation and a rating for each path in the current population and adds it to the ratings List
             for (int i = 0; i < populationSize; i++)
             {
@@ -291,9 +292,8 @@ namespace Navigation_OpenGL
                 // Writes the path to the global Variable for drawing
                 Variables.path = population[i].Path;
 
-                // Draws. Catches the NullReferenceException that occurs when you switch windows away from the program and ignores it entirely.
-                form.glControl1.Refresh();
-
+                // Draws.
+                glcontrol.Refresh();
             }
         }
 
@@ -317,11 +317,8 @@ namespace Navigation_OpenGL
                 // Adds the path, genome and rating to the population
                 population[i] = new Population(Variables.path, Variables.genome, rating);
 
-                // Gets Form1 for output
-                var form = Form1.ActiveForm as Form1;
-
-                // Draws. Catches the NullReferenceException that occurs when you switch windows away from the program and ignores it entirely.
-                form.glControl1.Refresh();
+                // Draws.
+                glcontrol.Refresh();
             }
         }
     }
