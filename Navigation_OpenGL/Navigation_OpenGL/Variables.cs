@@ -21,6 +21,12 @@ namespace Navigation_OpenGL
         public static bool config_start = true;
         public static bool[,] map = new bool[1024, 512];
 
+        // Sets Population Debugging to false by default
+        public static bool popDebugging = false;
+
+        // Pauses Algorithm while true
+        public static bool paused = false;
+
         // Initializes a new LinkedList of type PathPart, which stores the Path.
         public static LinkedList<EZPathFollowing.PathPart> path = new LinkedList<EZPathFollowing.PathPart>();
         public static int pathlength = 0;

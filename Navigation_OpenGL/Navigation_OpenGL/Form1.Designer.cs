@@ -39,6 +39,7 @@
             this.button_save_vehicle = new System.Windows.Forms.Button();
             this.button_load_vehicle = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkBoxPopulationOut = new System.Windows.Forms.CheckBox();
             this.button_genomeToPath = new System.Windows.Forms.Button();
             this.checkBox_readOnly = new System.Windows.Forms.CheckBox();
             this.bar_algorithm_progress = new System.Windows.Forms.ProgressBar();
@@ -168,6 +169,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage1.Controls.Add(this.checkBoxPopulationOut);
             this.tabPage1.Controls.Add(this.button_genomeToPath);
             this.tabPage1.Controls.Add(this.checkBox_readOnly);
             this.tabPage1.Controls.Add(this.bar_algorithm_progress);
@@ -186,6 +188,17 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.toolTip1.SetToolTip(this.tabPage1, "General Settings and Information");
+            // 
+            // checkBoxPopulationOut
+            // 
+            this.checkBoxPopulationOut.AutoSize = true;
+            this.checkBoxPopulationOut.Location = new System.Drawing.Point(93, 175);
+            this.checkBoxPopulationOut.Name = "checkBoxPopulationOut";
+            this.checkBoxPopulationOut.Size = new System.Drawing.Size(111, 17);
+            this.checkBoxPopulationOut.TabIndex = 20;
+            this.checkBoxPopulationOut.Text = "Debug Population";
+            this.checkBoxPopulationOut.UseVisualStyleBackColor = true;
+            this.checkBoxPopulationOut.CheckedChanged += new System.EventHandler(this.checkBoxPopulationOut_CheckedChanged);
             // 
             // button_genomeToPath
             // 
@@ -582,6 +595,7 @@
         private System.Windows.Forms.CheckBox checkBox_readOnly;
         private System.Windows.Forms.Button button_genomeToPath;
         public System.Windows.Forms.ProgressBar bar_algorithm_progress;
+        private System.Windows.Forms.CheckBox checkBoxPopulationOut;
     }
 }
 

@@ -791,5 +791,10 @@ namespace Navigation_OpenGL
             Genome.genomeToPath(genome);
             this.glControl1.Refresh();
         }
+
+        private void checkBoxPopulationOut_CheckedChanged(object sender, EventArgs e)
+        {
+            Variables.popDebugging = this.checkBoxPopulationOut.Checked;
+        }
     }
 }

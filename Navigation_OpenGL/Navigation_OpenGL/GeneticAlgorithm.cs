@@ -22,7 +22,7 @@ namespace Navigation_OpenGL
         private int generationCount = 0;
 
         // TODO: Adjust this number
-        private int maxGenerationCount = 50;
+        private int maxGenerationCount = 5;
 
         // Temporary path
         private LinkedList<EZPathFollowing.PathPart> tempPath = new LinkedList<EZPathFollowing.PathPart>();
@@ -66,14 +66,38 @@ namespace Navigation_OpenGL
 
                 // Runs all parts of the GA
                 selection();
-                // singleBitCrossover();
+                // singleBitCrossover(); // Only Run one of the available crossover functions
                 eightBitCrossover();
                 mutation();
                 evaluation();
+
+                // Reports progress. Does not work.
                 status.Value = generationCount / maxGenerationCount;
+                
+                // Asks if you want to see the current Population if Population Debugging is activated
+                if (Variables.popDebugging)
+                    output();
             }
             return true;
         }
+
+        // This function opens a new window containing the current population and an option to save all populations to a text file
+        public void output()
+        {
+            Variables.paused = true;
+            string s = "";
+            for (int i = 0; i < populationSize; i++)
+            {
+                s += i + " : " + "Selected: " + population[i].Selected + " , Mutated: " + population[i].Mutated + " , Rating: " + population[i].Rating + System.Environment.NewLine;
+            }
+            Output output = new Output(s);
+            output.Show();
+            Application.DoEvents();
+
+            // Deactivates after first Generation
+           // Variables.popDebugging = false;
+        }
+
 
         // This function uses genomePart Uniform Crossover. It works like a crossover function but uses a significantly shorter mask genome
         // because it always chooses an entire 8bit block
@@ -131,6 +155,7 @@ namespace Navigation_OpenGL
                 population[i].Genome = child1;
                 Genome.genomeToPath(child1);
                 population[i].Path = Variables.path;
+                population[i].Selected = false;
 
                 // Counts up since we are adding 2 children per iteration, not just one
                 i++;
@@ -141,6 +166,7 @@ namespace Navigation_OpenGL
                     population[i].Genome = child2;
                     Genome.genomeToPath(child2);
                     population[i].Path = Variables.path;
+                    population[i].Selected = false;
                 }
             }
         }
@@ -188,10 +214,11 @@ namespace Navigation_OpenGL
                     }
                 }
 
-                // Adds the genome and its corresponding path to the population at position i
+                // Adds the genome and its corresponding path to the population at position i. Also sets Selected to false.
                 population[i].Genome = child1;
                 Genome.genomeToPath(child1);
                 population[i].Path = Variables.path;
+                population[i].Selected = false;
 
                 // Counts up since we are adding 2 children per iteration, not just one
                 i++;
@@ -202,6 +229,7 @@ namespace Navigation_OpenGL
                     population[i].Genome = child2;
                     Genome.genomeToPath(child2);
                     population[i].Path = Variables.path;
+                    population[i].Selected = false;
                 }
             }
         }
@@ -249,6 +277,10 @@ namespace Navigation_OpenGL
 
                 // Selects j - 1 (since we did j++ after fulfilling the condition) from the oldPopulation and adds it to the new one at i
                 population[i] = oldPopulation[j - 1];
+
+                // Sets Selected to true and mutated to false (in case the copied population member was mutated before)
+                population[i].Selected = true;
+                population[i].Mutated = false;
             }
         }
 
@@ -278,6 +310,7 @@ namespace Navigation_OpenGL
 
                         // Something was done, so write back the changed array
                         population[i].Genome.Genome1 = array;
+                        population[i].Mutated = true;
                     }
                 }
             }

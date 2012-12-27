@@ -31,6 +31,22 @@ namespace Navigation_OpenGL
             set { m_rating = value; }
         }
 
+        private bool mutated;
+
+        public bool Mutated
+        {
+            get { return mutated; }
+            set { mutated = value; }
+        }
+
+        private bool selected;
+
+        public bool Selected
+        {
+            get { return selected; }
+            set { selected = value; }
+        }
+
         public Population()
         {
         }

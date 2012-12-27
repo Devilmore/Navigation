@@ -53,6 +53,12 @@
     <Compile Include="GeneticAlgorithm.cs" />
     <Compile Include="Genome.cs" />
     <Compile Include="GenomePart.cs" />
+    <Compile Include="Output.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Output.Designer.cs">
+      <DependentUpon>Output.cs</DependentUpon>
+    </Compile>
     <Compile Include="Population.cs" />
     <Compile Include="Vehicle.cs" />
     <Compile Include="Drawings.cs" />
@@ -76,6 +82,9 @@
     <Compile Include="Variables.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Output.resx">
+      <DependentUpon>Output.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
