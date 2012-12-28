@@ -22,7 +22,7 @@ namespace Navigation_OpenGL
         private int generationCount = 0;
 
         // TODO: Adjust this number
-        private int maxGenerationCount = 5;
+        private int maxGenerationCount = 50;
 
         // Temporary path
         private LinkedList<EZPathFollowing.PathPart> tempPath = new LinkedList<EZPathFollowing.PathPart>();
@@ -50,7 +50,6 @@ namespace Navigation_OpenGL
         {
             status.Value = generationCount / maxGenerationCount;
             population = new Population[populationSize];
-            oldPopulation = new Population[populationSize];
 
             textbox.Text = "0";
             initialize();
@@ -62,23 +61,36 @@ namespace Navigation_OpenGL
                 textbox.Text = generationCount.ToString();
 
                 // Copies over the population to oldPopulation so the current one can be freshly populated.
-                oldPopulation = population;
+
+                oldPopulation = new Population[populationSize];
+                clone();
+                population = new Population[populationSize];
 
                 // Runs all parts of the GA
-                selection();
-                // singleBitCrossover(); // Only Run one of the available crossover functions
-                eightBitCrossover();
+                 rouletteWheelSelection(); // Only run one of the available selection functions
+                //selection();
+                singleBitCrossover(); // Only run one of the available crossover functions
+                //eightBitCrossover();
                 mutation();
                 evaluation();
 
-                // Reports progress. Does not work.
-                status.Value = generationCount / maxGenerationCount;
+                // Reports progress. Only updates at the end for some reason.
+                status.Value = (generationCount / maxGenerationCount) * 100;
                 
                 // Asks if you want to see the current Population if Population Debugging is activated
                 if (Variables.popDebugging)
                     output();
             }
             return true;
+        }
+
+        // Copies all Elements from population to oldPopulation
+        public void clone()
+        {
+            for (int i = 0; i < populationSize; i++)
+            {
+                oldPopulation[i] = new Population(population[i].Path, population[i].Genome, population[i].Rating, population[i].Mutated, population[i].Selected);
+            }
         }
 
         // This function opens a new window containing the current population and an option to save all populations to a text file
@@ -151,11 +163,8 @@ namespace Navigation_OpenGL
                     }
                 }
 
-                // Adds the genome and its corresponding path to the population at position i
-                population[i].Genome = child1;
                 Genome.genomeToPath(child1);
-                population[i].Path = Variables.path;
-                population[i].Selected = false;
+                population[i] = new Population(Variables.path, child1, 0, false, false);
 
                 // Counts up since we are adding 2 children per iteration, not just one
                 i++;
@@ -163,10 +172,8 @@ namespace Navigation_OpenGL
                 // If we are not yet at maximum (which could happen due to double->int conversion) we add the second child too
                 if (i < populationSize)
                 {
-                    population[i].Genome = child2;
                     Genome.genomeToPath(child2);
-                    population[i].Path = Variables.path;
-                    population[i].Selected = false;
+                    population[i] = new Population(Variables.path, child2, 0, false, false);
                 }
             }
         }
@@ -215,10 +222,8 @@ namespace Navigation_OpenGL
                 }
 
                 // Adds the genome and its corresponding path to the population at position i. Also sets Selected to false.
-                population[i].Genome = child1;
                 Genome.genomeToPath(child1);
-                population[i].Path = Variables.path;
-                population[i].Selected = false;
+                population[i] = new Population(Variables.path, child1, 0, false, false);
 
                 // Counts up since we are adding 2 children per iteration, not just one
                 i++;
@@ -226,15 +231,40 @@ namespace Navigation_OpenGL
                 // If we are not yet at maximum (which could happen due to double->int conversion) we add the second child too
                 if (i < populationSize)
                 {
-                    population[i].Genome = child2;
                     Genome.genomeToPath(child2);
-                    population[i].Path = Variables.path;
-                    population[i].Selected = false;
+                    population[i] = new Population(Variables.path, child2, 0, false, false);
                 }
             }
         }
 
         public void selection()
+        {
+            // New Population consists of 40% Selection
+            int selectionSize = Convert.ToInt32(0.4 * populationSize);
+            int d;
+
+            // Iterates over the new population until selectionSize is met
+            for (int i = 0; i < selectionSize; i++)
+            {
+                // Stores the highest rating
+                d = 0;
+
+                // Iterates over the old population, looking for the highest rating
+                for (int j = 0; j < populationSize; j++)
+                {
+                    if (oldPopulation[j].Rating > oldPopulation[d].Rating)
+                        d = j;
+                }
+
+                // Takes the path with the highest rating from old population and sets Selected/Mutated
+                population[i] = new Population(oldPopulation[d].Path, oldPopulation[d].Genome, oldPopulation[d].Rating, false, true);
+
+                // Sets the Rating of the selected path to 0 so it is not selected again
+                oldPopulation[d].Rating = 0;
+            }
+        }
+
+        public void rouletteWheelSelection()
         {
             // Sums up all ratings to a total
             double totalFitness = 0;
@@ -264,23 +294,12 @@ namespace Navigation_OpenGL
                 // Sums over oldPopulation until the sum is bigger than the random number
                 do
                 {
-                    try
-                    {
                         c += oldPopulation[j].Rating;
                         j++;
-                    }
-                    catch (IndexOutOfRangeException)
-                    {
-                        break;
-                    }
                 } while (c < r);
 
                 // Selects j - 1 (since we did j++ after fulfilling the condition) from the oldPopulation and adds it to the new one at i
-                population[i] = oldPopulation[j - 1];
-
-                // Sets Selected to true and mutated to false (in case the copied population member was mutated before)
-                population[i].Selected = true;
-                population[i].Mutated = false;
+                population[i] = new Population(oldPopulation[j - 1].Path, oldPopulation[j - 1].Genome, oldPopulation[j - 1].Rating, false, true);
             }
         }
 

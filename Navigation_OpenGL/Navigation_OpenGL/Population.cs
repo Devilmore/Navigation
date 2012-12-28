@@ -31,20 +31,20 @@ namespace Navigation_OpenGL
             set { m_rating = value; }
         }
 
-        private bool mutated;
+        private bool m_mutated;
 
         public bool Mutated
         {
-            get { return mutated; }
-            set { mutated = value; }
+            get { return m_mutated; }
+            set { m_mutated = value; }
         }
 
-        private bool selected;
+        private bool m_selected;
 
         public bool Selected
         {
-            get { return selected; }
-            set { selected = value; }
+            get { return m_selected; }
+            set { m_selected = value; }
         }
 
         public Population()
@@ -56,6 +56,15 @@ namespace Navigation_OpenGL
             m_path = path;
             m_genome = genome;
             m_rating = rating;
+        }
+
+        public Population(LinkedList<EZPathFollowing.PathPart> path, Genome genome, double rating, bool mutated, bool selected)
+        {
+            m_path = path;
+            m_genome = genome;
+            m_rating = rating;
+            m_selected = selected;
+            m_mutated = mutated;
         }
 
 

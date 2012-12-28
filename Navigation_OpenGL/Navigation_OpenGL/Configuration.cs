@@ -38,6 +38,9 @@ namespace Navigation_OpenGL
             {
                 Theta[i] = random.Next(360);
             }
+
+            Theta[1] = 45;
+
             Theta[0] = Theta[1];
         }
 

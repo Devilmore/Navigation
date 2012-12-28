@@ -22,7 +22,7 @@ namespace Navigation_OpenGL
                 collisions = 1;
             if (configurationRating == 0)
                 configurationRating = 1;
-            double rating = (1 / collisions) * 100 + (1 / configurationRating) * 100;
+            double rating = (1 / collisions) * 1000 + (1 / configurationRating) * 1000;
 
             return rating;
         }
