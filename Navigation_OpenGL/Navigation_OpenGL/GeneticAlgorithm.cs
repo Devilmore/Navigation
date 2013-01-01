@@ -22,7 +22,7 @@ namespace Navigation_OpenGL
         private int generationCount = 0;
 
         // TODO: Adjust this number
-        private int maxGenerationCount = 50;
+        private int maxGenerationCount = 100;
 
         // Temporary path
         private LinkedList<EZPathFollowing.PathPart> tempPath = new LinkedList<EZPathFollowing.PathPart>();
@@ -35,6 +35,10 @@ namespace Navigation_OpenGL
 
         // Status Bar, given by Form 1
         System.Windows.Forms.ProgressBar status;
+
+        // Best path ever created in this Run
+        private string bestGenome;
+        private double bestRating = 0;
 
         // Constructor
         public GeneticAlgorithm(OpenTK.GLControl glcontrol, TextBox textbox, System.Windows.Forms.ProgressBar status)
@@ -54,6 +58,9 @@ namespace Navigation_OpenGL
             textbox.Text = "0";
             initialize();
 
+            if (Variables.popDebugging)
+                maxGenerationCount = 5;
+
             while (generationCount < maxGenerationCount)
             {
                 // Current generation
@@ -67,7 +74,7 @@ namespace Navigation_OpenGL
                 population = new Population[populationSize];
 
                 // Runs all parts of the GA
-                 rouletteWheelSelection(); // Only run one of the available selection functions
+                rouletteWheelSelection(); // Only run one of the available selection functions
                 //selection();
                 singleBitCrossover(); // Only run one of the available crossover functions
                 //eightBitCrossover();
@@ -100,7 +107,8 @@ namespace Navigation_OpenGL
             string s = "";
             for (int i = 0; i < populationSize; i++)
             {
-                s += i + " : " + "Selected: " + population[i].Selected + " , Mutated: " + population[i].Mutated + " , Rating: " + population[i].Rating + System.Environment.NewLine;
+                s += i + " : " + "Selected: " + population[i].Selected + " , Mutated: " + population[i].Mutated + " , Rating: " + population[i].Rating
+                    + " = Distances: " + population[i].Distances + " + Collisions: " + population[i].Collisions + System.Environment.NewLine;
             }
             Output output = new Output(s);
             output.Show();
@@ -237,6 +245,75 @@ namespace Navigation_OpenGL
             }
         }
 
+        public void rouletteWheelSelection2()
+        {
+            double totalFitness = 0;
+
+            // New Population consists of 40% Selection
+            int selectionSize = Convert.ToInt32(0.4 * populationSize);
+            
+            // Calculates toal Fitness of the old population
+            for (int i = 0; i < populationSize; i++)
+            {
+                totalFitness += oldPopulation[i].Rating;
+            }
+
+            // Normalizes all fitness values
+            for (int i = 0; i < populationSize; i++)
+            {
+                oldPopulation[i].Rating = oldPopulation[i].Rating / totalFitness;
+            }
+
+            Population[] tempPopulation = new Population[populationSize];
+            double j;
+            int d;
+
+            // Sorts oldPopulation into temppOpulation by descending Fitness Rating
+            for (int l = 0; l < populationSize; l++)
+            {
+                j = 0;
+                d = 0;
+
+                // Finds the member in oldPopulation with the highest rating
+                for (int i = 0; i < populationSize; i++)
+                {
+                    if (oldPopulation[i].Rating > j)
+                    {
+                        j = oldPopulation[i].Rating;
+                        d = i;
+                    }
+                }
+
+                // oldPopulation[d], which is the member with the highest rating, goes to position i
+                tempPopulation[l] = new Population(oldPopulation[d].Path, oldPopulation[d].Genome, oldPopulation[d].Rating, false, true);
+
+                // Sets the current oldPopulation Rating to 0 so it is not selected again
+                oldPopulation[d].Rating = 0;
+            }
+
+            double acc = 0;
+
+            // Calculates the accumulated rating for every position so every member has it's own Rating + all previous ones as it's rating
+            for (int i = 0; i < populationSize; i++)
+            {
+                acc += tempPopulation[i].Rating;
+                tempPopulation[i].Rating = acc;
+            }
+
+            double r;
+
+            for (int i = 0; i < selectionSize; i++)
+            {
+                r = Variables.getRandomNumber(0, 1);
+                d = 0;
+
+                while (tempPopulation[d].Rating <= r)
+                    d++;
+
+                population[i] = new Population(tempPopulation[d].Path, tempPopulation[d].Genome, tempPopulation[d].Rating, false, true);
+            }
+        }
+
         public void selection()
         {
             // New Population consists of 40% Selection
@@ -347,8 +424,20 @@ namespace Navigation_OpenGL
                 // Gets the rating for the current simulation
                 population[i].Rating = FitnessFunction.fitness(Variables.simulation.getPath());
 
+                if (Variables.popDebugging)
+                {
+                    population[i].Collisions = Variables.debugCollisions;
+                    population[i].Distances = Variables.debugDistance;
+                }
+
                 // Writes the path to the global Variable for drawing
                 Variables.path = population[i].Path;
+
+                //if (population[i].Rating > bestRating)
+                //{
+                //    bestRating = population[i].Rating;
+                //    bestGenome = population[i].Genome.ToString();
+                //}
 
                 // Draws.
                 glcontrol.Refresh();

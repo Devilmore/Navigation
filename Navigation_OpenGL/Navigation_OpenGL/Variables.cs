@@ -23,6 +23,8 @@ namespace Navigation_OpenGL
 
         // Sets Population Debugging to false by default
         public static bool popDebugging = false;
+        public static double debugDistance = 0;
+        public static double debugCollisions = 0;
 
         // Pauses Algorithm while true
         public static bool paused = false;

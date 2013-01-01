@@ -17,12 +17,18 @@ namespace Navigation_OpenGL
             double configurationRating = rateConfigurationNoMaximum(Variables.configuration_end, configuration.getConfig(new EZPathFollowing.Point2D(Variables.x * 27, Variables.y * 27), Variables.orientation));
 
             // Adds the Inverse of collisions and configurtionRating since those values go up for bad paths but rating should go up for good paths
-            // TODO: Proper weighting
             if (collisions == 0)
                 collisions = 1;
             if (configurationRating == 0)
                 configurationRating = 1;
-            double rating = (1 / collisions) * 1000 + (1 / configurationRating) * 1000;
+            double rating = (1 / collisions) * 300 + (1 / configurationRating) * 700;
+            //double rating = 1 / configurationRating * 100;
+
+            if (Variables.popDebugging)
+            {
+                Variables.debugCollisions = collisions;
+                Variables.debugDistance = configurationRating;
+            }
 
             return rating;
         }
@@ -59,16 +65,15 @@ namespace Navigation_OpenGL
         // Rates how close the given configuration at the end of the path is to the desired ending configuration
         public static double rateConfigurationNoMaximum(configuration wantedConfiguration, configuration givenConfiguration)
         {
-            double[] distances = new double[Variables.vehicle_size];
+            double distances;
+            double rating;
             EZPathFollowing.LinePathPart line = null;
 
-            for (int i = 0; i < Variables.vehicle_size; i++)
-            {
-                line = new EZPathFollowing.LinePathPart(wantedConfiguration.getPoint(i), givenConfiguration.getPoint(i), false, 0, 0);
-                distances[i] = line.pathlength();
-            }
+            line = new EZPathFollowing.LinePathPart(wantedConfiguration.getPoint(0), givenConfiguration.getPoint(0), false, 0, 0);
 
-            double rating = average(distances);
+            distances = line.pathlength();
+        
+            rating = distances;
 
             return rating;
         }

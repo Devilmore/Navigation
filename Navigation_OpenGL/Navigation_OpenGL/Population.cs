@@ -47,6 +47,22 @@ namespace Navigation_OpenGL
             set { m_selected = value; }
         }
 
+        private double m_collisions;
+
+        public double Collisions
+        {
+            get { return m_collisions; }
+            set { m_collisions = value; }
+        }
+
+        private double m_distances;
+
+        public double Distances
+        {
+            get { return m_distances; }
+            set { m_distances = value; }
+        }
+
         public Population()
         {
         }
@@ -65,6 +81,17 @@ namespace Navigation_OpenGL
             m_rating = rating;
             m_selected = selected;
             m_mutated = mutated;
+        }
+
+        public Population(LinkedList<EZPathFollowing.PathPart> path, Genome genome, double rating, bool mutated, bool selected, double distances, double collisions)
+        {
+            m_path = path;
+            m_genome = genome;
+            m_rating = rating;
+            m_selected = selected;
+            m_mutated = mutated;
+            m_collisions = collisions;
+            m_distances = distances;
         }
 
 
