@@ -74,10 +74,16 @@ namespace Navigation_OpenGL
                 population = new Population[populationSize];
 
                 // Runs all parts of the GA
-                rouletteWheelSelection(); // Only run one of the available selection functions
+
+                // Only run one of the available selection functions:
+                rouletteWheelSelection();
                 //selection();
-                singleBitCrossover(); // Only run one of the available crossover functions
-                //eightBitCrossover();
+
+                // Only run one of the available crossover functions:
+                //singleBitCrossover();
+                eightBitCrossover();
+                //twoFixedPointCrossover();
+
                 mutation();
                 evaluation();
 
@@ -119,6 +125,69 @@ namespace Navigation_OpenGL
         }
 
 
+        // This function uses two fixed points for two-point crossover. For better performance these two points may be made random and/or adjusted over time
+        // For example, in higher generations they could be moved further to the back
+        public void twoFixedPointCrossover()
+        {
+            int selectionSize = Convert.ToInt32(0.4 * populationSize);
+            Genome parent1 = new Genome();
+            Genome parent2 = new Genome();
+            Genome child1 = new Genome();
+            Genome child2 = new Genome();
+            int r;
+            int fixpoint1 = 4;
+            int fixpoint2 = 15;
+
+            for (int i = selectionSize; i < populationSize; i++)
+            {
+                // Randomly selects first parent
+                r = Variables.getRandomInt(0, selectionSize);
+                parent1 = oldPopulation[r].Genome;
+
+                // Randomly selects second parent
+                r = Variables.getRandomInt(0, selectionSize);
+                parent2 = oldPopulation[r].Genome;
+
+                for (int j = 0; j < 20; j++)
+                {
+                    // Case 1: fixpoint 1 to fixpoint 2, fixpoints exclusive
+                    if (j > fixpoint1 && j < fixpoint2)
+                    {
+                        // Iterates over the eight-bit-blocks and adds all bits to the respective parent
+                        for (int k = j * 8; k < j * 8 + 8; k++)
+                        {
+                            child1.Genome1.Set(k, parent1.Genome1.Get(k));
+                            child2.Genome1.Set(k, parent2.Genome1.Get(k));
+                        }
+                    }
+                    // Case 2: Before fixpoint 1 and after fixpoint 2, fixpoints inclusive
+                    else
+                    {
+                        // Iterates over the eight-bit-blocks and adds all bits to the respective parent
+                        for (int k = j * 8; k < j * 8 + 8; k++)
+                        {
+                            child1.Genome1.Set(k, parent2.Genome1.Get(k));
+                            child2.Genome1.Set(k, parent1.Genome1.Get(k));
+                        }
+                    }
+                }
+
+                Genome.genomeToPath(child1);
+                population[i] = new Population(Variables.path, child1, 0, false, false);
+
+                // Counts up since we are adding 2 children per iteration, not just one
+                i++;
+
+                // If we are not yet at maximum (which could happen due to double->int conversion) we add the second child too
+                if (i < populationSize)
+                {
+                    Genome.genomeToPath(child2);
+                    population[i] = new Population(Variables.path, child2, 0, false, false);
+                }
+            }
+        }
+
+
         // This function uses genomePart Uniform Crossover. It works like a crossover function but uses a significantly shorter mask genome
         // because it always chooses an entire 8bit block
         public void eightBitCrossover()
@@ -146,7 +215,7 @@ namespace Navigation_OpenGL
                 // Crates a random mask genome in form of a char[]. char[] is much faster than bool[], genome or bitarray and for our purpose the format doesn't matter
                 mask = GenomePart.getRandomGenome();
 
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < 20; j++)
                 {
                     // Checks the mask
                     if (mask[j])

@@ -62,8 +62,8 @@ namespace Navigation_OpenGL
 
         public static bool[] getRandomGenome()
         {
-            bool[] b = new bool[8];
-            int i = Variables.getRandomInt(0, 255);
+            bool[] b = new bool[20];
+            int i = Variables.getRandomInt(0, 1048575); // 2^20 - 1
             string s = Convert.ToString(i, 2);
             char[] values = s.ToCharArray();
 
