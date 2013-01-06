@@ -26,6 +26,8 @@ namespace Navigation_OpenGL
         public static double debugDistance = 0;
         public static double debugCollisions = 0;
 
+        public static Population[] bestPopulation = new Population[1];
+
         // Pauses Algorithm while true
         public static bool paused = false;
 

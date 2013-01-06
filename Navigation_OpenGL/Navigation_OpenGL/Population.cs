@@ -65,6 +65,7 @@ namespace Navigation_OpenGL
 
         public Population()
         {
+            m_rating = 0;
         }
 
         public Population(LinkedList<EZPathFollowing.PathPart> path, Genome genome, double rating)

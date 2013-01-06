@@ -54,6 +54,7 @@ namespace Navigation_OpenGL
         {
             status.Value = generationCount / maxGenerationCount;
             population = new Population[populationSize];
+            Variables.bestPopulation[0] = new Population();
 
             textbox.Text = "0";
             initialize();
@@ -87,14 +88,30 @@ namespace Navigation_OpenGL
                 mutation();
                 evaluation();
 
+                keepBest();
+
                 // Reports progress. Only updates at the end for some reason.
                 status.Value = (generationCount / maxGenerationCount) * 100;
                 
-                // Asks if you want to see the current Population if Population Debugging is activated
+                // Asks if you want to see the current Population if Population Debugging is activated.
                 if (Variables.popDebugging)
                     output();
             }
+
+            // Shows the best path
+            outputBest();
+
             return true;
+        }
+
+        // Checks for best ratings and keeps the best 5 paths
+        public void keepBest()
+        {
+            for (int i = 0; i < populationSize; i++)
+            {
+                if (population[i].Rating > Variables.bestPopulation[0].Rating)
+                    Variables.bestPopulation[0] = new Population(population[i].Path, population[i].Genome, population[i].Rating);
+            }
         }
 
         // Copies all Elements from population to oldPopulation
@@ -104,6 +121,17 @@ namespace Navigation_OpenGL
             {
                 oldPopulation[i] = new Population(population[i].Path, population[i].Genome, population[i].Rating, population[i].Mutated, population[i].Selected);
             }
+        }
+
+        // Shows the best path
+        public void outputBest()
+        {
+            Variables.paused = true;
+            string s = Variables.bestPopulation[0].Genome.write();
+
+            Output output = new Output(s);
+            output.Show();
+            Application.DoEvents();
         }
 
         // This function opens a new window containing the current population and an option to save all populations to a text file
