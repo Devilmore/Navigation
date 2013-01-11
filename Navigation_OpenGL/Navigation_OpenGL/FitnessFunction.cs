@@ -22,7 +22,7 @@ namespace Navigation_OpenGL
             if (configurationRating == 0)
                 configurationRating = 1;
             double rating = (1 / collisions) * 300 + (1 / configurationRating) * 700;
-            //double rating = 1 / configurationRating * 100;
+            // double rating = 1 / configurationRating * 100;
 
             if (Variables.popDebugging)
             {

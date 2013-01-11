@@ -49,19 +49,24 @@ namespace Navigation_OpenGL
         }
 
         // Main Method of the GA
-        //public bool gaMain(BackgroundWorker worker, DoWorkEventArgs e)
         public bool gaMain()
         {
+            // Initializes some values
             status.Value = generationCount / maxGenerationCount;
             population = new Population[populationSize];
             Variables.bestPopulation[0] = new Population();
 
+            // Sets the text in the Generation Counter to 0
             textbox.Text = "0";
+
+            // Starts Initialize() which populates the algorithm
             initialize();
 
+            // If Debugging is active only 5 generations are computed to keep output readable
             if (Variables.popDebugging)
                 maxGenerationCount = 5;
 
+            // Runs the algorithm for maxGenerationCount generations
             while (generationCount < maxGenerationCount)
             {
                 // Current generation
@@ -69,31 +74,48 @@ namespace Navigation_OpenGL
                 textbox.Text = generationCount.ToString();
 
                 // Copies over the population to oldPopulation so the current one can be freshly populated.
-
                 oldPopulation = new Population[populationSize];
                 clone();
                 population = new Population[populationSize];
 
                 // Runs all parts of the GA
 
-                // Only run one of the available selection functions:
-                rouletteWheelSelection();
-                //selection();
+                /** 
+                 * SELECTION
+                 * Only run one of the available selection functions:
+                **/
 
-                // Only run one of the available crossover functions:
+                //rouletteWheelSelection();
+                //selection();
+                tournamentSelection();
+
+                /** 
+                 * CROSSOVER
+                 * Only run one of the available crossover functions:
+                **/
+
                 //singleBitCrossover();
                 eightBitCrossover();
                 //twoFixedPointCrossover();
 
+                /** 
+                 * MUTATION
+                **/
+
                 mutation();
+
+                /** 
+                 * EVALUATION
+                **/
                 evaluation();
 
+                // Saves the best path for later output
                 keepBest();
 
                 // Reports progress. Only updates at the end for some reason.
                 status.Value = (generationCount / maxGenerationCount) * 100;
                 
-                // Asks if you want to see the current Population if Population Debugging is activated.
+                // Shows the current Population if Population Debugging is activated.
                 if (Variables.popDebugging)
                     output();
             }
@@ -342,6 +364,9 @@ namespace Navigation_OpenGL
             }
         }
 
+        // This selection function uses a wighted (roulette wheel) selection process where members with a high fitness have a higher chance to be chosen.
+        // Members can be chosen repeatedly
+        // This function is equivalent to rouletteWheelSelection in functionality but not in implementation. The other function should be prefered unless it produces problems.
         public void rouletteWheelSelection2()
         {
             double totalFitness = 0;
@@ -411,6 +436,7 @@ namespace Navigation_OpenGL
             }
         }
 
+        // This function is a straight selection which simply seletc the x best members of the population. Members cannot be chosen several times
         public void selection()
         {
             // New Population consists of 40% Selection
@@ -438,6 +464,8 @@ namespace Navigation_OpenGL
             }
         }
 
+        // This selection function uses a wighted (roulette wheel) selection process where members with a high fitness have a higher chance to be chosen.
+        // Members can be chosen repeatedly
         public void rouletteWheelSelection()
         {
             // Sums up all ratings to a total
@@ -477,6 +505,33 @@ namespace Navigation_OpenGL
             }
         }
 
+        // This function selects via tournament selection. Selected paths are not removed from the population, so the same path can be chosen several times
+        public void tournamentSelection()
+        {
+            int highestFitness = 0, r = 0, tournamentSize = 2;
+
+            // New Population consists of 40% Selection
+            int selectionSize = Convert.ToInt32(0.4 * populationSize);
+
+            // Iterates over the new population
+            for (int j = 0; j < selectionSize; j++)
+            {
+                // Chooses tournamentSize members from the old population and saves the best one to highestFitness
+                for (int i = 0; i < tournamentSize; i++)
+                {
+                    r = Variables.getRandomInt(0, selectionSize);
+
+                    if (i == 0 || oldPopulation[r].Rating > oldPopulation[highestFitness].Rating)
+                        highestFitness = r;
+                }
+
+                // Adds the winner of the tournament (highestFitness) to the new population
+                population[j] = new Population(oldPopulation[highestFitness].Path, oldPopulation[highestFitness].Genome, oldPopulation[highestFitness].Rating, false, true);
+            }
+            
+        }
+
+        // This function mutates the members by flipping a bit with chance of 0,1%
         public void mutation()
         {
             BitArray array;
@@ -509,6 +564,7 @@ namespace Navigation_OpenGL
             }
         }
 
+        // This function uses the fitness function given in FitnessFunction.cs to evaluate all paths of the current generation
         public void evaluation()
         {
             // Creates a Simulation and a rating for each path in the current population and adds it to the ratings List
@@ -530,17 +586,12 @@ namespace Navigation_OpenGL
                 // Writes the path to the global Variable for drawing
                 Variables.path = population[i].Path;
 
-                //if (population[i].Rating > bestRating)
-                //{
-                //    bestRating = population[i].Rating;
-                //    bestGenome = population[i].Genome.ToString();
-                //}
-
                 // Draws.
                 glcontrol.Refresh();
             }
         }
 
+        // This function is only used once (Generation 0) and populates the algorithm with randomly generated paths.
         public void initialize()
         {
             double rating;
