@@ -71,6 +71,7 @@
             this.open_config = new System.Windows.Forms.OpenFileDialog();
             this.save_config = new System.Windows.Forms.SaveFileDialog();
             this.geneticalgorithm = new System.ComponentModel.BackgroundWorker();
+            this.button_output_current_ending_position = new System.Windows.Forms.Button();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -169,6 +170,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage1.Controls.Add(this.button_output_current_ending_position);
             this.tabPage1.Controls.Add(this.checkBoxPopulationOut);
             this.tabPage1.Controls.Add(this.button_genomeToPath);
             this.tabPage1.Controls.Add(this.checkBox_readOnly);
@@ -529,6 +531,16 @@
             this.geneticalgorithm.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.geneticalgorithm_ProgressChanged);
             this.geneticalgorithm.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.geneticalgorithm_RunWorkerCompleted);
             // 
+            // button_output_current_ending_position
+            // 
+            this.button_output_current_ending_position.Location = new System.Drawing.Point(93, 199);
+            this.button_output_current_ending_position.Name = "button_output_current_ending_position";
+            this.button_output_current_ending_position.Size = new System.Drawing.Size(119, 23);
+            this.button_output_current_ending_position.TabIndex = 21;
+            this.button_output_current_ending_position.Text = "Show Current End";
+            this.button_output_current_ending_position.UseVisualStyleBackColor = true;
+            this.button_output_current_ending_position.Click += new System.EventHandler(this.button_output_current_ending_position_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -596,6 +608,7 @@
         private System.Windows.Forms.Button button_genomeToPath;
         public System.Windows.Forms.ProgressBar bar_algorithm_progress;
         private System.Windows.Forms.CheckBox checkBoxPopulationOut;
+        private System.Windows.Forms.Button button_output_current_ending_position;
     }
 }
 

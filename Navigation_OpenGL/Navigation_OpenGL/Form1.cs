@@ -796,5 +796,14 @@ namespace Navigation_OpenGL
         {
             Variables.popDebugging = this.checkBoxPopulationOut.Checked;
         }
+
+        private void button_output_current_ending_position_Click(object sender, EventArgs e)
+        {
+            EZPathFollowing.Point2D point1 = Variables.end;
+            EZPathFollowing.Point2D point2 = new EZPathFollowing.Point2D(Variables.x*27, Variables.y*27);
+            double blubb = (point1 - point2).length();
+            MessageBox.Show(blubb.ToString());
+           // MessageBox.Show(Variables.end.x.ToString() + "," + Variables.end.y.ToString());
+        }
     }
 }

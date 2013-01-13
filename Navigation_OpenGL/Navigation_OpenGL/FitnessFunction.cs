@@ -14,14 +14,18 @@ namespace Navigation_OpenGL
             int collisions = getCollisions(path, Variables.map);
 
             // Calculates the rating of the last simulated end configuration
-            double configurationRating = rateConfigurationNoMaximum(Variables.configuration_end, configuration.getConfig(new EZPathFollowing.Point2D(Variables.x * 27, Variables.y * 27), Variables.orientation));
+            // double configurationRating = rateConfigurationNoMaximum(Variables.configuration_end, configuration.getConfig(new EZPathFollowing.Point2D(Variables.x, Variables.y), Variables.orientation));
+            double configurationRating = rateDistance();
 
             // Adds the Inverse of collisions and configurtionRating since those values go up for bad paths but rating should go up for good paths
+
+            // Prevent divide-by-zero
             if (collisions == 0)
                 collisions = 1;
             if (configurationRating == 0)
                 configurationRating = 1;
-            double rating = (1 / collisions) * 300 + (1 / configurationRating) * 700;
+
+            double rating = (1 / collisions) * 400 + (1 / configurationRating) * 600;
             // double rating = 1 / configurationRating * 100;
 
             if (Variables.popDebugging)
@@ -63,6 +67,14 @@ namespace Navigation_OpenGL
 
             // Retuns the number of collisions.
             return count;
+        }
+
+        // Rates how close the given configuration at the end of the path is to the desired end configuration. Only measures distance, resemblance
+        public static double rateDistance()
+        {
+            EZPathFollowing.Point2D point1 = Variables.end;
+            EZPathFollowing.Point2D point2 = new EZPathFollowing.Point2D(Variables.x*27, Variables.y*27);
+            return (point1 - point2).length();
         }
 
         // Rates how close the given configuration at the end of the path is to the desired ending configuration

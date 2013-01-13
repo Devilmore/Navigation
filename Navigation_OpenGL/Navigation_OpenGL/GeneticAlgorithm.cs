@@ -36,10 +36,6 @@ namespace Navigation_OpenGL
         // Status Bar, given by Form 1
         System.Windows.Forms.ProgressBar status;
 
-        // Best path ever created in this Run
-        private string bestGenome;
-        private double bestRating = 0;
-
         // Constructor
         public GeneticAlgorithm(OpenTK.GLControl glcontrol, TextBox textbox, System.Windows.Forms.ProgressBar status)
         {
@@ -85,9 +81,9 @@ namespace Navigation_OpenGL
                  * Only run one of the available selection functions:
                 **/
 
-                //rouletteWheelSelection();
+                rouletteWheelSelection();
                 //selection();
-                tournamentSelection();
+                //tournamentSelection();
 
                 /** 
                  * CROSSOVER
