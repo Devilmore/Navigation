@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Navigation_OpenGL
 {
@@ -22,10 +23,13 @@ namespace Navigation_OpenGL
         private int generationCount = 0;
 
         // TODO: Adjust this number
-        private int maxGenerationCount = 100;
+        private int maxGenerationCount = 10;
 
         // Temporary path
         private LinkedList<EZPathFollowing.PathPart> tempPath = new LinkedList<EZPathFollowing.PathPart>();
+
+        // StopWatch time
+        private string elapsedTime;
 
         // glControl, given by Form1
         OpenTK.GLControl glcontrol;
@@ -47,10 +51,13 @@ namespace Navigation_OpenGL
         // Main Method of the GA
         public bool gaMain()
         {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
             // Initializes some values
             status.Value = generationCount / maxGenerationCount;
             population = new Population[populationSize];
             Variables.bestPopulation[0] = new Population();
+            Variables.bestLocalPopulation[0] = new Population();
 
             // Sets the text in the Generation Counter to 0
             textbox.Text = "0";
@@ -81,9 +88,9 @@ namespace Navigation_OpenGL
                  * Only run one of the available selection functions:
                 **/
 
-                rouletteWheelSelection();
+                //rouletteWheelSelection();
                 //selection();
-                //tournamentSelection();
+                tournamentSelection();
 
                 /** 
                  * CROSSOVER
@@ -91,9 +98,9 @@ namespace Navigation_OpenGL
                 **/
 
                 //singleBitCrossover();
-                eightBitCrossover();
-                //twoFixedPointCrossover();
-
+                //eightBitCrossover();
+                twoFixedPointCrossover();
+                
                 /** 
                  * MUTATION
                 **/
@@ -106,7 +113,7 @@ namespace Navigation_OpenGL
                 evaluation();
 
                 // Saves the best path for later output
-                keepBest();
+                keepBestLocal();
 
                 // Reports progress. Only updates at the end for some reason.
                 status.Value = (generationCount / maxGenerationCount) * 100;
@@ -116,19 +123,37 @@ namespace Navigation_OpenGL
                     output();
             }
 
+            // Stop and format Stopwatch
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            ts.Hours, ts.Minutes, ts.Seconds,
+            ts.Milliseconds / 10);
+
+            // Saves the best paths of all runs of one evaluation
+            keepBestGlobal();
+
             // Shows the best path
-            outputBest();
+            //outputBest();
 
             return true;
         }
 
-        // Checks for best ratings and keeps the best 5 paths
-        public void keepBest()
+        // Adds the best path of the current run to the evaluation
+        public void keepBestGlobal()
+        {
+            Variables.bestPopulation[Variables.sample] = new Population(Variables.bestLocalPopulation[0].Path, Variables.bestLocalPopulation[0].Genome, Variables.bestLocalPopulation[0].Rating);
+            Variables.time[Variables.sample] = elapsedTime;
+            Variables.sample++;
+        }
+
+        // Checks for best ratings and keeps the best path
+        public void keepBestLocal()
         {
             for (int i = 0; i < populationSize; i++)
             {
-                if (population[i].Rating > Variables.bestPopulation[0].Rating)
-                    Variables.bestPopulation[0] = new Population(population[i].Path, population[i].Genome, population[i].Rating);
+                if (population[i].Rating > Variables.bestLocalPopulation[0].Rating)
+                    Variables.bestLocalPopulation[0] = new Population(population[i].Path, population[i].Genome, population[i].Rating);
             }
         }
 
@@ -145,7 +170,9 @@ namespace Navigation_OpenGL
         public void outputBest()
         {
             Variables.paused = true;
-            string s = Variables.bestPopulation[0].Genome.write();
+            string s = "Best path: " + Variables.bestPopulation[0].Genome.write() + 
+                       " with a rating of: " + Variables.bestPopulation[0].Rating.ToString() + 
+                       " in: " + elapsedTime;
 
             Output output = new Output(s);
             output.Show();
@@ -460,7 +487,7 @@ namespace Navigation_OpenGL
             }
         }
 
-        // This selection function uses a wighted (roulette wheel) selection process where members with a high fitness have a higher chance to be chosen.
+        // This selection function uses a weighted (roulette wheel) selection process where members with a high fitness have a higher chance to be chosen.
         // Members can be chosen repeatedly
         public void rouletteWheelSelection()
         {

@@ -728,7 +728,7 @@ namespace Navigation_OpenGL
             }
 
             // Disables the cancel button
-            this.button_cancel.Enabled = false;
+            //this.button_cancel.Enabled = false;
 
             // Enables the start button again
             this.button_start.Enabled = true;
@@ -742,7 +742,7 @@ namespace Navigation_OpenGL
             // !! Currently DOES NOT run as a background task!
             GeneticAlgorithm ga = new GeneticAlgorithm(this.glControl1, this.textBox3, this.bar_algorithm_progress);
             ga.gaMain();
-
+            
             //// Disables the Start button until the GA is done
             //this.button_start.Enabled = false;
 
@@ -762,7 +762,7 @@ namespace Navigation_OpenGL
             this.geneticalgorithm.CancelAsync();
 
             // Disables the cancel button
-            this.button_cancel.Enabled = false;
+            //this.button_cancel.Enabled = false;
 
             // Enables the start button again
             this.button_start.Enabled = true;
@@ -804,6 +804,26 @@ namespace Navigation_OpenGL
             double blubb = (point1 - point2).length();
             MessageBox.Show(blubb.ToString());
            // MessageBox.Show(Variables.end.x.ToString() + "," + Variables.end.y.ToString());
+        }
+
+        private void button_evaluation_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < Variables.evaluationsize; i++)
+            {
+                GeneticAlgorithm ga = new GeneticAlgorithm(this.glControl1, this.textBox3, this.bar_algorithm_progress);
+                ga.gaMain();
+            }
+            string s = "";
+            for (int i = 0; i < Variables.evaluationsize; i++)
+            {
+                /**s += "Best path: " + Variables.bestPopulation[i].Genome.write() +
+                       " with a rating of: " + Variables.bestPopulation[i].Rating.ToString() +
+                       " in: " + Variables.time[i] + Environment.NewLine;
+                 * **/
+                s += Variables.bestPopulation[i].Rating.ToString() + " in: " + Variables.time[i] + Environment.NewLine;
+            }
+            Output output = new Output(s);
+            output.Show();
         }
     }
 }

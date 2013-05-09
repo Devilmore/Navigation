@@ -39,11 +39,12 @@
             this.button_save_vehicle = new System.Windows.Forms.Button();
             this.button_load_vehicle = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button_evaluation = new System.Windows.Forms.Button();
+            this.button_output_current_ending_position = new System.Windows.Forms.Button();
             this.checkBoxPopulationOut = new System.Windows.Forms.CheckBox();
             this.button_genomeToPath = new System.Windows.Forms.Button();
             this.checkBox_readOnly = new System.Windows.Forms.CheckBox();
             this.bar_algorithm_progress = new System.Windows.Forms.ProgressBar();
-            this.button_cancel = new System.Windows.Forms.Button();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.button_start = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -71,7 +72,6 @@
             this.open_config = new System.Windows.Forms.OpenFileDialog();
             this.save_config = new System.Windows.Forms.SaveFileDialog();
             this.geneticalgorithm = new System.ComponentModel.BackgroundWorker();
-            this.button_output_current_ending_position = new System.Windows.Forms.Button();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -170,12 +170,12 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage1.Controls.Add(this.button_evaluation);
             this.tabPage1.Controls.Add(this.button_output_current_ending_position);
             this.tabPage1.Controls.Add(this.checkBoxPopulationOut);
             this.tabPage1.Controls.Add(this.button_genomeToPath);
             this.tabPage1.Controls.Add(this.checkBox_readOnly);
             this.tabPage1.Controls.Add(this.bar_algorithm_progress);
-            this.tabPage1.Controls.Add(this.button_cancel);
             this.tabPage1.Controls.Add(this.textBox3);
             this.tabPage1.Controls.Add(this.button_start);
             this.tabPage1.Controls.Add(this.textBox2);
@@ -190,6 +190,26 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.toolTip1.SetToolTip(this.tabPage1, "General Settings and Information");
+            // 
+            // button_evaluation
+            // 
+            this.button_evaluation.Location = new System.Drawing.Point(169, 7);
+            this.button_evaluation.Name = "button_evaluation";
+            this.button_evaluation.Size = new System.Drawing.Size(75, 23);
+            this.button_evaluation.TabIndex = 22;
+            this.button_evaluation.Text = "Evaluation";
+            this.button_evaluation.UseVisualStyleBackColor = true;
+            this.button_evaluation.Click += new System.EventHandler(this.button_evaluation_Click);
+            // 
+            // button_output_current_ending_position
+            // 
+            this.button_output_current_ending_position.Location = new System.Drawing.Point(93, 199);
+            this.button_output_current_ending_position.Name = "button_output_current_ending_position";
+            this.button_output_current_ending_position.Size = new System.Drawing.Size(119, 23);
+            this.button_output_current_ending_position.TabIndex = 21;
+            this.button_output_current_ending_position.Text = "Show Current End";
+            this.button_output_current_ending_position.UseVisualStyleBackColor = true;
+            this.button_output_current_ending_position.Click += new System.EventHandler(this.button_output_current_ending_position_Click);
             // 
             // checkBoxPopulationOut
             // 
@@ -232,17 +252,6 @@
             this.bar_algorithm_progress.Name = "bar_algorithm_progress";
             this.bar_algorithm_progress.Size = new System.Drawing.Size(151, 23);
             this.bar_algorithm_progress.TabIndex = 17;
-            // 
-            // button_cancel
-            // 
-            this.button_cancel.Enabled = false;
-            this.button_cancel.Location = new System.Drawing.Point(169, 7);
-            this.button_cancel.Name = "button_cancel";
-            this.button_cancel.Size = new System.Drawing.Size(75, 23);
-            this.button_cancel.TabIndex = 16;
-            this.button_cancel.Text = "Cancel";
-            this.button_cancel.UseVisualStyleBackColor = true;
-            this.button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
             // 
             // textBox3
             // 
@@ -531,16 +540,6 @@
             this.geneticalgorithm.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.geneticalgorithm_ProgressChanged);
             this.geneticalgorithm.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.geneticalgorithm_RunWorkerCompleted);
             // 
-            // button_output_current_ending_position
-            // 
-            this.button_output_current_ending_position.Location = new System.Drawing.Point(93, 199);
-            this.button_output_current_ending_position.Name = "button_output_current_ending_position";
-            this.button_output_current_ending_position.Size = new System.Drawing.Size(119, 23);
-            this.button_output_current_ending_position.TabIndex = 21;
-            this.button_output_current_ending_position.Text = "Show Current End";
-            this.button_output_current_ending_position.UseVisualStyleBackColor = true;
-            this.button_output_current_ending_position.Click += new System.EventHandler(this.button_output_current_ending_position_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -603,12 +602,12 @@
         public System.Windows.Forms.TextBox textBox1;
         public System.Windows.Forms.TextBox textBox3;
         private System.ComponentModel.BackgroundWorker geneticalgorithm;
-        private System.Windows.Forms.Button button_cancel;
         private System.Windows.Forms.CheckBox checkBox_readOnly;
         private System.Windows.Forms.Button button_genomeToPath;
         public System.Windows.Forms.ProgressBar bar_algorithm_progress;
         private System.Windows.Forms.CheckBox checkBoxPopulationOut;
         private System.Windows.Forms.Button button_output_current_ending_position;
+        private System.Windows.Forms.Button button_evaluation;
     }
 }
 
