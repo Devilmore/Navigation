@@ -23,7 +23,7 @@ namespace Navigation_OpenGL
         private int generationCount = 0;
 
         // TODO: Adjust this number
-        private int maxGenerationCount = 10;
+        private int maxGenerationCount = 50;
 
         // Temporary path
         private LinkedList<EZPathFollowing.PathPart> tempPath = new LinkedList<EZPathFollowing.PathPart>();
@@ -88,9 +88,9 @@ namespace Navigation_OpenGL
                  * Only run one of the available selection functions:
                 **/
 
-                //rouletteWheelSelection();
+                rouletteWheelSelection();
                 //selection();
-                tournamentSelection();
+                //tournamentSelection();
 
                 /** 
                  * CROSSOVER
@@ -98,8 +98,8 @@ namespace Navigation_OpenGL
                 **/
 
                 //singleBitCrossover();
-                //eightBitCrossover();
-                twoFixedPointCrossover();
+                eightBitCrossover();
+                //twoFixedPointCrossover();
                 
                 /** 
                  * MUTATION

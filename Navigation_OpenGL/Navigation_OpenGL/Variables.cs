@@ -27,7 +27,7 @@ namespace Navigation_OpenGL
         public static double debugCollisions = 0;
 
         // Sets the size of one evaluation sample and prepares bestPopulation of that size
-        public static int evaluationsize = 2;
+        public static int evaluationsize = 100;
         public static Population[] bestLocalPopulation = new Population[1];
         public static Population[] bestPopulation = new Population[Variables.evaluationsize];
         public static string[] time = new string[evaluationsize];
